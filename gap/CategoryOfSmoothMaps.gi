@@ -5,7 +5,7 @@
 #
 
 
-InstallGlobalFunction( SmoothCategory,
+InstallGlobalFunction( CategoryOfSmoothMaps,
   
   function ( )
     local name, Smooth;
@@ -13,9 +13,9 @@ InstallGlobalFunction( SmoothCategory,
     name := "Smooth";
     
     Smooth := CreateCapCategory( name,
-                  IsSmoothCategory,
-                  IsSmoothCategoryObject,
-                  IsSmoothCategoryMorphism,
+                  IsCategoryOfSmoothMaps,
+                  IsObjectInCategoryOfSmoothMaps,
+                  IsMorphismInCategoryOfSmoothMaps,
                   IsCapCategoryTwoCell
                   : overhead := false
                   );
@@ -181,7 +181,7 @@ end );
 
 ##
 InstallMethod( Eval,
-          [ IsSmoothCategoryMorphism, IsDenseList ],
+          [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
   
   function ( f, x )
     local rank;
@@ -198,14 +198,14 @@ end );
 
 ##
 InstallOtherMethod( Eval,
-        [ IsSmoothCategoryMorphism ],
+        [ IsMorphismInCategoryOfSmoothMaps ],
   
   f -> Eval( f, DummyInput( "x", RankOfObject( Source( f ) ) ) )
 );
 
 ##
 InstallMethod( EvalJacobianMatrix,
-          [ IsSmoothCategoryMorphism, IsDenseList ],
+          [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
   
   function ( f, x )
     local rank;
@@ -222,14 +222,14 @@ end );
 
 ##
 InstallOtherMethod( EvalJacobianMatrix,
-        [ IsSmoothCategoryMorphism ],
+        [ IsMorphismInCategoryOfSmoothMaps ],
   
   f -> EvalJacobianMatrix( f, DummyInput( "x", RankOfObject( Source( f ) ) ) )
 );
 
 ##
 InstallOtherMethod( \.,
-          [ IsSmoothCategory, IsPosInt ],
+          [ IsCategoryOfSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
     local i;
@@ -248,7 +248,7 @@ end );
 
 ##
 InstallOtherMethod( \.,
-          [ IsSmoothCategory, IsPosInt ],
+          [ IsCategoryOfSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
     local f, n, maps, jacobian_matrix;
@@ -363,7 +363,7 @@ end );
 
 ##
 InstallMethod( ViewString,
-          [ IsSmoothCategoryObject ],
+          [ IsObjectInCategoryOfSmoothMaps ],
   
   function ( U )
     
@@ -373,7 +373,7 @@ end );
 
 ##
 InstallMethod( ViewString,
-          [ IsSmoothCategoryMorphism ],
+          [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
     
@@ -386,7 +386,7 @@ end );
 
 ##
 InstallMethod( DisplayString,
-          [ IsSmoothCategoryMorphism ],
+          [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
     local x, maps;
@@ -404,4 +404,3 @@ InstallMethod( DisplayString,
               "\n" );
     
 end );
-

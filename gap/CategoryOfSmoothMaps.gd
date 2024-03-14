@@ -5,22 +5,22 @@
 #
 
 
-DeclareCategory( "IsSmoothCategory",
+DeclareCategory( "IsCategoryOfSmoothMaps",
         IsCapCategory );
 
-DeclareCategory( "IsSmoothCategoryObject",
+DeclareCategory( "IsObjectInCategoryOfSmoothMaps",
         IsCapCategoryObject );
 
-DeclareCategory( "IsSmoothCategoryMorphism",
+DeclareCategory( "IsMorphismInCategoryOfSmoothMaps",
         IsCapCategoryMorphism );
 
 
-DeclareGlobalFunction( "SmoothCategory" );
+DeclareGlobalFunction( "CategoryOfSmoothMaps" );
 
-DeclareAttribute( "RankOfObject", IsSmoothCategoryObject );
+DeclareAttribute( "RankOfObject", IsObjectInCategoryOfSmoothMaps );
 
-DeclareAttribute( "UnderlyingMaps", IsSmoothCategoryMorphism );
-DeclareAttribute( "JacobianMatrix", IsSmoothCategoryMorphism );
+DeclareAttribute( "UnderlyingMaps", IsMorphismInCategoryOfSmoothMaps );
+DeclareAttribute( "JacobianMatrix", IsMorphismInCategoryOfSmoothMaps );
 
-DeclareOperation( "Eval", [ IsSmoothCategoryMorphism, IsDenseList ] );
-DeclareOperation( "EvalJacobianMatrix", [ IsSmoothCategoryMorphism, IsDenseList ] );
+DeclareOperation( "Eval", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
+DeclareOperation( "EvalJacobianMatrix", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
