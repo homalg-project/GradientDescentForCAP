@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# MachineLearningForCAP: Explore Categorical Machine Learning
+# MachineLearningForCAP: Exploring categorical machine learning in CAP
 #
 # This file contains package meta data. For additional information on
 # the meaning and correct usage of these fields, please consult the
@@ -10,7 +10,7 @@ SetPackageInfo( rec(
 
 PackageName := "MachineLearningForCAP",
 Subtitle := "Exploring categorical machine learning in CAP",
-Version := "2024.03-02",
+Version := "2024.03-03",
 Date := (function ( ) if IsBound( GAPInfo.SystemEnvironment.GAP_PKG_RELEASE_DATE ) then return GAPInfo.SystemEnvironment.GAP_PKG_RELEASE_DATE; else return Concatenation( ~.Version{[ 1 .. 4 ]}, "-", ~.Version{[ 6, 7 ]}, "-01" ); fi; end)( ),
 License := "GPL-2.0-or-later",
 
@@ -34,13 +34,13 @@ Persons := [
 # BEGIN URLS
 SourceRepository := rec(
     Type := "git",
-    URL := "https://github.com/kamalsaleh/MachineLearningForCAP",
+    URL := "https://github.com/homalg-project/MachineLearningForCAP",
 ),
-IssueTrackerURL := Concatenation( [~.SourceRepository.URL, "/issues"] ),
-PackageWWWHome  := ~.SourceRepository.URL,
-PackageInfoURL  := "http://",
-README_URL      := "http://",
-ArchiveURL      := "http://",
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := "https://homalg-project.github.io/pkg/MachineLearningForCAP",
+PackageInfoURL  := "https://homalg-project.github.io/MachineLearningForCAP/PackageInfo.g",
+README_URL      := "https://homalg-project.github.io/MachineLearningForCAP/README.md",
+ArchiveURL      := Concatenation( "https://github.com/homalg-project/MachineLearningForCAP/releases/download/v", ~.Version, "/MachineLearningForCAP-", ~.Version ),
 # END URLS
 
 ArchiveFormats := ".tar.gz .zip",
@@ -63,7 +63,7 @@ PackageDoc := rec(
   HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Explore Categorical Machine Learning",
+  LongTitle := "Exploring categorical machine learning in CAP",
 ),
 
 Dependencies := rec(

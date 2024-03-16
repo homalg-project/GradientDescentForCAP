@@ -5,7 +5,7 @@
 LoadPackage( "MachineLearningForCAP" );
 
 #! @Example
-Smooth := SmoothCategory( );
+Smooth := CategoryOfSmoothMaps( );
 #! Smooth
 R2 := ObjectConstructor( Smooth, 2 );
 #! ℝ^2

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# FpCategories: Finitely presented categories by generating quivers and relations
+# MachineLearningForCAP: Exploring categorical machine learning in CAP
 #
 # This file is a script which compiles the package manual.
 #
@@ -21,15 +21,12 @@ AutoDoc( rec(
         LaTeXOptions := rec(
             LateExtraPreamble := """
                 \usepackage{mathtools}
-                \usepackage{tikz-cd}
-                \DeclareUnicodeCharacter{2B47}{\ensuremath{\!\!\xrightarrow{\sim}\!}}
-                \DeclareUnicodeCharacter{227B}{\ensuremath{\succ}}
-                \DeclareUnicodeCharacter{22C5}{\ensuremath{\cdot}}
+                \DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
             """,
         ),
     ),
     scaffold := rec(
-        entities := [ "homalg", "CAP", "QPA" ],
+        entities := [ "homalg", "CAP" ],
     ),
 ) );
 
