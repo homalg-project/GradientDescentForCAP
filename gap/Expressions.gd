@@ -8,7 +8,7 @@ DeclareCategory( "IsExpression", IsObject );
 
 
 DeclareGlobalFunction( "Expression" );
-DeclareAttribute( "UnderlyingString", IsExpression );
+DeclareAttribute( "String", IsExpression );
 
 DeclareGlobalFunction( "AsListOfExpressions" );
 DeclareGlobalFunction( "DummyInput" );

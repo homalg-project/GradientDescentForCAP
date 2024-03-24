@@ -173,6 +173,40 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
 
     end );
     
+    ##
+    AddSimplifyMorphism( Smooth,
+      
+      function ( Smooth, f, i )
+        local V, W, rank_V, rank_W, x, all, maps, jacobian_matrix;
+        
+        V := Source( f );
+        W := Target( f );
+        
+        rank_V := RankOfObject( V );
+        rank_W := RankOfObject( W );
+        
+        all := JoinStringsWithSeparator(
+                    SimplifyExpressionUsingPython(
+                      List( Concatenation( Eval( f ), Concatenation( EvalJacobianMatrix( f ) ) ), String ),
+                      List( DummyInput( "x", rank_V ), String ) ),
+                    "&" );
+        
+        for i in [ 1 .. rank_V ] do
+            all := ReplacedString( all, Concatenation( "x", String( i ) ), Concatenation( "x[", String( i ), "]" ) );
+        od;
+        
+        all := SplitString( all, "&" );
+        
+        maps := List( all{[ 1 .. rank_W ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+        
+        jacobian_matrix := List( all{[rank_W + 1 .. rank_W + rank_W * rank_V ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+        
+        jacobian_matrix := List( [ 0 .. rank_W - 1 ], i -> jacobian_matrix{[ i * rank_V + 1 .. ( i + 1 ) * rank_V ]} );
+        
+        return MorphismConstructor( Smooth, V, Pair( maps, jacobian_matrix ), W );
+        
+    end );
+    
     Finalize( Smooth );
     
     return Smooth;
@@ -393,7 +427,7 @@ InstallMethod( DisplayString,
     
     x := DummyInput( "x", RankOfObject( Source( f ) ) );
     
-    maps := List( Eval( f, x ), UnderlyingString );
+    maps := List( Eval( f, x ), String );
     
     return Concatenation(
               ViewString( Source( f ) ),

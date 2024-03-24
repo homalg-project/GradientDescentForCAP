@@ -16,7 +16,7 @@ InstallGlobalFunction( Expression,
   function ( string )
     
     return ObjectifyWithAttributes( rec( ), TypeOfExpression,
-                UnderlyingString, string );
+                String, string );
     
 end );
 
@@ -24,7 +24,7 @@ end );
 InstallOtherMethod( ViewString,
       [ IsExpression ],
   
-  e -> UnderlyingString( e )
+  e -> String( e )
 );
 
 ##
@@ -45,49 +45,49 @@ InstallGlobalFunction( DummyInput,
 InstallOtherMethod( Sin,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Sin(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Sin(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Cos,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Cos(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Cos(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Log,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Log(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Log(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Exp,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Exp(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Exp(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Sqrt,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Sqrt(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Sqrt(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( SignFloat,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "SignFloat(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "SignFloat(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Relu,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Relu(", UnderlyingString( e ), ")" ) )
+  e -> Expression( Concatenation( "Relu(", String( e ), ")" ) )
 );
 
 ## Binary Operations on Expressions
@@ -96,35 +96,35 @@ InstallOtherMethod( Relu,
 InstallOtherMethod( \+,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", UnderlyingString( a ), ")+(", UnderlyingString( b ), ")" ) )
+  { a, b } -> Expression( Concatenation( "(", String( a ), ")+(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \-,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", UnderlyingString( a ), ")-(", UnderlyingString( b ), ")" ) )
+  { a, b } -> Expression( Concatenation( "(", String( a ), ")-(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \*,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", UnderlyingString( a ), ")*(", UnderlyingString( b ), ")" ) )
+  { a, b } -> Expression( Concatenation( "(", String( a ), ")*(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \/,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", UnderlyingString( a ), ")/(", UnderlyingString( b ), ")" ) )
+  { a, b } -> Expression( Concatenation( "(", String( a ), ")/(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \^,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", UnderlyingString( a ), ")^(", UnderlyingString( b ), ")" ) )
+  { a, b } -> Expression( Concatenation( "(", String( a ), ")^(", String( b ), ")" ) )
 );
 
 ## Operations with Floats

@@ -6,3 +6,8 @@
 
 
 DeclareAttribute( "Relu", IsFloat );
+
+
+DeclareGlobalFunction( "SimplifyExpressionUsingPython" );
+DeclareGlobalFunction( "JacobianMatrixUsingPython" );
+DeclareGlobalFunction( "LaTeXOutputUsingPython" );
