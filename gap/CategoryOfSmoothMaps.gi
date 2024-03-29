@@ -299,49 +299,9 @@ InstallOtherMethod( \.,
         
         return MorphismConstructor( Smooth, Smooth.0, [ [ x -> Float( f ) ], [ [ ] ] ], Smooth.1 );
         
-    elif f = "x1" then
-        
-        return IdentityMorphism( Smooth, Smooth.1 );
-        
-    elif f{[ 1 .. Minimum( 3, Length( f ) ) ]} = "Sum" then
-        
-        n := f{[ 4 .. Length( f )]};
-
-        if n[1] = "(" then
-          
-          n := n{[ 2 .. Length( n ) - 1 ]};
-          
-        fi;
-        
-        n := Int( n );
-        
-        maps := [ x -> Sum( x ) ];
-        
-        jacobian_matrix := [ ListWithIdenticalEntries( n, x -> 1. ) ];
-        
-        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
-        
-    elif f{[ 1 .. Minimum( 3, Length(f)) ]} = "Mul" then
-        
-        n := f{[ 4 .. Length( f ) ]};
-
-        if n[1] = "(" then
-          
-          n := n{[ 2 .. Length( n ) - 1 ]};
-          
-        fi;
-        
-        n := Int( n );
-        
-        maps := [ x -> Product( x ) ];
-        
-        jacobian_matrix := [ List( [ 1 .. n ], i -> x -> Product( x{Concatenation( [ 1 .. i - 1 ], [ i + 1 .. n ] )} ) ) ];
-        
-        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
-        
     elif f = "Sqrt" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Sqrt(x[1]) ], [ [ x -> 1./(2. * Sqrt(x[1])) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Sqrt(x[1]) ], [ [ x -> 1. / (2. * Sqrt(x[1])) ] ] ], Smooth.1 );
         
     elif f = "Exp" then
         
@@ -366,33 +326,54 @@ InstallOtherMethod( \.,
                   [ [ x -> Relu( x[1] ) ],
                     [ [ x -> 0.5 * (1. + SignFloat( x[1] + 1.e-50 )) ] ] ],
                   Smooth.1 );
-    
-    elif f{[ 1 .. Minimum(3, Length(f)) ]} = "x1^" then
-      
-      n := Float( f{[ 4 .. Length( f )]} );
-      
-      maps := [ x -> x[1] ^ n ];
-      
-      jacobian_matrix := [ [ x -> n * x[1]^(n-1) ] ];
-      
-      return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
-    
+        
+    elif f{[ 1 .. Minimum( 3, Length( f ) ) ]} = "Sum" then
+        
+        n := Int( f{[ 4 .. Length( f ) ]} );
+        
+        maps := [ x -> Sum( x ) ];
+        
+        jacobian_matrix := [ ListWithIdenticalEntries( n, x -> 1. ) ];
+        
+        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
+        
+    elif f{[ 1 .. Minimum( 3, Length(f) ) ]} = "Mul" then
+        
+        n := Int( f{[ 4 .. Length( f ) ]} );
+        
+        maps := [ x -> Product( x ) ];
+        
+        jacobian_matrix := [ List( [ 1 .. n ], i -> x -> Product( x{Concatenation( [ 1 .. i - 1 ], [ i + 1 .. n ] )} ) ) ];
+        
+        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
+
+    elif f{[ 1 .. Minimum( 3, Length(f) ) ]} = "x1^" then
+        
+        n := Float( f{[ 4 .. Length( f ) ]} );
+        
+        maps := [ x -> x[1] ^ n ];
+        
+        jacobian_matrix := [ [ x -> n * x[1] ^ ( n - 1 ) ] ];
+        
+        return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
+        
     elif f{[ Maximum( 1, Length(f) - 2 ) .. Length( f ) ]} = "^x1" then
-      
-      n := Float( f{[ 1 .. Length( f ) - 3 ]} );
-      
-      maps := [ x -> n ^ x[1] ];
-      
-      jacobian_matrix := [ [ x -> Log( n ) * (n^x[1]) ] ];
-      
-      return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
-      
+        
+        n := Float( f{[ 1 .. Length( f ) - 3 ]} );
+        
+        maps := [ x -> n ^ x[1] ];
+        
+        jacobian_matrix := [ [ x -> Log( n ) * ( n^x[1] ) ] ];
+        
+        return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
+        
     else
-      
-      Error( "unrecognized-string!\n" );
-      
+        
+        Error( "unrecognized-string!\n" );
+        
     fi;
     
+end );
 end );
 
 ##
