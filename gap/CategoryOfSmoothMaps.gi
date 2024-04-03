@@ -374,6 +374,44 @@ InstallOtherMethod( \.,
     fi;
     
 end );
+
+##
+InstallMethod( LaTeXOutput,
+        [ IsObjectInCategoryOfSmoothMaps ],
+  
+  function ( U )
+    
+    return Concatenation( "\\mathbb{R}^{", String( RankOfObject( U ) ), "}" );
+    
+end );
+
+##
+InstallMethod( LaTeXOutput,
+        [ IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( f )
+    local vars, maps, s, t;
+    
+    vars := ValueOption( "vars" );
+    
+    if vars = fail then
+      vars := List( DummyInput( "x", RankOfObject( Source( f ) ) ), String );
+    fi;
+    
+    maps := LaTeXOutputUsingPython( List( Eval( f ), String ), vars );
+    
+    maps := JoinStringsWithSeparator( maps, " \\\\ \n " );
+    
+    return Concatenation(
+              "\\begin{array}{c}\n",
+              LaTeXOutput( Source( f ) ),
+              "\\rightarrow",
+              LaTeXOutput( Target( f ) ),
+              "\\\\ \n \\hline \\\\ \n \\left( \\begin{array}{ll}\n",
+              maps,
+              "\n\\end{array} \\right) \n\\end{array}"
+            );
+    
 end );
 
 ##
