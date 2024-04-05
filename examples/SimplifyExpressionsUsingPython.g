@@ -1,6 +1,6 @@
 #! @Chapter Examples and Tests
 
-#! Section Simplify Expressions using Python
+#! @Section Simplify Expressions using Python
 
 LoadPackage( "MachineLearningForCAP" );
 

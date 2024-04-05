@@ -442,11 +442,9 @@ InstallMethod( DisplayString,
           [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
-    local x, maps;
+    local maps;
     
-    x := DummyInput( "x", RankOfObject( Source( f ) ) );
-    
-    maps := List( Eval( f, x ), String );
+    maps := List( Eval( f ), ViewString );
     
     return Concatenation(
               ViewString( Source( f ) ),

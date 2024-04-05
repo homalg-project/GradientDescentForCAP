@@ -13,9 +13,10 @@ BindGlobal( "TypeOfExpression",
 ##
 InstallGlobalFunction( Expression,
   
-  function ( string )
+  function ( variables, string ) # list of variables, string
     
     return ObjectifyWithAttributes( rec( ), TypeOfExpression,
+                Variables, variables,
                 String, string );
     
 end );
@@ -24,13 +25,23 @@ end );
 InstallOtherMethod( ViewString,
       [ IsExpression ],
   
-  e -> String( e )
-);
+  function ( e )
+    local head, tail, str;
+    
+    head := Concatenation( "function ( ", JoinStringsWithSeparator( Variables( e ), ", " ), " ) return " );
+    
+    tail := "; end";
+    
+    str := String( EvalString( Concatenation( head, String( e ), tail ) ) );
+    
+    return str{[ Length( head ) + 1 .. Length( str ) - 5 ]};
+    
+end );
 
 ##
 InstallGlobalFunction( AsListOfExpressions,
   
-  list_of_strings -> List( list_of_strings, str -> Expression( str ) )
+  variables -> List( variables, var -> Expression( variables, var ) )
 );
 
 ##
@@ -45,49 +56,49 @@ InstallGlobalFunction( DummyInput,
 InstallOtherMethod( Sin,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Sin(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Sin(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Cos,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Cos(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Cos(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Log,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Log(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Log(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Exp,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Exp(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Exp(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Sqrt,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Sqrt(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Sqrt(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( SignFloat,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "SignFloat(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "SignFloat(", String( e ), ")" ) )
 );
 
 ##
 InstallOtherMethod( Relu,
           [ IsExpression ],
   
-  e -> Expression( Concatenation( "Relu(", String( e ), ")" ) )
+  e -> Expression( Variables( e ), Concatenation( "Relu(", String( e ), ")" ) )
 );
 
 ## Binary Operations on Expressions
@@ -96,35 +107,35 @@ InstallOtherMethod( Relu,
 InstallOtherMethod( \+,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", String( a ), ")+(", String( b ), ")" ) )
+  { a, b } -> Expression( Variables( a ), Concatenation( "(", String( a ), ")+(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \-,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", String( a ), ")-(", String( b ), ")" ) )
+  { a, b } -> Expression( Variables( a ), Concatenation( "(", String( a ), ")-(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \*,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", String( a ), ")*(", String( b ), ")" ) )
+  { a, b } -> Expression( Variables( a ), Concatenation( "(", String( a ), ")*(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \/,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", String( a ), ")/(", String( b ), ")" ) )
+  { a, b } -> Expression( Variables( a ), Concatenation( "(", String( a ), ")/(", String( b ), ")" ) )
 );
 
 ##
 InstallOtherMethod( \^,
         [ IsExpression, IsExpression ],
   
-  { a, b } -> Expression( Concatenation( "(", String( a ), ")^(", String( b ), ")" ) )
+  { a, b } -> Expression( Variables( a ), Concatenation( "(", String( a ), ")^(", String( b ), ")" ) )
 );
 
 ## Operations with Floats
@@ -133,69 +144,69 @@ InstallOtherMethod( \^,
 InstallOtherMethod( \+,
         [ IsObject, IsExpression ],
   
-  { a, b } -> Expression( String( a ) ) * b
+  { a, b } -> Expression( Variables( b ), String( a ) ) * b
 );
 
 ##
 InstallOtherMethod( \-,
         [ IsObject, IsExpression ],
   
-  { a, b } -> Expression( String( a ) ) - b
+  { a, b } -> Expression( Variables( b ), String( a ) ) - b
 );
 
 ##
 InstallOtherMethod( \*,
         [ IsObject, IsExpression ],
   
-  { a, b } -> Expression( String( a ) ) * b
+  { a, b } -> Expression( Variables( b ), String( a ) ) * b
 );
 
 ##
 InstallOtherMethod( \/,
         [ IsObject, IsExpression ],
   
-  { a, b } -> Expression( String( a ) ) / b
+  { a, b } -> Expression( Variables( b ), String( a ) ) / b
 );
 
 ##
 InstallOtherMethod( \^,
         [ IsObject, IsExpression ],
   
-  { a, b } -> Expression( String( a ) ) ^ b
+  { a, b } -> Expression( Variables( b ), String( a ) ) ^ b
 );
 
 ##
 InstallOtherMethod( \+,
         [ IsExpression, IsObject ],
   
-  { a, b } -> a + Expression( String( b ) )
+  { a, b } -> a + Expression( Variables( a ), String( b ) )
 );
 
 ##
 InstallOtherMethod( \-,
         [ IsExpression, IsObject ],
   
-  { a, b } -> a - Expression( String( b ) )
+  { a, b } -> a - Expression( Variables( a ), String( b ) )
 );
 
 ##
 InstallOtherMethod( \*,
         [ IsExpression, IsObject ],
   
-  { a, b } -> a * Expression( String( b ) )
+  { a, b } -> a * Expression( Variables( a ), String( b ) )
 );
 
 ##
 InstallOtherMethod( \/,
         [ IsExpression, IsObject ],
   
-  { a, b } -> a / Expression( String( b ) )
+  { a, b } -> a / Expression( Variables( a ), String( b ) )
 );
 
 ##
 InstallOtherMethod( \^,
         [ IsExpression, IsObject ],
   
-  { a, b } -> a ^ Expression( String( b ) )
+  { a, b } -> a ^ Expression( Variables( a ), String( b ) )
 );
 

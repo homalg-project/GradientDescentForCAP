@@ -8,6 +8,8 @@ DeclareCategory( "IsExpression", IsObject );
 
 
 DeclareGlobalFunction( "Expression" );
+
+DeclareAttribute( "Variables", IsExpression );
 DeclareAttribute( "String", IsExpression );
 
 DeclareGlobalFunction( "AsListOfExpressions" );
