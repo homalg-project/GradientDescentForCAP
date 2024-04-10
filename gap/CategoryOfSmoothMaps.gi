@@ -174,6 +174,60 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     end );
     
     ##
+    AddSumOfMorphisms( Smooth,
+      
+      function ( Smooth, S, morphisms, T )
+        local rank_S, rank_T, nr_morphisms, underlying_maps, maps, underlying_jacobian_matrices, jacobian_matrix;
+        
+        rank_S := RankOfObject( S );
+        rank_T := RankOfObject( T );
+        
+        nr_morphisms := Length( morphisms );
+        
+        underlying_maps := List( morphisms, f -> UnderlyingMaps( f ) );
+        maps := List( [ 1 .. rank_T ], i -> x -> Sum( List( [ 1 .. nr_morphisms ], k -> underlying_maps[k][i]( x ) ) ) );
+        
+        underlying_jacobian_matrices := List( morphisms, f -> JacobianMatrix( f ) );
+        
+        jacobian_matrix :=
+          List( [ 1 .. rank_T ], i ->
+            List( [ 1 .. rank_S ], j ->
+              x -> Sum( List( [ 1 .. nr_morphisms ], k -> underlying_jacobian_matrices[k][i][j]( x ) ) ) ) );
+        
+        return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    ## f, g: R^m -> R^n
+    ##
+    ## J_fg(x) = Diag(g_1(x), g_2(x), ..., g_n(x)) * J_f(x) + Diag(f_1(x), f_2(x), ..., f_n(x)) * J_g(x)
+    ##
+    AddMultiplicationForMorphisms( Smooth,
+      
+      function ( Smooth, f, g )
+        local rank_S, rank_T, underlying_maps_f, underlying_maps_g, jacobian_matrix_f, jacobian_matrix_g, maps, jacobian_matrix;
+        
+        rank_S := RankOfObject( Source( f ) );
+        rank_T := RankOfObject( Target( f ) );
+        
+        underlying_maps_f := UnderlyingMaps( f );
+        underlying_maps_g := UnderlyingMaps( g );
+        
+        jacobian_matrix_f := JacobianMatrix( f );
+        jacobian_matrix_g := JacobianMatrix( g );
+        
+        maps := List( [ 1 .. rank_T ], i -> x -> underlying_maps_f[i](x) * underlying_maps_g[i](x) );
+        
+        jacobian_matrix :=
+          List( [ 1 .. rank_T ], i ->
+            List( [ 1 .. rank_S ], j ->
+              x -> underlying_maps_g[i](x) * jacobian_matrix_f[i][j](x) + underlying_maps_f[i](x) * jacobian_matrix_g[i][j](x) ) );
+        
+        return MorphismConstructor( Smooth, Source( f ), Pair( maps, jacobian_matrix ), Target( f ) );
+        
+    end );
+     
+    ##
     AddSimplifyMorphism( Smooth,
       
       function ( Smooth, f, i )
