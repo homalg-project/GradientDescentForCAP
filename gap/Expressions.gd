@@ -13,4 +13,8 @@ DeclareAttribute( "Variables", IsExpression );
 DeclareAttribute( "String", IsExpression );
 
 DeclareGlobalFunction( "AsListOfExpressions" );
+
 DeclareGlobalFunction( "DummyInput" );
+DeclareGlobalFunction( "DefineDummyOperationOnExpressions" );
+
+DeclareGlobalFunction( "ExpressionFunction" );
