@@ -316,6 +316,48 @@ InstallOtherMethod( EvalJacobianMatrix,
 );
 
 ##
+InstallMethod( SmoothMorphism,
+          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+  
+  MorphismConstructor
+);
+
+##
+InstallMethod( SmoothMorphism,
+          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+  
+  function ( Smooth, S, maps, T )
+    local rank_S, rank_T, vars, all, jacobian_matrix, i;
+    
+    if not ForAll( maps, IsString ) then
+        TryNextMethod( );
+    fi;
+    
+    rank_S := RankOfObject( S );
+    rank_T := RankOfObject( T );
+    
+    vars := List( [ 1 .. RankOfObject( S ) ], i -> Concatenation( "x", String( i ) ) );
+    
+    all := JoinStringsWithSeparator(
+              Concatenation( maps, Concatenation( JacobianMatrixUsingPython( maps, vars ) ) ), "&" );
+    
+    for i in [ 1 .. rank_S ] do
+        all := ReplacedString( all, Concatenation( "x", String( i ) ), Concatenation( "x[", String( i ), "]" ) );
+    od;
+    
+    all := SplitString( all, "&" );
+    
+    maps := List( all{[ 1 .. rank_T ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+    
+    jacobian_matrix := List( all{[rank_T + 1 .. rank_T + rank_T * rank_S ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+    
+    jacobian_matrix := List( [ 0 .. rank_T - 1 ], i -> jacobian_matrix{[ i * rank_S + 1 .. ( i + 1 ) * rank_S ]} );
+    
+    return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+    
+end );
+
+##
 InstallOtherMethod( \.,
           [ IsCategoryOfSmoothMaps, IsPosInt ],
   

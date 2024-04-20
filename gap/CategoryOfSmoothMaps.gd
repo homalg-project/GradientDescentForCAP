@@ -17,6 +17,9 @@ DeclareCategory( "IsMorphismInCategoryOfSmoothMaps",
 
 DeclareGlobalFunction( "CategoryOfSmoothMaps" );
 
+DeclareOperation( "SmoothMorphism",
+    [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ] );
+
 DeclareAttribute( "RankOfObject", IsObjectInCategoryOfSmoothMaps );
 
 DeclareAttribute( "UnderlyingMaps", IsMorphismInCategoryOfSmoothMaps );
