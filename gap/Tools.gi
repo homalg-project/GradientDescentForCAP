@@ -25,6 +25,19 @@ InstallOtherMethod( Relu,
 end );
 
 ##
+InstallGlobalFunction( KroneckerDelta,
+  
+  function ( a, b )
+    
+    if a = b then
+      return 1;
+    else
+      return 0;
+    fi;
+    
+end );
+
+##
 InstallGlobalFunction( SimplifyExpressionUsingPython,
   
   function ( exps, x )
