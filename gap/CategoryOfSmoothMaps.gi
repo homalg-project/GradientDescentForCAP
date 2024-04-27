@@ -120,6 +120,32 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     end );
     
     ##
+    InstallOtherMethod( IsCongruentForMorphisms,
+              [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+      
+      function ( Smooth, f, g )
+        local rank_S, 100_random_inputs;
+        
+        rank_S := RankOfObject( Source( f ) );
+        
+        100_random_inputs := List( [ 1 .. 100 ], i -> List( [ 1 .. rank_S ], j -> 0.01 * Random( [ 1 .. 100 ] ) ) );
+        
+        # Maybe:
+        return ForAll( 100_random_inputs, x -> ForAll( ListN( Eval( f, x ), Eval( g, x ), { a, b } -> a - b < 1.e-10 ), IdFunc ) );
+        
+    end );
+    
+    ##
+    InstallOtherMethod( IsEqualForMorphisms,
+              [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+      
+      function ( Smooth, f, g )
+        
+        return UnderlyingMaps( f ) = UnderlyingMaps( g ) and JacobianMatrix( f ) = JacobianMatrix( g );
+        
+    end );
+    
+    ##
     AddIdentityMorphism( Smooth,
 
       function ( Smooth, V )
