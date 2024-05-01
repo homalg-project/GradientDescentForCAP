@@ -4,7 +4,6 @@
 # Implementations
 #
 
-
 InstallGlobalFunction( CategoryOfSmoothMaps,
   
   function ( )
@@ -147,56 +146,47 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     
     ##
     AddIdentityMorphism( Smooth,
-
+      
       function ( Smooth, V )
         local rank_V, maps, jacobian_matrix;
-
+        
         rank_V := RankOfObject( V );
-
+        
         maps := List( [ 1 .. rank_V ], i -> x -> x[i] );
-
-        jacobian_matrix :=
-          List( [ 1 .. rank_V ],
-            i -> List( [ 1 .. rank_V ],
-              function ( j )
-                if i = j then
-                    return x -> 1.;
-                else
-                    return x -> 0.;
-                fi;
-              end ) );
-
+        
+        jacobian_matrix := List( [ 1 .. rank_V ], i -> List( [ 1 .. rank_V ], j -> x -> Float( KroneckerDelta( i, j ) ) ) );
+        
         return MorphismConstructor( Smooth, V, Pair( maps, jacobian_matrix ), V );
-
+        
     end );
-
+    
     ##       f        g
     ## R^s ----> R^m ----> R^t
     ##
     ## J(gof)_{x} = J(g)_{f(x)} * J(f)_{x} where * is the usual matrix multiplication
     ##
     AddPreCompose( Smooth,
-
+      
       function ( Smooth, f, g )
         local f_maps, g_maps, maps, jacobian_matrix_f, jacobian_matrix_g, jacobian_matrix;
-
+        
         f_maps := UnderlyingMaps( f );
         g_maps := UnderlyingMaps( g );
-
+        
         maps := List( [ 1 .. RankOfObject( Target( g ) ) ], i -> x -> g_maps[i]( List( f_maps, m -> m( x ) ) ) );
-
+        
         jacobian_matrix_f := JacobianMatrix( f );
         jacobian_matrix_g := JacobianMatrix( g );
-
+        
         # chain rule for jacobian matrices
         jacobian_matrix :=
               List( [ 1 .. RankOfObject( Target( g ) ) ],
                 i -> List( [ 1 .. RankOfObject( Source( f ) ) ],
                   j -> x -> Sum( [ 1 .. RankOfObject( Target( f ) ) ],
                     k ->  jacobian_matrix_g[i][k]( List( f_maps, m -> m( x ) ) ) * jacobian_matrix_f[k][j](x) ) ) );
-
+        
         return MorphismConstructor( Smooth, Source( f ), Pair( maps, jacobian_matrix ), Target( g ) );
-
+        
     end );
     
     ##
@@ -257,33 +247,262 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     AddSimplifyMorphism( Smooth,
       
       function ( Smooth, f, i )
-        local V, W, rank_V, rank_W, x, all, maps, jacobian_matrix;
+        local S, T, rank_S, rank_T, x, all, maps, jacobian_matrix;
         
-        V := Source( f );
-        W := Target( f );
+        S := Source( f );
+        T := Target( f );
         
-        rank_V := RankOfObject( V );
-        rank_W := RankOfObject( W );
+        rank_S := RankOfObject( S );
+        rank_T := RankOfObject( T );
         
         all := JoinStringsWithSeparator(
                     SimplifyExpressionUsingPython(
                       List( Concatenation( Eval( f ), Concatenation( EvalJacobianMatrix( f ) ) ), String ),
-                      List( DummyInput( "x", rank_V ), String ) ),
+                      List( DummyInput( "x", rank_S ), String ) ),
                     "&" );
         
-        for i in [ 1 .. rank_V ] do
+        for i in [ 1 .. rank_S ] do
             all := ReplacedString( all, Concatenation( "x", String( i ) ), Concatenation( "x[", String( i ), "]" ) );
         od;
         
         all := SplitString( all, "&" );
         
-        maps := List( all{[ 1 .. rank_W ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+        maps := List( all{[ 1 .. rank_T ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
         
-        jacobian_matrix := List( all{[rank_W + 1 .. rank_W + rank_W * rank_V ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
+        jacobian_matrix := List( all{[rank_T + 1 .. rank_T + rank_T * rank_S ]}, m -> EvalString( Concatenation( "x -> ", m ) ) );
         
-        jacobian_matrix := List( [ 0 .. rank_W - 1 ], i -> jacobian_matrix{[ i * rank_V + 1 .. ( i + 1 ) * rank_V ]} );
+        jacobian_matrix := List( [ 0 .. rank_T - 1 ], i -> jacobian_matrix{[ i * rank_S + 1 .. ( i + 1 ) * rank_S ]} );
         
-        return MorphismConstructor( Smooth, V, Pair( maps, jacobian_matrix ), W );
+        return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    ##
+    AddZeroMorphism( Smooth,
+      
+      function ( Smooth, S, T )
+        local rank_S, rank_T, maps, jacobian_matrix;
+        
+        rank_S := RankOfObject( S );
+        rank_T := RankOfObject( T );
+        
+        maps := ListWithIdenticalEntries( rank_T, x -> 0. );
+        
+        jacobian_matrix := ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, x -> 0. ) );
+        
+        return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    AddMultiplyWithElementOfCommutativeRingForMorphisms( Smooth,
+      
+      function ( Smooth, a, f )
+        local maps, jacobian_matrix;
+        
+        maps := List( UnderlyingMaps( f ), m -> x -> a * m( x ) );
+        
+        jacobian_matrix := List( JacobianMatrix( f ), l -> List( l, m -> x -> a * m( x ) ) );
+        
+        return MorphismConstructor( Smooth, Source( f ), Pair( maps, jacobian_matrix ), Target( f ) );
+        
+    end );
+    
+    ## Products
+    AddDirectProduct( Smooth,
+      
+      function ( Smooth, L )
+        
+        return ObjectConstructor( Smooth, Sum( L, V -> RankOfObject( V ) ) );
+        
+    end );
+    
+    ##
+    AddProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, L, i, S )
+        local rank_S, T, rank_T, k, maps, jacobian_matrix;
+        
+        rank_S := RankOfObject( S );
+        
+        T := L[i];
+        
+        rank_T := RankOfObject( T );
+        
+        k := Sum( [ 1 .. i - 1 ], j -> RankOfObject( L[j] ) );
+        
+        maps := List( [ 1 .. rank_T ], i -> x -> x[k + i] );
+        
+        jacobian_matrix :=
+          List( [ 1 .. rank_T ],
+            i -> List( [ 1 .. rank_S ],
+              j -> x -> Float( KroneckerDelta( j, k + i ) ) ) );
+        
+        return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    ##
+    AddUniversalMorphismIntoDirectProductWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, D, test_object, tau, T )
+        local maps, jacobian_matrix;
+        
+        maps := Concatenation( List( tau, f -> UnderlyingMaps( f ) ) );
+        
+        jacobian_matrix := Concatenation( List( tau, f -> JacobianMatrix( f ) ) );
+        
+        return MorphismConstructor( Smooth, test_object, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    ##
+    AddDirectProductOnMorphismsWithGivenDirectProducts( Smooth,
+
+      function ( Smooth, S, f, g, T )
+        
+        return DirectProductFunctorialWithGivenDirectProducts( Smooth,
+                    S,
+                    Pair( Source( f ), Source( g ) ),
+                    Pair( f, g ),
+                    Pair( Target( f ), Target( g ) ),
+                    T );
+        
+    end );
+    
+    ##
+    AddDirectProductFunctorialWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, S, source_diagram, L, target_diagram, T )
+        local source_diagram_ranks, target_diagram_ranks, indices, maps, jacobian_matrix;
+        
+        source_diagram_ranks := List( source_diagram, A -> RankOfObject( A ) );
+        target_diagram_ranks := List( target_diagram, A -> RankOfObject( A ) );
+        
+        indices := List( [ 1 .. Length( L ) ], i -> 1 + Sum( source_diagram_ranks{[ 1 .. i - 1 ]} ) );
+        
+        maps := Concatenation( List( [ 1 .. Length( L ) ], i -> List( UnderlyingMaps( L[i] ), m -> x -> m( x{[ indices[i] .. indices[i] + source_diagram_ranks[i] - 1 ]} ) ) ) );
+        
+        jacobian_matrix :=
+          Concatenation(
+            List( [ 1 .. Length( L ) ], i ->
+              List( JacobianMatrix( L[i] ), l ->
+                Concatenation(
+                      ListWithIdenticalEntries( indices[i] - 1, x -> 0. ),
+                      List( l, m -> x -> m( x{[ indices[i] .. indices[i] + source_diagram_ranks[i] - 1 ]} ) ),
+                      ListWithIdenticalEntries( RankOfObject( S ) - ( indices[i] + source_diagram_ranks[i] - 1 ), x -> 0. ) ) ) ) );
+        
+        return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+        
+    end );
+    
+    ##
+    AddCartesianAssociatorRightToLeftWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, S_x_UxT, S, U, T, SxU_x_T )
+        
+        return IdentityMorphism( Smooth, S_x_UxT );
+        
+    end );
+    
+    ##
+    AddCartesianAssociatorLeftToRightWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, SxU_x_T, S, U, T, S_x_UxT )
+        
+        return IdentityMorphism( Smooth, SxU_x_T );
+        
+    end );
+    
+    ##
+    AddCartesianLeftUnitorWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, S, IxS )
+        
+        return IdentityMorphism( Smooth, S );
+        
+    end );
+    
+    AddCartesianLeftUnitorInverseWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, S, IxS )
+        
+        return IdentityMorphism( Smooth, S );
+        
+    end );
+    
+    AddCartesianRightUnitorWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, S, SxI )
+        
+        return IdentityMorphism( Smooth, S );
+        
+    end );
+    
+    AddCartesianRightUnitorInverseWithGivenDirectProduct( Smooth,
+      
+      function ( Smooth, S, SxI )
+        
+        return IdentityMorphism( Smooth, S );
+        
+    end );
+    
+    ##
+    AddIsTerminal( Smooth,
+      
+      function ( Smooth, S )
+        
+        return RankOfObject( S ) = 0;
+        
+    end );
+    
+    ##
+    AddTerminalObject( Smooth,
+      
+      function ( Smooth )
+        
+        return ObjectConstructor( Smooth, 0 );
+        
+    end );
+    
+    ##
+    AddUniversalMorphismIntoTerminalObjectWithGivenTerminalObject( Smooth,
+      
+      function ( Smooth, S, T )
+        
+        return MorphismConstructor( Smooth, S, Pair( [ ], [ ] ), T );
+        
+    end );
+    
+    ##
+    AddCartesianBraidingWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, SxT, S, T, TxS )
+        local rank_A, rank_B, maps_to_B, maps_to_A, maps, jacobian_matrix;
+        
+        rank_A := RankOfObject( S );
+        rank_B := RankOfObject( T );
+        
+        maps_to_B := List( [ 1 .. rank_B ], i -> x -> x[rank_A + i] );
+        maps_to_A := List( [ 1 .. rank_A ], i -> x -> x[i] );
+        
+        maps := Concatenation( maps_to_B, maps_to_A );
+        
+        jacobian_matrix :=
+          List( [ 1 .. rank_A + rank_B ], i -> List( [ 1 .. rank_A + rank_B ], j -> x -> Float( KroneckerDelta( i, j ) ) ) );
+        
+        jacobian_matrix :=
+          Concatenation( jacobian_matrix{[ rank_A + 1 .. rank_A + rank_B ]}, jacobian_matrix{[ 1 .. rank_A ]} );
+        
+        return MorphismConstructor( Smooth, SxT, Pair( maps, jacobian_matrix ), TxS );
+        
+    end );
+    
+    ##
+    AddCartesianBraidingInverseWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, SxT, S, T, TxS )
+        
+        return CartesianBraidingWithGivenDirectProducts( Smooth, TxS, T, S, SxT );
         
     end );
     
