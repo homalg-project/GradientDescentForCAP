@@ -261,7 +261,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
                       List( DummyInput( "x", rank_S ), String ) ),
                     "&" );
         
-        for i in [ 1 .. rank_S ] do
+        for i in Reversed( [ 1 .. rank_S ] ) do
             all := ReplacedString( all, Concatenation( "x", String( i ) ), Concatenation( "x[", String( i ), "]" ) );
         od;
         
