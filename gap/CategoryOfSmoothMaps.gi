@@ -119,32 +119,6 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     end );
     
     ##
-    InstallOtherMethod( IsCongruentForMorphisms,
-              [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
-      
-      function ( Smooth, f, g )
-        local rank_S, 100_random_inputs;
-        
-        rank_S := RankOfObject( Source( f ) );
-        
-        100_random_inputs := List( [ 1 .. 100 ], i -> List( [ 1 .. rank_S ], j -> 0.01 * Random( [ 1 .. 100 ] ) ) );
-        
-        # Maybe:
-        return ForAll( 100_random_inputs, x -> ForAll( ListN( Eval( f, x ), Eval( g, x ), { a, b } -> a - b < 1.e-10 ), IdFunc ) );
-        
-    end );
-    
-    ##
-    InstallOtherMethod( IsEqualForMorphisms,
-              [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
-      
-      function ( Smooth, f, g )
-        
-        return UnderlyingMaps( f ) = UnderlyingMaps( g ) and JacobianMatrix( f ) = JacobianMatrix( g );
-        
-    end );
-    
-    ##
     AddIdentityMorphism( Smooth,
       
       function ( Smooth, V )
@@ -509,6 +483,37 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     Finalize( Smooth );
     
     return Smooth;
+    
+end );
+
+##
+InstallOtherMethod( IsCongruentForMorphisms,
+        [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( Smooth, f, g )
+    local rank_S, 100_random_inputs, compare_maps, compare_jacobian_matrices;
+    
+    rank_S := RankOfObject( Source( f ) );
+    
+    100_random_inputs := List( [ 1 .. 100 ], i -> List( [ 1 .. rank_S ], j -> 0.001 * Random( [ 1 .. 100 ] ) ) );
+    
+    compare_maps :=
+      ForAll( 100_random_inputs, x -> ForAll( ListN( Eval( f, x ), Eval( g, x ), { a, b } -> a - b < 1.e-10 ), IdFunc ) );
+    
+    compare_jacobian_matrices :=
+      ForAll( 100_random_inputs, x -> ForAll( ListN( EvalJacobianMatrix( f, x ), EvalJacobianMatrix( g, x ), { a, b } -> Sum( a - b ) < 1.e-10 ), IdFunc ) );
+    
+    return compare_maps and compare_jacobian_matrices;
+    
+end );
+
+##
+InstallOtherMethod( IsEqualForMorphisms,
+        [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( Smooth, f, g )
+    
+    return UnderlyingMaps( f ) = UnderlyingMaps( g ) and JacobianMatrix( f ) = JacobianMatrix( g );
     
 end );
 
