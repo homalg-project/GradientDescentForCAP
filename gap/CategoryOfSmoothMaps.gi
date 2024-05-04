@@ -188,6 +188,35 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
     end );
     
+    ##
+    AddAdditiveInverseForMorphisms( Smooth,
+      
+      function ( Smooth, f )
+        local maps, jacobian_matrix;
+        
+        maps := List( UnderlyingMaps( f ), m -> x -> -m( x ) );
+        
+        jacobian_matrix := List( JacobianMatrix( f ), l -> List( l, m -> x -> -m( x ) ) );
+        
+        return MorphismConstructor( Smooth, Source( f ), Pair( maps, jacobian_matrix ), Target( f ) );
+        
+    end );
+    
+    ##
+    AddSubtractionForMorphisms( Smooth,
+      
+      function ( Smooth, f, g )
+        local maps, jacobian_matrix;
+        
+        maps := ListN( UnderlyingMaps( f ), UnderlyingMaps( g ), { m, n } -> x -> m( x ) - n( x ) );
+        
+        jacobian_matrix :=
+          ListN( JacobianMatrix( f ), JacobianMatrix( g ), { f_l, g_l } -> ListN( f_l, g_l, { m, n } -> x -> m( x ) - n( x ) ) );
+        
+        return MorphismConstructor( Smooth, Source( f ), Pair( maps, jacobian_matrix ), Target( f ) );
+        
+    end );
+    
     ## f, g: R^m -> R^n
     ##
     ## J_fg(x) = Diag(g_1(x), g_2(x), ..., g_n(x)) * J_f(x) + Diag(f_1(x), f_2(x), ..., f_n(x)) * J_g(x)
