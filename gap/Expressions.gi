@@ -39,7 +39,7 @@ InstallOtherMethod( ViewString,
 end );
 
 ##
-InstallGlobalFunction( AsListOfExpressions,
+InstallGlobalFunction( ConvertToExpressions,
   
   variables -> List( variables, var -> Expression( variables, var ) )
 );
@@ -47,25 +47,61 @@ InstallGlobalFunction( AsListOfExpressions,
 ##
 InstallGlobalFunction( DummyInput,
   
-  { var, n } -> AsListOfExpressions( List( [ 1 .. n ], i -> Concatenation( var, "", String( i ), "" ) ) )
+  { var, n } -> ConvertToExpressions( List( [ 1 .. n ], i -> Concatenation( var, "", String( i ), "" ) ) )
 );
 
 ##
-InstallGlobalFunction( DefineDummyOperationOnExpressions,
+InstallGlobalFunction( AssignExpressions,
   
-  function ( str )
+  function ( vars )
+    local func;
     
-    ##
-    DeclareOperation( str, [ IsExpression ] );
+    func :=
+      function ( e )
+        local name;
+        
+        name := String( e );
+        
+        MakeReadWriteGlobal( name );
+        
+        DeclareSynonym( name, e );
+        
+        return true;
+        
+    end;
     
-    ##
-    InstallMethod( EvalString( str ),
-              [ IsExpression ],
-      
-      e -> Expression( Variables( e ), Concatenation( str, "(", String( e ), ")" ) )
-    );
+    List( vars, e -> func( e ) );
     
 end );
+
+##
+InstallOtherMethod( AsFunction,
+          [ IsDenseList, IsString ],
+  
+  function ( vars, str )
+    
+    return
+      EvalString(
+        Concatenation(
+          Concatenation( "function( vec ) local ", JoinStringsWithSeparator( vars, ", " ), ";" ),
+          Concatenation( ListN( [ 1 .. Length( vars ) ], i -> Concatenation( vars[i], " := vec[", String( i ), "]; " ) ) ),
+          Concatenation( "return ", str, "; end" ) ) );
+    
+end );
+
+##
+InstallMethod( AsFunction,
+          [ IsExpression ],
+  
+  e -> AsFunction( Variables( e ), String( e ) )
+);
+
+##
+InstallOtherMethod( CallFuncList,
+      [ IsExpression, IsDenseList ],
+  
+  { e, L } -> AsFunction( e )( L[1] )
+);
 
 ## Apply Functions on Expressions
 ##

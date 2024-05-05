@@ -24,7 +24,7 @@ Display( f );
 #!
 #! x1 ^ 2 + Sin( x2 )
 #! Exp( x1 ) + 3. * x2
-dummy_input := AsListOfExpressions( [ "x1", "x2" ] );
+dummy_input := ConvertToExpressions( [ "x1", "x2" ] );
 #! [ x1, x2 ]
 Eval( f, dummy_input );
 #! [ x1 ^ 2 + Sin( x2 ), Exp( x1 ) + 3. * x2 ]
