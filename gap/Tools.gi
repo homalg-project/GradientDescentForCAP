@@ -3,6 +3,9 @@
 #
 # Implementations
 #
+BindGlobal( "GAP_PYTHON_DIC",
+  [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ],
+    [ "sin", "cos", "tan", "cot", "tanh", "coth", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign" ] ] );
 
 ##
 InstallMethod( Relu,
@@ -54,8 +57,8 @@ InstallGlobalFunction( SimplifyExpressionUsingPython,
     symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
     functions := "max, min = Function('max'), Function('min'); \n";
     
-    g_ops := [ "Sin", "Cos", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ];
-    p_ops := [ "sin", "cos", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign" ];
+    g_ops := GAP_PYTHON_DIC[1];
+    p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
       for i in [ 1 .. Length( g_ops ) ] do
@@ -131,8 +134,8 @@ InstallGlobalFunction( JacobianMatrixUsingPython,
     import := "from sympy import *;\n";
     symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
     
-    g_ops := [ "Sin", "Cos", "Log", "Exp", "^", "Sqrt", "AbsoluteValue" ];
-    p_ops := [ "sin", "cos", "log", "exp", "**", "sqrt", "Abs" ];
+    g_ops := GAP_PYTHON_DIC[1];
+    p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
       for i in [ 1 .. 7 ] do
@@ -210,8 +213,8 @@ InstallGlobalFunction( LaTeXOutputUsingPython,
     import := "from sympy import *;\n";
     symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
     
-    g_ops := [ "Sin", "Cos", "Log", "Exp", "^", "Sqrt", "AbsoluteValue" ];
-    p_ops := [ "sin", "cos", "log", "exp", "**", "sqrt", "Abs" ];
+    g_ops := GAP_PYTHON_DIC[1];
+    p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
       for i in [ 1 .. 7 ] do
