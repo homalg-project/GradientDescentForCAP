@@ -8,11 +8,8 @@
 InstallMethod( Relu,
       [ IsFloat ],
   
-  function ( a )
-    
-    return Maximum( a, 0. );
-    
-end );
+  a -> Maximum( a, 0. )
+);
 
 ##
 InstallOtherMethod( Relu,

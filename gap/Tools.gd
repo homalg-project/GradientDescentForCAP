@@ -6,7 +6,7 @@
 
 
 DeclareAttribute( "Relu", IsFloat );
-
+DeclareOperation( "Relu", [ IsFloat ] );
 
 DeclareGlobalFunction( "SimplifyExpressionUsingPython" );
 DeclareGlobalFunction( "JacobianMatrixUsingPython" );
