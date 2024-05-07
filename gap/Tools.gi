@@ -55,8 +55,8 @@ InstallGlobalFunction( SimplifyExpressionUsingPython,
     output_path := Filename( dir, "output.txt" );
     
     import := "from sympy import *;\n";
-    symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
-    functions := "max, min = Function('max'), Function('min'); \n";
+    symbols := Concatenation( JoinStringsWithSeparator( vars, ", " ), " = symbols( '", JoinStringsWithSeparator( vars, " " ), "' );\n" );
+    functions := "max, min, Relu = Function('max'), Function('min'), Function('Relu'); \n";
     
     g_ops := GAP_PYTHON_DIC[1];
     p_ops := GAP_PYTHON_DIC[2];
@@ -117,9 +117,7 @@ InstallGlobalFunction( SimplifyExpressionUsingPython,
     
 end );
 
-InstallGlobalFunction( JacobianMatrixUsingPython,
-  
-  function ( exps, x )
+  function ( exps, vars, indices )
     local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
@@ -133,20 +131,20 @@ InstallGlobalFunction( JacobianMatrixUsingPython,
     output_path := Filename( dir, "output.txt" );
     
     import := "from sympy import *;\n";
-    symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
+    symbols := Concatenation( JoinStringsWithSeparator( vars, ", " ), " = symbols( '", JoinStringsWithSeparator( vars, " " ), "' );\n" );
     
     g_ops := GAP_PYTHON_DIC[1];
     p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
-      for i in [ 1 .. 7 ] do
+      for i in [ 1 .. Length( g_ops ) ] do
          exps[j] := ReplacedString( exps[j], g_ops[i], p_ops[i] );
       od;
     od;
     
     define_exps := Concatenation( "exps = Matrix([", JoinStringsWithSeparator( exps, ", " ), "]);\n" );
     
-    simplify := Concatenation( "output = exps.jacobian([", JoinStringsWithSeparator( x, "," ), "]);\n" );
+    simplify := Concatenation( "output = exps.jacobian([", JoinStringsWithSeparator( vars{indices}, "," ), "]);\n" );
     
     write_output := Concatenation( "with open('", output_path, "', 'w') as f:\n     for o in output:\n         f.write(str(o)+'\\n')\n" );
     
@@ -178,28 +176,26 @@ InstallGlobalFunction( JacobianMatrixUsingPython,
     
     IO_Close( output_file );
     
-    Assert( 0, Length( outputs ) = Length( x ) * Length( exps ) );
+    Assert( 0, Length( outputs ) = Length( indices ) * Length( exps ) );
     
     for j in [ 1 .. Length( outputs ) ] do
       
       outputs[j] := ReplacedString( outputs[j], "\n", "" );
       
-      for i in [ 1 .. 7 ] do
+      for i in [ 1 .. Length( g_ops ) ] do
          outputs[j] := ReplacedString( outputs[j], p_ops[i], g_ops[i] );
       od;
       
     od;
     
-    outputs := List( [ 0 .. Length( exps ) - 1 ], i -> outputs{[ i * Length( x ) + 1 .. ( i + 1 ) * Length( x ) ]} );
+    outputs := List( [ 0 .. Length( exps ) - 1 ], i -> outputs{[ i * Length( indices ) + 1 .. ( i + 1 ) * Length( indices ) ]} );
     
     return outputs;
     
 end );
 
-InstallGlobalFunction( LaTeXOutputUsingPython,
-  
-  function ( exps, x )
-    local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
+  function ( exps, vars )
+    local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
     
@@ -212,13 +208,14 @@ InstallGlobalFunction( LaTeXOutputUsingPython,
     output_path := Filename( dir, "output.txt" );
     
     import := "from sympy import *;\n";
-    symbols := Concatenation( JoinStringsWithSeparator( x, ", " ), " = symbols( '", JoinStringsWithSeparator( x, " " ), "' );\n" );
+    symbols := Concatenation( JoinStringsWithSeparator( vars, ", " ), " = symbols( '", JoinStringsWithSeparator( vars, " " ), "' );\n" );
+    functions := "max, min, Relu = Function('max'), Function('min'), Function('Relu'); \n";
     
     g_ops := GAP_PYTHON_DIC[1];
     p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
-      for i in [ 1 .. 7 ] do
+      for i in [ 1 .. Length( g_ops ) ] do
          exps[j] := ReplacedString( exps[j], g_ops[i], p_ops[i] );
       od;
     od;
@@ -229,7 +226,7 @@ InstallGlobalFunction( LaTeXOutputUsingPython,
     
     write_output := Concatenation( "with open('", output_path, "', 'w') as f:\n     for o in output:\n         f.write(str(o)+'\\n')\n" );
     
-    IO_Write( input_file, Concatenation( import, symbols, define_exps, simplify, write_output ) );
+    IO_Write( input_file, Concatenation( import, symbols, functions, define_exps, simplify, write_output ) );
     
     IO_Close( input_file );
     
