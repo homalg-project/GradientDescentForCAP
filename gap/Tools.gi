@@ -7,22 +7,23 @@ BindGlobal( "GAP_PYTHON_DIC",
   [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ],
     [ "sin", "cos", "tan", "cot", "tanh", "coth", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign" ] ] );
 
+for op in [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "Sqrt","Square", "AbsoluteValue", "SignFloat", "Relu" ] do
+  
+  ## 
+  InstallOtherMethod( EvalString( op ),
+        [ IsRat ],
+    
+    EvalString( ReplacedString( "n -> op( Float( n ) )", "op", op ) )
+  );
+  
+od;
+
 ##
 InstallMethod( Relu,
       [ IsFloat ],
   
   a -> Maximum( a, 0. )
 );
-
-##
-InstallOtherMethod( Relu,
-    [ IsObject ],
-  
-  function ( a )
-    
-    return Relu( Float( a ) );
-    
-end );
 
 ##
 InstallGlobalFunction( KroneckerDelta,
