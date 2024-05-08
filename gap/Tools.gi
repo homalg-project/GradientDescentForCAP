@@ -39,10 +39,16 @@ InstallGlobalFunction( KroneckerDelta,
 end );
 
 ##
-InstallGlobalFunction( SimplifyExpressionUsingPython,
+##
+InstallMethod( SimplifyExpressionUsingPython,
+          [ IsDenseList, IsDenseList ],
   
-  function ( exps, x )
+  function ( exps, vars )
     local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i, exp, o;
+    
+    if not ( ForAll( exps, IsString ) and ForAll( vars, IsString ) ) then
+        TryNextMethod( );
+    fi;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
     
@@ -116,6 +122,17 @@ InstallGlobalFunction( SimplifyExpressionUsingPython,
     return outputs;
     
 end );
+
+##
+InstallOtherMethod( SimplifyExpressionUsingPython,
+          [ IsDenseList ],
+  
+  exps -> SimplifyExpressionUsingPython( List( exps, String ), Variables( exps[1] ) )
+);
+
+##
+InstallMethod( JacobianMatrixUsingPython,
+          [ IsDenseList, IsDenseList, IsDenseList ],
 
   function ( exps, vars, indices )
     local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
@@ -194,6 +211,16 @@ end );
     
 end );
 
+##
+InstallOtherMethod( JacobianMatrixUsingPython,
+          [ IsDenseList, IsDenseList ],
+  
+  { exps, indices } -> JacobianMatrixUsingPython( List( exps, String ), Variables( exps[1] ), indices )
+);
+##
+InstallMethod( LaTeXOutputUsingPython,
+          [ IsDenseList, IsDenseList ],
+
   function ( exps, vars )
     local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
@@ -265,3 +292,17 @@ end );
     return outputs;
     
 end );
+
+##
+InstallOtherMethod( LaTeXOutputUsingPython,
+          [ IsDenseList ],
+  
+  exps -> LaTeXOutputUsingPython( List( exps, String ), Variables( exps[1] ) )
+);
+
+##
+InstallOtherMethod( LaTeXOutputUsingPython,
+          [ IsExpression ],
+  
+  e -> LaTeXOutputUsingPython( [ e ] )[1]
+);

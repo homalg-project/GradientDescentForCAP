@@ -12,3 +12,6 @@ DeclareGlobalFunction( "SimplifyExpressionUsingPython" );
 DeclareGlobalFunction( "JacobianMatrixUsingPython" );
 DeclareGlobalFunction( "LaTeXOutputUsingPython" );
 DeclareGlobalFunction( "KroneckerDelta" );
+DeclareOperation( "SimplifyExpressionUsingPython", [ IsDenseList, IsDenseList ] );
+DeclareOperation( "JacobianMatrixUsingPython", [ IsDenseList, IsDenseList, IsDenseList ] );
+DeclareOperation( "LaTeXOutputUsingPython", [ IsDenseList, IsDenseList ] );
