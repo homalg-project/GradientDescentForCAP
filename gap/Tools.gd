@@ -17,3 +17,4 @@ DeclareOperation( "JacobianMatrixUsingPython", [ IsDenseList, IsDenseList, IsDen
 DeclareOperation( "LazyJacobianMatrix", [ IsDenseList, IsDenseList, IsDenseList ] );
 DeclareOperation( "LaTeXOutputUsingPython", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "LazyDiff", [ IsString, IsDenseList, IsPosInt ] );
+DeclareOperation( "Diff", [ IsString, IsDenseList, IsPosInt ] );

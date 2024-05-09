@@ -39,6 +39,24 @@ InstallGlobalFunction( KroneckerDelta,
 end );
 
 ##
+InstallMethod( Diff,
+        [ IsString, IsDenseList, IsPosInt ],
+  
+  function ( str, vars, i )
+    
+    Assert( 0, i <= Length( vars ) );
+    
+    return AsFunction( Expression( vars, JacobianMatrixUsingPython( [ str ], vars, [ i ] )[1][1] ) );
+    
+end );
+
+##
+InstallOtherMethod( Diff,
+        [ IsExpression, IsPosInt ],
+  
+  { e, i } -> Diff( String( e ), Variables( e ), i )
+);
+
 ##
 InstallMethod( LazyDiff,
         [ IsString, IsDenseList, IsPosInt ],
