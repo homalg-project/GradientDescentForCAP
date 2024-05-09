@@ -106,8 +106,9 @@ InstallOtherMethod( CallFuncList,
 ## Apply Functions on Expressions
 ##
 
-for op in [ "Sin", "Cos", "Exp", "Log", "Sqrt", "SignFloat", "Relu" ] do
+for op in [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "Sqrt", "Square", "AbsoluteValue", "SignFloat", "Relu" ] do
   
+  ##
   InstallOtherMethod( EvalString( op ),
         [ IsExpression ],
     
