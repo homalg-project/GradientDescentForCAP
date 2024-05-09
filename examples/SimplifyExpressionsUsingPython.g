@@ -8,8 +8,8 @@ LoadPackage( "MachineLearningForCAP" );
 SimplifyExpressionUsingPython(
   [ "Sin(x)^2+Cos(x)^2", "(x+y)^2+(x-y)^2" ], [ "x", "y" ] );
 #! [ "1", "2*x^2 + 2*y^2" ]
-JacobianMatrixUsingPython( [ "Sin(x)+y^3", "x*y" ], [ "x", "y" ] );
-#! [ [ "Cos(x)", "3*y^2" ], [ "y", "x" ] ]
+JacobianMatrixUsingPython( [ "Sin(x)+y^3", "x*y" ], [ "x", "y" ], [ 1 ] );
+#! [ [ "Cos(x)" ], [ "y" ] ]
 LaTeXOutputUsingPython( [ "Cos(x+y)^2+(x-y)^2" ], [ "x", "y" ] );
 #! [ "\\left(x - y\\right)^{2} + \\cos^{2}{\\left(x + y \\right)}" ]
 Smooth := CategoryOfSmoothMaps( );
