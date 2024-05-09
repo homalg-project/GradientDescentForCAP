@@ -3,6 +3,8 @@
 #
 # Implementations
 #
+
+
 BindGlobal( "GAP_PYTHON_DIC",
   [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ],
     [ "sin", "cos", "tan", "cot", "tanh", "coth", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign" ] ] );
