@@ -27,15 +27,17 @@ InstallMethod( Relu,
   a -> Maximum( a, 0. )
 );
 
+
+
 ##
 InstallGlobalFunction( KroneckerDelta,
   
   function ( a, b )
     
     if a = b then
-      return 1;
+        return 1;
     else
-      return 0;
+        return 0;
     fi;
     
 end );
@@ -213,7 +215,7 @@ InstallOtherMethod( SimplifyExpressionUsingPython,
 ##
 InstallMethod( JacobianMatrixUsingPython,
           [ IsDenseList, IsDenseList, IsDenseList ],
-
+  
   function ( exps, vars, indices )
     local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
@@ -315,10 +317,9 @@ InstallOtherMethod( LazyJacobianMatrix,
   { exps, indices } -> LazyJacobianMatrix( List( exps, String ), Variables( exps[1] ), indices )
 );
 
-##
 InstallMethod( LaTeXOutputUsingPython,
           [ IsDenseList, IsDenseList ],
-
+  
   function ( exps, vars )
     local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
