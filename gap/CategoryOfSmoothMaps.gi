@@ -501,6 +501,106 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
     end );
     
+    ## Monoidal Structure
+    ##
+    AddTensorUnit( Smooth,
+      
+      function ( Smooth )
+        
+        return TerminalObject( Smooth );
+        
+    end );
+    
+    ##
+    AddTensorProductOnObjects( Smooth,
+      
+      function ( Smooth, S, T )
+        
+        return DirectProduct( Smooth, [ S, T ] );
+        
+    end );
+    
+    ##
+    AddTensorProductOnMorphismsWithGivenTensorProducts( Smooth,
+      
+      function ( Smooth, SxA, f, g, TxB )
+        
+        return DirectProductOnMorphismsWithGivenDirectProducts( Smooth, SxA, f, g, TxB );
+        
+    end );
+    
+    ##
+    AddAssociatorRightToLeftWithGivenTensorProducts( Smooth,
+      
+      function ( Smooth, S_x_UxT, S, U, T, SxU_x_T )
+        
+        return IdentityMorphism( Smooth, S_x_UxT );
+        
+    end );
+    
+    ##
+    AddAssociatorLeftToRightWithGivenTensorProducts( Smooth,
+      
+      function ( Smooth, SxU_x_T, S, U, T, S_x_UxT )
+        
+        return IdentityMorphism( Smooth, SxU_x_T );
+        
+    end );
+    
+    ##
+    AddLeftUnitorWithGivenTensorProduct( Smooth,
+      
+      function ( Smooth, A, IxA )
+        
+        return IdentityMorphism( Smooth, A );
+        
+    end );
+    
+    ##
+    AddLeftUnitorInverseWithGivenTensorProduct( Smooth,
+      
+      function ( Smooth, A, IxA )
+        
+        return IdentityMorphism( Smooth, A );
+        
+    end );
+    
+    ##
+    AddRightUnitorWithGivenTensorProduct( Smooth,
+      
+      function ( Smooth, A, AxI )
+        
+        return IdentityMorphism( Smooth, A );
+        
+    end );
+    
+    ##
+    AddRightUnitorInverseWithGivenTensorProduct( Smooth,
+      
+      function ( Smooth, A, AxI )
+        
+        return IdentityMorphism( Smooth, A );
+        
+    end );
+    
+    ##
+    AddBraidingWithGivenTensorProducts( Smooth,
+      
+      function ( Smooth, SxT, S, T, TxS )
+        
+        return CartesianBraidingWithGivenDirectProducts( Smooth, SxT, S, T, TxS );
+        
+    end );
+    
+    ##
+    AddBraidingInverseWithGivenTensorProducts( Smooth,
+      
+      function ( Smooth, SxT, S, T, TxS )
+        
+        return CartesianBraidingInverseWithGivenDirectProducts( Smooth, SxT, S, T, TxS );
+        
+      end );
+    
     Finalize( Smooth );
     
     return Smooth;
