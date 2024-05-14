@@ -601,6 +601,41 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
       end );
     
+    ##
+    ## f: R^m -> R^n, J_f in R^{nxm}
+    ##
+    ## Df: R^m x R^n -> R^m,  (x,    y) ----> y    *  J_f(x)
+    ##
+    ##                         R^1xm R^1xn    R^1xn   R^{n x m}
+    AddReverseDifferentialWithGivenObjects( Smooth,
+      
+      function ( Smooth, source, f, target )
+        local rank_S, rank_T, J, maps;
+        
+        rank_S := RankOfObject( Source( f ) );
+        rank_T := RankOfObject( Target( f ) );
+        
+        J := TransposedMatWithGivenDimensions( rank_T, rank_S, JacobianMatrix( f ) );
+        
+        maps := List( J, l -> x -> Sum( [ 1 .. rank_T ], i -> l[i]( x{[ 1 .. rank_S ]} ) * x[rank_S + i] ) );
+        
+        return SmoothMorphism( Smooth, source, maps, target );
+        
+    end );
+    
+    ##
+    AddReverseDifferential( Smooth,
+      
+      function ( Smooth, f )
+        local source, target;
+        
+        source := DirectProduct( Smooth, Pair( Source( f ), Target( f ) ) );
+        target := Source( f );
+        
+        return ReverseDifferentialWithGivenObjects( Smooth, source, f, target );
+        
+    end );
+    
     Finalize( Smooth );
     
     return Smooth;
