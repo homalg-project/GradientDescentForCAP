@@ -951,9 +951,53 @@ InstallOtherMethod( \.,
             
           end;
     
+    # categorical construction
+    elif f = "Softmax_" then
         
-        return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
+        return
+          function ( n )
+            local p, q;
+            
+            # compute Exp on all entries
+            p := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Exp ) );
+            
+            # divide by the sum
+            q := PreComposeList( Smooth, [ p, Smooth.Sum( n ), Smooth.Power( -1 ) ] );
+            
+            # make n copies
+            q := UniversalMorphismIntoDirectProduct( Smooth, ListWithIdenticalEntries( n, q ) );
+            
+            # compute the softmax
+            return MultiplicationForMorphisms( Smooth, p, q );
+            
+          end;
+    
+    # direct construction
+    elif f = "Softmax" then
         
+        return
+          function ( n )
+            local maps, jacobian_matrix;
+            
+            maps := List( [ 1 .. n ], i -> x -> Exp( x[i] ) / Sum( x, Exp ) );
+            
+            jacobian_matrix :=
+              List( [ 1 .. n ], i ->
+                List( [ 1 .. n ],
+                  function ( j )
+                    
+                    if i = j then
+                      return x -> - Exp( x[i] + x[j] ) / Sum( x, Exp ) ^ 2 + Exp( x[i] ) / Sum( x, Exp );
+                    else
+                      return x -> - Exp( x[i] + x[j] ) / Sum( x, Exp ) ^ 2;
+                    fi;
+                    
+                  end ) );
+            
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.( n ) );
+            
+          end;
+          
     else
         
         Error( "unrecognized-string!\n" );
