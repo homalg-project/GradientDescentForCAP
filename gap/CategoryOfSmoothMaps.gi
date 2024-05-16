@@ -869,73 +869,88 @@ InstallOtherMethod( \.,
     
     if Float( f ) <> fail then
         
-        return MorphismConstructor( Smooth, Smooth.0, [ [ x -> Float( f ) ], [ [ ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.0, [ [ x -> Float( f ) ], [ [ ] ] ], Smooth.( 1 ) );
         
     elif f = "Sqrt" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Sqrt(x[1]) ], [ [ x -> 1. / (2. * Sqrt(x[1])) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Sqrt(x[1]) ], [ [ x -> 1. / (2. * Sqrt(x[1])) ] ] ], Smooth.( 1 ) );
         
     elif f = "Exp" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Exp(x[1]) ], [ [ x -> Exp(x[1]) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Exp(x[1]) ], [ [ x -> Exp(x[1]) ] ] ], Smooth.( 1 ) );
         
     elif f = "Log" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Log(x[1]) ], [ [ x -> (1. / x[1]) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Log(x[1]) ], [ [ x -> (1. / x[1]) ] ] ], Smooth.( 1 ) );
         
     elif f = "Sin" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Sin(x[1]) ], [ [ x -> Cos(x[1]) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Sin(x[1]) ], [ [ x -> Cos(x[1]) ] ] ], Smooth.( 1 ) );
         
     elif f = "Cos" then
         
-        return MorphismConstructor( Smooth, Smooth.1, [ [ x -> Cos(x[1]) ], [ [ x -> -1. * Sin(x[1]) ] ] ], Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Cos(x[1]) ], [ [ x -> -1. * Sin(x[1]) ] ] ], Smooth.( 1 ) );
         
     elif f = "Relu" then
         
-        return MorphismConstructor( Smooth,
-                  Smooth.1,
-                  [ [ x -> Relu( x[1] ) ],
-                    [ [ x -> 0.5 * (1. + SignFloat( x[1] + 1.e-50 )) ] ] ],
-                  Smooth.1 );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ [ x -> Relu( x[1] ) ], [ [ x -> 0.5 * (1 + SignFloat( x[1] + 1.e-50 )) ] ] ], Smooth.( 1 ) );
         
-    elif f{[ 1 .. Minimum( 3, Length( f ) ) ]} = "Sum" then
+    elif f = "Sum" then
         
-        n := Int( f{[ 4 .. Length( f ) ]} );
+        return
+          function ( n )
+            local maps, jacobian_matrix;
         
         maps := [ x -> Sum( x ) ];
         
         jacobian_matrix := [ ListWithIdenticalEntries( n, x -> 1. ) ];
         
-        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
         
-    elif f{[ 1 .. Minimum( 3, Length(f) ) ]} = "Mul" then
+    elif f = "Mul" then
         
-        n := Int( f{[ 4 .. Length( f ) ]} );
+        return
+          function ( n )
+            local maps, jacobian_matrix;
         
         maps := [ x -> Product( x ) ];
         
         jacobian_matrix := [ List( [ 1 .. n ], i -> x -> Product( x{Concatenation( [ 1 .. i - 1 ], [ i + 1 .. n ] )} ) ) ];
         
-        return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.1 );
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
 
-    elif f{[ 1 .. Minimum( 3, Length(f) ) ]} = "x1^" then
+    elif f = "Power" then
         
-        n := Float( f{[ 4 .. Length( f ) ]} );
+        return
+          function ( n )
+            local maps, jacobian_matrix;
         
         maps := [ x -> x[1] ^ n ];
         
         jacobian_matrix := [ [ x -> n * x[1] ^ ( n - 1 ) ] ];
         
-        return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
+            return MorphismConstructor( Smooth, Smooth.( 1 ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
         
-    elif f{[ Maximum( 1, Length(f) - 2 ) .. Length( f ) ]} = "^x1" then
+    elif f = "PowerBase" then
         
-        n := Float( f{[ 1 .. Length( f ) - 3 ]} );
-        
-        maps := [ x -> n ^ x[1] ];
-        
-        jacobian_matrix := [ [ x -> Log( n ) * ( n^x[1] ) ] ];
+        return
+          function ( n )
+            local maps, jacobian_matrix;
+            
+            maps := [ x -> n ^ x[1] ];
+            
+            jacobian_matrix := [ [ x -> Log( n ) * ( n ^ x[1] ) ] ];
+            
+            return MorphismConstructor( Smooth, Smooth.( 1 ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+    
         
         return MorphismConstructor( Smooth, Smooth.1, Pair( maps, jacobian_matrix ), Smooth.1 );
         
