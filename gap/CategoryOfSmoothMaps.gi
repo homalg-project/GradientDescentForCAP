@@ -998,6 +998,62 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
+    elif f = "QuadraticLoss_" then
+        
+        return
+          function ( n )
+            local p1, p2, diff, squar, sum, total_sum;
+            
+            # predicted values
+            p1 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 1 );
+            
+            # ground truth values
+            p2 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 2 );
+            
+            # compute the difference
+            diff := SubtractionForMorphisms( Smooth, p1, p2 );
+            
+            # squar entries
+            squar := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) );
+            
+            # take sum
+            sum := Smooth.Sum( n );
+            
+            # compute the total sum of squars of differences
+            total_sum := PreComposeList( Smooth, [ diff, squar, sum ] );
+            
+            # return the average
+            return MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, 1 / n, total_sum );
+            
+          end;
+          
+    # direct construction
+    elif f = "QuadraticLoss" then
+        
+        return
+          function ( n )
+            local maps, jacobian_matrix;
+            
+            maps := [ x -> Sum( [ 1 .. n ], i -> ( x[i] - x[n + i] ) ^ 2 ) / n ];
+            
+            jacobian_matrix :=
+              [ List( [ 1 .. 2 * n ],
+                  i ->  function ( x )
+                          local d;
+                          
+                          if i <= n then
+                              return  2 * ( x[i] - x[n + i] ) / n;
+                          else
+                              return -2 * ( x[i - n] - x[i] ) / n;
+                          fi;
+                          
+                        end ) ];
+            
+            return MorphismConstructor( Smooth, Smooth.( 2 * n ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+          
     else
         
         Error( "unrecognized-string!\n" );
