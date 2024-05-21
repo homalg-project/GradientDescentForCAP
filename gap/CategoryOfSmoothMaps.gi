@@ -1054,6 +1054,61 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
+    elif f = "CrossEntropyLoss_" then
+        
+        return
+          function ( n )
+            local p1, p2, log, log_p1, mul, total_sum;
+            
+            # predicted values
+            p1 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 1 );
+            
+            # ground truth values
+            p2 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 2 );
+            
+            # compute Log (n copies)
+            log := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Log ) );
+            
+            # apply log on the predicted values
+            log_p1 := PreCompose( Smooth, p1, log );
+            
+            # multiply log_p1 with p2
+            mul := MultiplicationForMorphisms( Smooth, log_p1, p2 );
+            
+            # compute the sum
+            total_sum := PreCompose( Smooth, mul, Smooth.Sum( n ) );
+            
+            # return the average
+            return MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, -1 / n, total_sum );
+            
+          end;
+          
+    # direct construction
+    elif f = "CrossEntropyLoss" then
+        
+        return
+          function ( n )
+            local maps, jacobian_matrix;
+            
+            maps := [ x -> -Sum( [ 1 .. n ], i -> Log( x[i] ) * x[n + i] ) / n ];
+            
+            jacobian_matrix :=
+              [ List( [ 1 .. 2 * n ],
+                  i ->  function ( x )
+                          
+                          if i <= n then
+                              return -x[n + i] / ( n * x[i] );
+                          else
+                              return - Log( x[i - n] ) / n;
+                          fi;
+                          
+                        end ) ];
+            
+            return MorphismConstructor( Smooth, Smooth.( 2 * n ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+          
     else
         
         Error( "unrecognized-string!\n" );
