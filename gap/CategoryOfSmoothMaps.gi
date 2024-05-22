@@ -1109,6 +1109,54 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
+    elif f = "SoftmaxCrossEntropyLoss_" then
+        
+        return
+          function ( n )
+            local p1, softmax_p1, p2, p;
+            
+            # predicted values
+            p1 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 1 );
+            
+            # convert these values to probabilities
+            softmax_p1 := PreCompose( Smooth, p1, Smooth.Softmax_( n ) );
+            
+            # ground truth values
+            p2 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 2 );
+            
+            # combine values again
+            p := UniversalMorphismIntoDirectProduct( Smooth, [ softmax_p1, p2 ] );
+            
+            # compose with the cross entropy loss
+            return PreCompose( Smooth, p, Smooth.CrossEntropyLoss_( n ) );
+            
+          end;
+          
+    elif f = "SoftmaxCrossEntropyLoss" then
+        
+        return
+          function ( n )
+            local maps, jacobian_matrix;
+            
+            maps := [ x -> -Sum( [ 1 .. n ], i -> Log( Exp( x[i] ) / Sum( x{[ 1 .. n ]}, Exp ) ) * x[n + i] ) / n ];
+            
+            jacobian_matrix :=
+              [ List( [ 1 .. 2 * n ],
+                  i ->  function ( x )
+                          
+                          if i <= n then
+                            return ( Exp( x[i] ) * Sum( x{[ n + 1 .. 2 * n ]} ) / Sum( x{[ 1 .. n ]}, Exp ) - x[n + i] ) / n;
+                          else
+                            return -Log( Exp( x[i - n] ) / Sum( x{[ 1 .. n ]}, Exp ) ) / n;
+                          fi;
+                          
+                        end ) ];
+            
+            return MorphismConstructor( Smooth, Smooth.( 2 * n ), Pair( maps, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+    
     else
         
         Error( "unrecognized-string!\n" );
