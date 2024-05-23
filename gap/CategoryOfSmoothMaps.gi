@@ -1157,6 +1157,69 @@ InstallOtherMethod( \.,
             
           end;
     
+    # to create input:
+    # e.g.
+    #
+    # m := 2; n := 4;
+    # vec :=  ConvertToExpressions(
+    #           Concatenation(
+    #             Concatenation( TransposedMat( List( [ 1 .. m + 1 ], i -> List( [ 1 .. n ], j -> Concatenation( "w", String( i ), "_", String( j ) ) ) ) ) ),
+    #             List( [ 1 .. m ], i -> Concatenation( "x", String( i ) ) ) ) );
+    #
+    # categorical construction
+    elif f = "LinearLayer_" then
+        
+        return
+          function ( m, n )
+            local S, T, diagram, weights, vec, components;
+            
+            # the input vector consists of (m + 1) * n + m entries from which (m + 1) * n are parameters
+            S := Smooth.( ( m + 1 ) * n + m );
+            
+            # the output vector consists of n entries
+            T := Smooth.( n );
+            
+            diagram := Concatenation( ListWithIdenticalEntries( n, Smooth.( m + 1 ) ), [ Smooth.( m ) ] );
+            
+            # the columns of the weight matrix
+            weights := List( [ 1 .. n ], i -> ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, diagram, i, S ) );
+            
+            # the input vector
+            vec := ProjectionInFactorOfDirectProductWithGivenDirectProduct( diagram, n + 1, S );
+            
+            # append 1 to the end of the input vector
+            vec := DirectProductFunctorial( Smooth, [ vec, SmoothMorphism( Smooth, Smooth.( 0 ), [ 1 ], Smooth.( 1 ) ) ] );
+            
+            # compute the dot products
+            components := List( [ 1 .. n ], i -> PreCompose( Smooth, MultiplicationForMorphisms( Smooth, vec, weights[i] ), Smooth.Sum( m + 1 ) ) );
+            
+            # i.e., the output vector is the linear combination of the rows of the weight matrix using the coeffs: [vec 1]
+            return UniversalMorphismIntoDirectProductWithGivenDirectProduct( Smooth,
+                          ListWithIdenticalEntries( n, Smooth.( 1 ) ), S, components, T );
+            
+          end;
+          
+    elif f = "LinearLayer" then
+        
+        return
+          function ( m, n )
+            local maps, jacobian_matrix;
+            
+            maps := List( [ 1 .. n ], i -> x -> Sum( [ 1 .. m ], j -> x[( m + 1 ) * n + j] * x[( i - 1 ) * ( m + 1 ) + j] ) + x[i * ( m + 1 )] );
+            
+            jacobian_matrix :=
+              List( [ 1 .. n ], i ->
+                Concatenation(
+                  ListWithIdenticalEntries( ( i - 1 ) * ( m + 1 ), x -> 0. ),
+                  List( [ 1 .. m ], i -> x -> x[( m + 1) * n + i] ),
+                  [ x -> 1. ],
+                  ListWithIdenticalEntries( ( n - i ) * ( m + 1 ), x -> 0. ),
+                  List( [ 1 .. m ], j -> x -> x[( i - 1 ) * ( m + 1 ) + j] ) ) );
+            
+            return MorphismConstructor( Smooth, Smooth.( m * ( n + 1 ) + n ), Pair( maps, jacobian_matrix ), Smooth.( n ) );
+            
+          end;
+          
     else
         
         Error( "unrecognized-string!\n" );
