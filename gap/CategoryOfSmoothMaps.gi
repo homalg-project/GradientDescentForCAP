@@ -1356,3 +1356,20 @@ InstallMethod( DisplayString,
               "\n" );
     
 end );
+
+##
+InstallMethod( Display,
+          [ IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( f )
+    local vec, m;
+    
+    Print( ViewString( Source( f ) ), " -> ", ViewString( Target( f ) ), "\n\n" );
+    
+    vec := DummyInput( "x", RankOfObject( Source( f ) ) );
+    
+    for m in UnderlyingMaps( f ) do
+        Display( ViewString( m( vec ) ) );
+    od;
+    
+end );
