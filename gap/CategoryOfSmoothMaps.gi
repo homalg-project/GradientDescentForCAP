@@ -1227,6 +1227,41 @@ InstallOtherMethod( \.,
     fi;
     
 end );
+##
+InstallOtherMethod( \^,
+        [ IsMorphismInCategoryOfSmoothMaps, IsAdditiveElement ],
+  
+  function ( f, n )
+    local Smooth, p;
+    
+    Smooth := CapCategory( f );
+    
+    p := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( RankOfObject( Target( f ) ), Smooth.Power( n ) ) );
+    
+    return PreCompose( Smooth, f, p );
+    
+end );
+
+##
+InstallOtherMethod( \*,
+        [ IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( f, g )
+    
+    return MultiplicationForMorphisms( f, g );
+    
+end );
+
+##
+InstallOtherMethod( \/,
+        [ IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( f, g )
+    
+    return MultiplicationForMorphisms( f, g ^ -1 );
+    
+end );
+
 
 ##
 InstallMethod( LaTeXOutput,
