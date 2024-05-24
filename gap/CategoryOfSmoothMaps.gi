@@ -1278,7 +1278,10 @@ InstallMethod( LaTeXOutput,
         [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
-    local vars, maps, s, t;
+    local rank_S, rank_T, vars, all, maps, jacobian_matrix;
+    
+    rank_S := RankOfObject( Source( f ) );
+    rank_T := RankOfObject( Target( f ) );
     
     vars := ValueOption( "vars" );
     
@@ -1286,18 +1289,28 @@ InstallMethod( LaTeXOutput,
       vars := List( DummyInput( "x", RankOfObject( Source( f ) ) ), String );
     fi;
     
-    maps := LaTeXOutputUsingPython( List( Eval( f ), String ), vars );
+    all := LaTeXOutputUsingPython( List( Concatenation( Eval( f ), Concatenation( EvalJacobianMatrix( f ) ) ), String ), vars );
     
-    maps := JoinStringsWithSeparator( maps, " \\\\ \n " );
+    maps := all{[ 1 .. rank_T ]};
+    
+    jacobian_matrix := List( [ 0 .. rank_T - 1 ], i -> all{[ rank_T + i * rank_S + 1 .. rank_T + ( i + 1 ) * rank_S ]} );
     
     return Concatenation(
               "\\begin{array}{c}\n",
               LaTeXOutput( Source( f ) ),
               "\\rightarrow",
               LaTeXOutput( Target( f ) ),
-              "\\\\ \n \\hline \\\\ \n \\left( \\begin{array}{ll}\n",
-              maps,
-              "\n\\end{array} \\right) \n\\end{array}"
+              "\\\\ \n \\hline \\\\ \n \\left( \\begin{array}{l}\n",
+              JoinStringsWithSeparator( maps, " \\\\ \n " ),
+              "\n\\end{array} \\right)",
+              
+              "\\\\ \n \\\\ \n \\hline \\\\ \n \\left( \\begin{array}{",
+              Concatenation( ListWithIdenticalEntries( rank_S, "l" ) ),
+              "}\n",
+              JoinStringsWithSeparator( List( jacobian_matrix, l -> JoinStringsWithSeparator( l, " & " ) ), " \\\\ \n " ),
+              "\n\\end{array} \\right)",
+              
+              "\n\\end{array}"
             );
     
 end );
