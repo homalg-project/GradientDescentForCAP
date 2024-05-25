@@ -6,6 +6,7 @@
 
 
 DeclareOperation( "Relu", [ IsFloat ] );
+DeclareOperation( "Enumerate", [ IsDenseList ] );
 
 DeclareGlobalFunction( "KroneckerDelta" );
 

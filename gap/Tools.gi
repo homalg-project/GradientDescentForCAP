@@ -27,6 +27,15 @@ InstallMethod( Relu,
   a -> Maximum( a, 0. )
 );
 
+##
+InstallMethod( Enumerate,
+          [ IsDenseList ],
+  
+  function ( l )
+    
+    return ListN( [ 1 .. Length( l ) ], l, { i, l_i } -> [ i, l_i ] );
+    
+end );
 
 
 ##
