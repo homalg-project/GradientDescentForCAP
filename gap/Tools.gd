@@ -9,6 +9,7 @@ DeclareOperation( "Relu", [ IsFloat ] );
 DeclareOperation( "Enumerate", [ IsDenseList ] );
 
 DeclareGlobalFunction( "KroneckerDelta" );
+DeclareGlobalFunction( "MultiplyMatrices" );
 
 DeclareOperation( "SimplifyExpressionUsingPython", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "JacobianMatrixUsingPython", [ IsDenseList, IsDenseList, IsDenseList ] );

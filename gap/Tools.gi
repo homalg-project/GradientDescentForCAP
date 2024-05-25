@@ -37,6 +37,22 @@ InstallMethod( Enumerate,
     
 end );
 
+##
+InstallGlobalFunction( MultiplyMatrices,
+  
+  function ( m_1, mat_1, n_1, m_2, mat_2, n_2 )
+    
+    Assert( 0, n_1 = m_2 );
+    
+    if m_1 = 0 or n_2 = 0 then
+        return ListWithIdenticalEntries( m_1, [ ] );
+    elif n_1 = 0 then
+        return ListWithIdenticalEntries( m_1, ListWithIdenticalEntries( n_2, 0. ) );
+    else
+        return mat_1 * mat_2;
+    fi;
+    
+end );
 
 ##
 InstallGlobalFunction( KroneckerDelta,
