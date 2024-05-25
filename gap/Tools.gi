@@ -69,13 +69,13 @@ end );
 
 ##
 InstallMethod( Diff,
-        [ IsString, IsDenseList, IsPosInt ],
+        [ IsDenseList, IsString, IsPosInt ],
   
-  function ( str, vars, i )
+  function ( vars, str, i )
     
     Assert( 0, i <= Length( vars ) );
     
-    return AsFunction( Expression( vars, JacobianMatrixUsingPython( [ str ], vars, [ i ] )[1][1] ) );
+    return x -> JacobianMatrix( vars, [ str ], [ i ] )( x )[1][1];
     
 end );
 
@@ -83,14 +83,14 @@ end );
 InstallOtherMethod( Diff,
         [ IsExpression, IsPosInt ],
   
-  { e, i } -> Diff( String( e ), Variables( e ), i )
+  { e, i } -> Diff( Variables( e ), String( e ), i )
 );
 
 ##
 InstallMethod( LazyDiff,
-        [ IsString, IsDenseList, IsPosInt ],
+        [ IsDenseList, IsString, IsPosInt ],
   
-  function ( str, vars, i )
+  function ( vars, str, i )
     
     Assert( 0, i <= Length( vars ) );
     
@@ -98,8 +98,8 @@ InstallMethod( LazyDiff,
       function ( vec )
         local vec_vars;
         
-        if not ForAll( vec, IsExpression ) then
-            vec := List( vec, e -> Expression( [ ], e ) );
+        if ForAll( vec, e -> IsFloat( e ) or IsRat( e ) ) then
+            vec := List( vec, e -> Expression( [ ], String( e ) ) );
         fi;
         
         # obviously
@@ -115,18 +115,7 @@ InstallMethod( LazyDiff,
         fi;
         
         return
-          Expression(
-            vec_vars,
-            Concatenation(
-                "Diff( \"",
-                str,
-                "\", [",
-                JoinStringsWithSeparator( List( vars, var -> Concatenation( "\"", var, "\"" ) ), ", " ),
-                "], ",
-                String( i ),
-                ")( [",
-                JoinStringsWithSeparator( List( vec, String ), ", " ),
-                "] )" ) );
+          Expression( vec_vars, Concatenation( "Diff( ", String( vars ), ", \"", String( str ), "\" , ", String( i ), ")( ", String( vec ), " )" ) );
         
       end;
       
@@ -136,21 +125,21 @@ end );
 InstallOtherMethod( LazyDiff,
         [ IsExpression, IsPosInt ],
   
-  { e, i } -> LazyDiff( String( e ), Variables( e ), i )
+  { e, i } -> LazyDiff( Variables( e ), String( e ), i )
 );
 
 ##
 InstallOtherMethod( LazyDiff,
         [ IsExpression, IsInt ],
   
-  { e, i } -> LazyDiff( String( e ), Variables( e ), i )
+  { e, i } -> LazyDiff( Variables( e ), String( e ), i )
 );
 
 ##
 InstallMethod( SimplifyExpressionUsingPython,
           [ IsDenseList, IsDenseList ],
   
-  function ( exps, vars )
+  function ( vars, exps )
     local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i, exp, o;
     
     if not ( ForAll( exps, IsString ) and ForAll( vars, IsString ) ) then
@@ -234,14 +223,14 @@ end );
 InstallOtherMethod( SimplifyExpressionUsingPython,
           [ IsDenseList ],
   
-  exps -> SimplifyExpressionUsingPython( List( exps, String ), Variables( exps[1] ) )
+  exps -> SimplifyExpressionUsingPython( Variables( exps[1] ), List( exps, String ) )
 );
 
 ##
 InstallMethod( JacobianMatrixUsingPython,
           [ IsDenseList, IsDenseList, IsDenseList ],
   
-  function ( exps, vars, indices )
+  function ( vars, exps, indices )
     local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
@@ -322,16 +311,46 @@ end );
 InstallOtherMethod( JacobianMatrixUsingPython,
           [ IsDenseList, IsDenseList ],
   
-  { exps, indices } -> JacobianMatrixUsingPython( List( exps, String ), Variables( exps[1] ), indices )
+  { exps, indices } -> JacobianMatrixUsingPython( Variables( exps[1] ), List( exps, String ), indices )
 );
+
+##
+InstallOtherMethod( JacobianMatrix,
+          [ IsDenseList, IsDenseList, IsDenseList ],
+  
+  function ( vars, exps, indices )
+    local jacobian_matrix;
+    
+    jacobian_matrix := JacobianMatrixUsingPython( vars, exps, indices );
+    
+    jacobian_matrix :=
+      Concatenation( "[", JoinStringsWithSeparator( List( jacobian_matrix, row -> Concatenation( "[", JoinStringsWithSeparator( row, ", " ), "]" ) ), ", " ), "]" );
+    
+    return AsFunction( vars, jacobian_matrix );
+    
+end );
+
+##
+InstallOtherMethod( JacobianMatrix,
+        [ IsDenseList, IsDenseList ],
+  
+  function ( exps, indices )
+    
+    if not ForAll( exps, IsExpression ) then
+        TryNextMethod( );
+    fi;
+    
+    return JacobianMatrix( Variables( exps[1] ), List( exps, String ), indices );
+    
+end );
 
 ##
 InstallMethod( LazyJacobianMatrix,
           [ IsDenseList, IsDenseList, IsDenseList ],
   
-  function ( exps, vars, indices )
+  function ( vars, exps, indices )
     
-    return List( exps, exp -> List( indices, i -> LazyDiff( exp, vars, i ) ) );
+    return x -> List( exps, exp -> List( indices, index -> LazyDiff( vars, exp, index )( x ) ) );
     
 end );
 
@@ -339,13 +358,13 @@ end );
 InstallOtherMethod( LazyJacobianMatrix,
           [ IsDenseList, IsDenseList ],
   
-  { exps, indices } -> LazyJacobianMatrix( List( exps, String ), Variables( exps[1] ), indices )
+  { exps, indices } -> LazyJacobianMatrix( Variables( exps[1] ), List( exps, String ), indices )
 );
 
 InstallMethod( LaTeXOutputUsingPython,
           [ IsDenseList, IsDenseList ],
   
-  function ( exps, vars )
+  function ( vars, exps )
     local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
@@ -421,7 +440,7 @@ end );
 InstallOtherMethod( LaTeXOutputUsingPython,
           [ IsDenseList ],
   
-  exps -> LaTeXOutputUsingPython( List( exps, String ), Variables( exps[1] ) )
+  exps -> LaTeXOutputUsingPython( Variables( exps[1] ), List( exps, String ) )
 );
 
 ##
