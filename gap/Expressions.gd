@@ -12,11 +12,9 @@ DeclareGlobalFunction( "Expression" );
 DeclareAttribute( "Variables", IsExpression );
 DeclareAttribute( "String", IsExpression );
 DeclareAttribute( "AsFunction", IsExpression );
-
 DeclareOperation( "AsFunction", [ IsDenseList, IsString ] );
+DeclareOperation( "DummyInput", [ IsString, IsInt ] );
+
 DeclareGlobalFunction( "ConvertToExpressions" );
 DeclareGlobalFunction( "AssignExpressions" );
 
-DeclareGlobalFunction( "DummyInput" );
-
-DeclareGlobalFunction( "ExpressionFunction" );

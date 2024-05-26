@@ -45,10 +45,34 @@ InstallGlobalFunction( ConvertToExpressions,
 );
 
 ##
-InstallGlobalFunction( DummyInput,
+InstallMethod( DummyInput,
+          [ IsString, IsInt ],
   
-  { var, n } -> ConvertToExpressions( List( [ 1 .. n ], i -> Concatenation( var, "", String( i ), "" ) ) )
-);
+  function ( var, r )
+    
+    return ConvertToExpressions( List( [ 1 .. r ], i -> Concatenation( var, String( i ) ) ) );
+    
+end );
+
+##
+InstallOtherMethod( DummyInput,
+          [ IsString, IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( var, f )
+    
+    return DummyInput( var, RankOfObject( Source( f ) ) );
+    
+end );
+
+##
+InstallOtherMethod( DummyInput,
+          [ IsMorphismInCategoryOfSmoothMaps ],
+  
+  function ( f )
+    
+    return DummyInput( "x", f );
+    
+end );
 
 ##
 InstallGlobalFunction( AssignExpressions,
