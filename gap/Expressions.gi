@@ -158,6 +158,13 @@ od;
 ## Operations on Expressions
 
 ##
+InstallOtherMethod( ZeroImmutable,
+        [ IsExpression ],
+  
+  a -> Expression( Variables( a ), "0" )
+);
+
+##
 InstallOtherMethod( AdditiveInverseMutable,
         [ IsExpression ],
   
