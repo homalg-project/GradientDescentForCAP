@@ -127,6 +127,20 @@ InstallOtherMethod( CallFuncList,
   { e, L } -> AsFunction( e )( L[1] )
 );
 
+##
+InstallOtherMethod( Eval,
+      [ IsExpression ],
+  
+  e -> EvalString( String( e ) )
+);
+
+##
+InstallOtherMethod( Eval,
+      [ IsDenseList ],
+  
+  l -> List( l, Eval )
+);
+
 ## Apply Functions on Expressions
 ##
 
