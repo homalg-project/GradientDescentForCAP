@@ -182,16 +182,44 @@ for op in [ "+", "-", "*", "/", "^" ] do
 
   ##
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
-          [ IsObject, IsExpression ],
+          [ IsFloat, IsExpression ],
     
     EvalString( ReplacedString( "{ a, b } -> Expression( Variables( b ), String( a ) ) op b", "op", op ) )
   );
   
   ##
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
-          [ IsExpression, IsObject ],
+          [ IsExpression, IsFloat ],
     
     EvalString( ReplacedString( "{ a, b } -> a op Expression( Variables( a ), String( b ) )", "op", op ) )
+  );
+  
+  ##
+  InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
+          [ IsRat, IsExpression ],
+    
+    EvalString( ReplacedString( "{ a, b } -> Expression( Variables( b ), String( a ) ) op b", "op", op ) )
+  );
+  
+  ##
+  InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
+          [ IsExpression, IsRat ],
+    
+    EvalString( ReplacedString( "{ a, b } -> a op Expression( Variables( a ), String( b ) )", "op", op ) )
+  );
+  
+  ##
+  InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
+          [ IsDenseList, IsExpression ],
+    
+    EvalString( ReplacedString( "{ l, b } -> List( l, a -> a op b )", "op", op ) )
+  );
+  
+  ##
+  InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
+          [ IsExpression, IsDenseList ],
+    
+    EvalString( ReplacedString( "{ a, l } -> List( l, b -> a op b )", "op", op ) )
   );
   
 od;
