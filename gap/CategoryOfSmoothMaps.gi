@@ -938,6 +938,42 @@ InstallOtherMethod( \.,
           end;
     
     # categorical construction
+    elif f = "Sigmoid_" then
+        
+        return
+          function ( n )
+            local h;
+            
+            h := PreCompose( Smooth,
+                    AdditionForMorphisms( Smooth,
+                        SmoothMorphism( Smooth, Smooth.( 1 ), [ 1 ], Smooth.( 1 ) ),
+                        PreCompose( Smooth, Smooth.Exp, Smooth.Power( -1 ) ) ),
+                    Smooth.Power( -1 ) );
+            
+            return DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, h ) );
+            
+          end;
+          
+    # direct construction
+    elif f = "Sigmoid" then
+        
+        return
+          function ( n )
+            local map, jacobian_matrix;
+            
+            map := x -> List( [ 1 .. n ], i -> 1 / ( 1 + Exp( -x[i] ) ) );
+            
+            jacobian_matrix :=
+              function ( x )
+                
+                return DiagonalMat( List( List( [ 1 .. n ], i -> Exp( -x[i] ) ), exp -> exp / ( 1 - exp ) ^ 2 ) );
+                
+              end;
+              
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
+            
+          end;
+          
     elif f = "Softmax_" then
         
         return
