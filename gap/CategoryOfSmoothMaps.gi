@@ -801,21 +801,21 @@ end );
 InstallOtherMethod( SmoothMorphism,
           [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
   
-  function ( Smooth, S, maps, T )
-    local rank_S, rank_T, jacobian_matrix;
+  function ( Smooth, S, constants, T )
+    local rank_S, rank_T, map, jacobian_matrix;
     
-    if not ForAll( maps, c -> IsFloat( c ) or IsRat( c ) ) then
+    if not ForAll( constants, c -> IsFloat( c ) or IsRat( c ) ) then
         TryNextMethod( );
     fi;
     
     rank_S := RankOfObject( S );
     rank_T := RankOfObject( T );
     
-    maps := List( maps, c -> x -> c );
+    map := x -> constants;
     
-    jacobian_matrix := ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, x -> 0. ) );
+    jacobian_matrix := x -> ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, 0. ) );
     
-    return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
+    return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
     
 end );
 
