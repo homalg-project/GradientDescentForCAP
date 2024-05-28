@@ -22,7 +22,7 @@ DeclareOperation( "SmoothMorphism",
 
 DeclareAttribute( "RankOfObject", IsObjectInCategoryOfSmoothMaps );
 
-DeclareAttribute( "UnderlyingMaps", IsMorphismInCategoryOfSmoothMaps );
+DeclareAttribute( "Map", IsMorphismInCategoryOfSmoothMaps );
 DeclareAttribute( "JacobianMatrix", IsMorphismInCategoryOfSmoothMaps );
 
 DeclareOperation( "Eval", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
