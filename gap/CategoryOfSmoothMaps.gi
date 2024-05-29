@@ -1015,11 +1015,13 @@ InstallOtherMethod( \.,
             
             jacobian_matrix :=
               function ( x )
-                local exp_x, s;
+                local exp_x, s, d;
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
                 
                 s := Sum( exp_x );
+                
+                d := List( [ 1 .. n ], i -> exp_x[i] / s ^ 2 );
                 
                 return
                   List( [ 1 .. n ],
@@ -1027,9 +1029,9 @@ InstallOtherMethod( \.,
                       function ( j )
                         
                         if i = j then
-                            return  ( s - exp_x[j] ) * exp_x[i] / s ^ 2;
+                            return  ( s - exp_x[j] ) * d[i];
                         else
-                            return    ( - exp_x[j] ) * exp_x[i] / s ^ 2;
+                            return    ( - exp_x[j] ) * d[i];
                         fi;
                         
                       end ) );
