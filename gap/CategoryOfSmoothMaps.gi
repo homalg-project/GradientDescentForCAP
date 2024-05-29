@@ -594,6 +594,37 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
     end );
     
+    ##
+    AddRandomMorphismWithFixedSourceAndRangeByInteger( Smooth,
+      
+      function ( Smooth, S, T, n )
+        local rank_S, rank_T, constants, l, l1, l2;
+        
+        rank_S := RankOfObject( S );
+        rank_T := RankOfObject( T );
+        
+        if n <= 0 then
+          
+          constants := List( [ 1 .. rank_T ], i -> 0.001 * Random( [ 1 .. 1000 ] ) );
+          
+          return SmoothMorphism( Smooth, Smooth.( rank_S ), constants, Smooth.( rank_T ) );
+          
+        else
+          
+          l := Smooth.LinearLayer( rank_S, rank_T );
+          
+          constants := List( [ 1 .. ( rank_S + 1 ) * rank_T ], i -> 0.001 * Random( [ 1 .. 1000 ] ) );
+          
+          l1 := [ SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( ( rank_S + 1 ) * rank_T ) ) ];
+          
+          l2 := List( [ 1 .. rank_S ], i -> Smooth.Power( Random( [ 1 .. n ] ) ) );
+          
+          return PreCompose( Smooth, DirectProductFunctorial( Smooth, Concatenation( l1, l2 ) ), l );
+          
+        fi;
+        
+    end );
+    
     Finalize( Smooth );
     
     return Smooth;
