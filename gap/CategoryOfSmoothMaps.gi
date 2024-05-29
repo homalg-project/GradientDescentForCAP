@@ -924,7 +924,7 @@ InstallOtherMethod( \.,
             return DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, relu ) );
             
           end;
-        
+          
     elif f = "Sum" then
         
         return
@@ -938,7 +938,7 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
-        
+          
     elif f = "Mul" then
         
         return
@@ -952,7 +952,7 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
-
+          
     elif f = "Power" then
         
         return
@@ -966,7 +966,7 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( 1 ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
-        
+          
     elif f = "PowerBase" then
         
         return
@@ -980,7 +980,7 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( 1 ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
-    
+          
     # categorical construction
     elif f = "Sigmoid_" then
         
@@ -1038,7 +1038,7 @@ InstallOtherMethod( \.,
             return MultiplicationForMorphisms( Smooth, p, q );
             
           end;
-    
+          
     # direct construction
     elif f = "Softmax" then
         
@@ -1245,7 +1245,7 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( 2 * n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
-    
+          
     # to create input:
     # e.g.
     #
