@@ -843,7 +843,7 @@ InstallOtherMethod( \.,
           [ IsCategoryOfSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
-    local f, n, maps, jacobian_matrix;
+    local f;
     
     f := NameRNam( string_as_int );
     
@@ -985,6 +985,7 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
     elif f = "Softmax_" then
         
         return
