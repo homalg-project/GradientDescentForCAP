@@ -879,7 +879,18 @@ InstallOtherMethod( \.,
         
     elif f = "Relu" then
         
-        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Relu( x[1] ) ], x -> [ [ 0.5 * (1 + SignFloat( x[1] + 1.e-50 )) ] ] ], Smooth.( 1 ) );
+        return
+          function ( n )
+            local relu;
+            
+            relu := MorphismConstructor( Smooth,
+                          Smooth.( 1 ),
+                          Pair( x -> [ Relu( x[1] ) ], x -> [ [ 0.5 * (1 + SignFloat( x[1] + 1.e-50 )) ] ] ),
+                          Smooth.( 1 ) );
+            
+            return DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, relu ) );
+            
+          end;
         
     elif f = "Sum" then
         
