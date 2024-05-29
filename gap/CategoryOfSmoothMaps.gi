@@ -575,7 +575,9 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         rank_S := RankOfObject( Source( f ) );
         rank_T := RankOfObject( Target( f ) );
         
-        map := x -> MultiplyMatrices( 1, [ x{[ rank_S + 1 .. rank_S + rank_T ]} ], rank_T, rank_T, JacobianMatrix( f )( x{[ 1 .. rank_S ]} ), rank_S )[1];
+        map := x -> MultiplyMatrices(
+                      1, [ x{[ rank_S + 1 .. rank_S + rank_T ]} ], rank_T,
+                      rank_T, JacobianMatrix( f )( x{[ 1 .. rank_S ]} ), rank_S )[1];
         
         return SmoothMorphism( Smooth, source, map, target );
         
