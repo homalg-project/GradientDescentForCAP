@@ -929,7 +929,7 @@ InstallOtherMethod( \.,
           function ( n )
             local map, jacobian_matrix;
             
-            maps := x -> [ n ^ x[1] ];
+            map := x -> [ n ^ x[1] ];
             
             jacobian_matrix := x -> [ [ Log( n ) * ( n ^ x[1] ) ] ];
             
