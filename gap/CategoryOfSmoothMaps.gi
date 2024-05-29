@@ -1047,7 +1047,7 @@ InstallOtherMethod( \.,
         
         return
           function ( n )
-            local p1, p2, diff, squar, sum, total_sum;
+            local p1, p2, diff, square, sum, total_sum;
             
             # predicted values
             p1 := ProjectionInFactorOfDirectProduct( Smooth, [ Smooth.( n ), Smooth.( n ) ], 1 );
@@ -1058,14 +1058,14 @@ InstallOtherMethod( \.,
             # compute the difference
             diff := SubtractionForMorphisms( Smooth, p1, p2 );
             
-            # squar entries
-            squar := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) );
+            # square entries
+            square := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) );
             
             # take sum
             sum := Smooth.Sum( n );
             
             # compute the total sum of squars of differences
-            total_sum := PreComposeList( Smooth, [ diff, squar, sum ] );
+            total_sum := PreComposeList( Smooth, [ diff, square, sum ] );
             
             # return the average
             return MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, 1 / n, total_sum );
