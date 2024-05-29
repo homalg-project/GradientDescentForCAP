@@ -106,7 +106,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
         map := x -> x;
         
-        jacobian_matrix := x -> DiagonalMat( ListWithIdenticalEntries( rank_A, 1. ) );
+        jacobian_matrix := x -> IdentityMat( rank_A );
         
         return MorphismConstructor( Smooth, A, Pair( map, jacobian_matrix ), A );
         
