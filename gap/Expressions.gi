@@ -184,14 +184,14 @@ for op in [ "+", "-", "*", "/", "^" ] do
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
           [ IsFloat, IsExpression ],
     
-    EvalString( ReplacedString( "{ a, b } -> Expression( Variables( b ), String( a ) ) op b", "op", op ) )
+    EvalString( ReplacedString( "{ a, b } -> Expression( Variables( b ), ViewString( a ) ) op b", "op", op ) )
   );
   
   ##
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
           [ IsExpression, IsFloat ],
     
-    EvalString( ReplacedString( "{ a, b } -> a op Expression( Variables( a ), String( b ) )", "op", op ) )
+    EvalString( ReplacedString( "{ a, b } -> a op Expression( Variables( a ), ViewString( b ) )", "op", op ) )
   );
   
   ##
