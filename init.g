@@ -9,4 +9,5 @@ ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSmoothMaps.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/Expressions.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.autogen.gd" );
+ReadPackage( "MachineLearningForCAP", "gap/CategoryOfParametrisedMorphisms.gd" );
 
