@@ -8,6 +8,7 @@
 DeclareOperation( "Relu", [ IsFloat ] );
 DeclareOperation( "Enumerate", [ IsDenseList ] );
 
+DeclareGlobalFunction( "SelectBasedOnCondition" );
 DeclareGlobalFunction( "KroneckerDelta" );
 DeclareGlobalFunction( "MultiplyMatrices" );
 

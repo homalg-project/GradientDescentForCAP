@@ -21,6 +21,19 @@ for op in [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "Sqrt","Sq
 od;
 
 ##
+InstallGlobalFunction( SelectBasedOnCondition,
+  
+  function ( bool, x, y )
+    
+    if bool then
+        return x;
+    else
+        return y;
+    fi;
+    
+end );
+
+##
 InstallMethod( Relu,
       [ IsFloat ],
   
