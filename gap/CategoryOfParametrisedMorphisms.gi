@@ -149,6 +149,14 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
     end );
     
+    #
+    #      P        Q
+    #  S -----> U -----> T
+    #      f        g
+    #
+    #          QxP
+    #  S --------------> T
+    #
     AddPreCompose( Para,
       
       function ( Para, f, g )
@@ -164,9 +172,7 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return MorphismConstructor( Para,
                   Source( f ),
-                  Pair(
-                    TensorProductOnObjects( C, g_o, f_o ),
-                    PreCompose( C, TensorProductOnMorphisms( C, IdentityMorphism( C, g_o ), f_m ), g_m ) ),
+                  Pair( TensorProductOnObjects( C, g_o, f_o ), PreCompose( C, TensorProductOnMorphisms( C, IdentityMorphism( C, g_o ), f_m ), g_m ) ),
                   Target( g ) );
         
     end );
