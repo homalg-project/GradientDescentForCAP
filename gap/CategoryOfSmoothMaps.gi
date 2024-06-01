@@ -837,7 +837,7 @@ InstallOtherMethod( SmoothMorphism,
   function ( Smooth, S, constants, T )
     local rank_S, rank_T, map, jacobian_matrix;
     
-    if not ForAll( constants, c -> IsFloat( c ) or IsRat( c ) ) then
+    if not ForAll( constants, c -> IsFloat( c ) or IsRat( c ) or IsExpression( c ) ) then
         TryNextMethod( );
     fi;
     
