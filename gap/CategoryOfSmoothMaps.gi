@@ -1250,10 +1250,16 @@ InstallOtherMethod( \.,
     # e.g.
     #
     # m := 2; n := 4;
-    # vec :=  ConvertToExpressions(
+    #
+    # vec :=
+    #   ConvertToExpressions(
+    #     Concatenation(
+    #       Concatenation(
+    #         TransposedMat(
     #           Concatenation(
-    #             Concatenation( TransposedMat( List( [ 1 .. m + 1 ], i -> List( [ 1 .. n ], j -> Concatenation( "w", String( i ), "_", String( j ) ) ) ) ) ),
-    #             List( [ 1 .. m ], i -> Concatenation( "x", String( i ) ) ) ) );
+    #               List( [ 1 .. m ], i -> List( [ 1 .. n ], j -> Concatenation( "w", String( i ), "_", String( j ) ) ) ),
+    #               [ List( [ 1 .. n ], j -> Concatenation( "b_", String( j ) ) ) ] ) ) ),
+    #           List( [ 1 .. m ], i -> Concatenation( "x", String( i ) ) ) ) );
     #
     # categorical construction
     elif f = "LinearLayer_" then
@@ -1317,6 +1323,47 @@ InstallOtherMethod( \.,
     fi;
     
 end );
+
+## e.g., DummyInputStringsForLinearLayer( 2, 4, "w", "b" [, "x"] )
+##
+InstallGlobalFunction( DummyInputStringsForLinearLayer,
+  
+  function ( arg... )
+    local m, n, weight_str, bias_str, input_str, input_length, parameters;
+    
+    m := arg[1];
+    n := arg[2];
+    
+    weight_str := arg[3];
+    bias_str := arg[4];
+    
+    if Length( arg ) > 4 then
+        input_str := arg[5];
+        input_length := m;
+    else
+        input_length := 0;
+    fi;
+    
+    parameters :=
+          Concatenation(
+            TransposedMat(
+              Concatenation(
+                  List( [ 1 .. m ], i -> List( [ 1 .. n ], j -> Concatenation( weight_str, String( i ), "_", String( j ) ) ) ),
+                  [ List( [ 1 .. n ], j -> Concatenation( bias_str, "_", String( j ) ) ) ] ) ) );
+    
+    return Concatenation( parameters, List( [ 1 .. input_length ], i -> Concatenation( input_str, String( i ) ) ) );
+
+end );
+
+##
+InstallGlobalFunction( DummyInputForLinearLayer,
+  
+  function ( arg... )
+    
+    return ConvertToExpressions( CallFuncList( DummyInputStringsForLinearLayer, arg ) );
+    
+end );
+
 ##
 InstallOtherMethod( \^,
         [ IsMorphismInCategoryOfSmoothMaps, IsAdditiveElement ],

@@ -27,3 +27,6 @@ DeclareAttribute( "JacobianMatrix", IsMorphismInCategoryOfSmoothMaps );
 
 DeclareOperation( "Eval", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
 DeclareOperation( "EvalJacobianMatrix", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
+
+DeclareGlobalFunction( "DummyInputStringsForLinearLayer" );
+DeclareGlobalFunction( "DummyInputForLinearLayer" );
