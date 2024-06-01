@@ -45,12 +45,22 @@ InstallGlobalFunction( ConvertToExpressions,
 );
 
 ##
+InstallMethod( DummyInputStrings,
+          [ IsString, IsInt ],
+  
+  function ( var, r )
+    
+    return List( [ 1 .. r ], i -> Concatenation( var, String( i ) ) );
+    
+end );
+
+##
 InstallMethod( DummyInput,
           [ IsString, IsInt ],
   
   function ( var, r )
     
-    return ConvertToExpressions( List( [ 1 .. r ], i -> Concatenation( var, String( i ) ) ) );
+    return ConvertToExpressions( DummyInputStrings( var, r ) );
     
 end );
 

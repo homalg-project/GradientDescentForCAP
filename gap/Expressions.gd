@@ -13,6 +13,8 @@ DeclareAttribute( "Variables", IsExpression );
 DeclareAttribute( "String", IsExpression );
 DeclareAttribute( "AsFunction", IsExpression );
 DeclareOperation( "AsFunction", [ IsDenseList, IsString ] );
+
+DeclareOperation( "DummyInputStrings", [ IsString, IsInt ] );
 DeclareOperation( "DummyInput", [ IsString, IsInt ] );
 
 DeclareGlobalFunction( "ConvertToExpressions" );
