@@ -1487,7 +1487,7 @@ InstallMethod( DisplayString,
   function ( f )
     local maps;
     
-    maps := List( Eval( f ), ViewString );
+    maps := List( Eval( f ), e -> Concatenation( "‣ ", ViewString( e ) ) );
     
     return Concatenation(
               ViewString( Source( f ) ),
@@ -1509,7 +1509,7 @@ InstallMethod( Display,
     Print( ViewString( Source( f ) ), " -> ", ViewString( Target( f ) ), "\n\n" );
     
     for m in Map( f )( DummyInput( f ) ) do
-        Display( ViewString( m ) );
+        Display( Concatenation( "‣ ", ViewString( m ) ) );
     od;
     
 end );

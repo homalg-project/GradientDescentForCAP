@@ -22,6 +22,7 @@ AutoDoc( rec(
             LateExtraPreamble := """
                 \usepackage{mathtools}
                 \DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
+                \DeclareUnicodeCharacter{2023}{\ensuremath{\blacktriangleright}}
             """,
         ),
     ),

@@ -1,6 +1,6 @@
 #! @Chapter Examples and Tests
 
-#! Section Category of Smooth Maps
+#! @Section Category of Smooth Maps
 
 LoadPackage( "MachineLearningForCAP" );
 
@@ -21,8 +21,8 @@ f := MorphismConstructor( Smooth,
 Display( f );
 #! ℝ^2 -> ℝ^2
 #!
-#! x1 ^ 2 + Sin( x2 )
-#! Exp( x1 ) + 3 * x2
+#! ‣ x1 ^ 2 + Sin( x2 )
+#! ‣ Exp( x1 ) + 3 * x2
 dummy_input := ConvertToExpressions( [ "x1", "x2" ] );
 #! [ x1, x2 ]
 Map( f )( dummy_input );
@@ -47,9 +47,9 @@ g := MorphismConstructor( Smooth,
 Display( g );
 #! ℝ^2 -> ℝ^3
 #!
-#! 3 * x1
-#! Exp( x2 )
-#! x1 ^ 3 + Log( x2 )
+#! ‣ 3 * x1
+#! ‣ Exp( x2 )
+#! ‣ x1 ^ 3 + Log( x2 )
 Map( g )( dummy_input );
 #! [ 3 * x1, Exp( x2 ), x1 ^ 3 + Log( x2 ) ]
 JacobianMatrix( g )( dummy_input );
@@ -59,9 +59,9 @@ h := PostCompose( g, f );
 Display( h );
 #! ℝ^2 -> ℝ^3
 #!
-#! 3 * (x1 ^ 2 + Sin( x2 ))
-#! Exp( Exp( x1 ) + 3 * x2 )
-#! (x1 ^ 2 + Sin( x2 )) ^ 3 + Log( (Exp( x1 ) + 3 * x2) )
+#! ‣ 3 * (x1 ^ 2 + Sin( x2 ))
+#! ‣ Exp( Exp( x1 ) + 3 * x2 )
+#! ‣ (x1 ^ 2 + Sin( x2 )) ^ 3 + Log( (Exp( x1 ) + 3 * x2) )
 x;
 #! [ 0.2, 0.3 ]
 Map( h )( x );
