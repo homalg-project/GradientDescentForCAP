@@ -400,6 +400,10 @@ InstallMethod( LaTeXOutputUsingPython,
     
     constants := List( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, String );
     
+    evaluate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "evaluate", true );
+    
+    evaluate := SelectBasedOnCondition( evaluate, "True", "False" );
+    
     vars := Concatenation( vars, constants );
     
     dir := DirectoryTemporary( );
@@ -420,9 +424,13 @@ InstallMethod( LaTeXOutputUsingPython,
     p_ops := GAP_PYTHON_DIC[2];
     
     for j in [ 1 .. Length( exps ) ] do
+      
       for i in [ 1 .. Length( g_ops ) ] do
          exps[j] := ReplacedString( exps[j], g_ops[i], p_ops[i] );
       od;
+      
+      exps[j] := Concatenation( "parse_expr(\"", exps[j], "\", evaluate=", evaluate, ")" );
+      
     od;
     
     define_exps := Concatenation( "exps = [", JoinStringsWithSeparator( exps, ", " ), "];\n" );
