@@ -63,7 +63,7 @@ InstallGlobalFunction( MultiplyMatrices,
     if m_1 = 0 or n_2 = 0 then
         return ListWithIdenticalEntries( m_1, [ ] );
     elif n_1 = 0 then
-        return ListWithIdenticalEntries( m_1, ListWithIdenticalEntries( n_2, 0. ) );
+        return ListWithIdenticalEntries( m_1, ListWithIdenticalEntries( n_2, 0 ) );
     else
         return mat_1 * mat_2;
     fi;
