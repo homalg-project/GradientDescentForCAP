@@ -27,6 +27,15 @@ e := Sin( e1 ) / e2;
 #! Sin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2
 f := AsFunction( e );
 #! function( vec ) ... end
+Display( f );
+#! function ( vec )
+#!     local x, y, z;
+#!     Assert( 0, Length( vec ) = 3 );
+#!     x := vec[1];
+#!     y := vec[2];
+#!     z := vec[3];
+#!     return Sin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2;
+#! end
 x := [ 3, 2, 4 ];
 #! [ 3, 2, 4 ]
 f( x );
