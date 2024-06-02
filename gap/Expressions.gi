@@ -156,8 +156,9 @@ InstallOtherMethod( AsFunction,
     return
       EvalString(
         Concatenation(
-          Concatenation( "function( vec ) local ", JoinStringsWithSeparator( vars, ", " ), ";" ),
-          Concatenation( "Assert( 0, Length( vec ) = ", String( Length( vars ) ), " );" ),
+          "function( vec )",
+          SelectBasedOnCondition( Length( vars ) <> 0, Concatenation( " local ", JoinStringsWithSeparator( vars, ", " ), ";" ), " " ),
+          Concatenation( "Assert( 0, IsDenseList( vec ) and Length( vec ) = ", String( Length( vars ) ), " );" ),
           Concatenation( ListN( [ 1 .. Length( vars ) ], i -> Concatenation( vars[i], " := vec[", String( i ), "]; " ) ) ),
           Concatenation( "return ", str, "; end" ) ) );
     
