@@ -227,9 +227,10 @@ for op in [ "+", "-", "*", "/", "^" ] do
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
           [ IsExpression, IsExpression ],
     
-    EvalString( ReplacedString( "{ a, b } -> Expression( Variables( a ), Concatenation( \"(\", String( a ), \")op(\", String( b ), \")\" ) )", "op", op ) )
+    EvalString( ReplacedString(
+      "{ a, b } -> Expression( Unique( Concatenation( Variables( a ), Variables( b ) ) ), Concatenation( \"(\", String( a ), \")op(\", String( b ), \")\" ) )", "op", op ) )
   );
-
+  
   ##
   InstallOtherMethod( EvalString( Concatenation( "\\", op ) ),
           [ IsFloat, IsExpression ],
