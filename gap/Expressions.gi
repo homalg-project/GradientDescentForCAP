@@ -3,21 +3,54 @@
 #
 # Implementations
 #
+
+##
+InstallValue( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, [ ] );
+
+##
 DeclareRepresentation( "IsExpressionRep",
   IsExpression and IsAttributeStoringRep, [ ] );
+
+##
+DeclareRepresentation( "IsConstantExpressionRep",
+  IsConstantExpression and IsAttributeStoringRep, [ ] );
 
 ##
 BindGlobal( "TypeOfExpression",
   NewType( NewFamily( "FamilyOfExpressions", IsObject ), IsExpressionRep ) );
 
 ##
-InstallGlobalFunction( Expression,
+BindGlobal( "TypeOfConstantExpression",
+  NewType( NewFamily( "FamilyOfConstantExpressions", IsObject ), IsConstantExpressionRep ) );
+
+##
+InstallMethod( Expression,
+          [ IsDenseList, IsString ],
   
-  function ( variables, string ) # list of variables, string
+  function ( variables, string )
     
     return ObjectifyWithAttributes( rec( ), TypeOfExpression,
                 Variables, variables,
                 String, string );
+    
+end );
+
+##
+InstallMethod( Expression,
+          [ IsString ],
+  
+  function ( string )
+    local constant;
+    
+    constant := ObjectifyWithAttributes( rec( ), TypeOfConstantExpression,
+                      Variables, [ ],
+                      String, string );
+    
+    DeclareSynonym( string, constant );
+    
+    Add( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, constant );
+    
+    return constant;
     
 end );
 
@@ -42,6 +75,12 @@ end );
 InstallGlobalFunction( ConvertToExpressions,
   
   variables -> List( variables, var -> Expression( variables, var ) )
+);
+
+##
+InstallGlobalFunction( ConvertToConstantExpressions,
+  
+  constants -> List( constants, c -> Expression( c ) )
 );
 
 ##

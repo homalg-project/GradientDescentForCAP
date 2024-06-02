@@ -4,10 +4,11 @@
 # Declarations
 #
 
-DeclareCategory( "IsExpression", IsObject );
+DeclareCategory( "IsExpression", IsNearAdditiveElementWithInverse and IsAdditiveElement and IsMultiplicativeElement );
+DeclareCategory( "IsConstantExpression", IsExpression );
 
-
-DeclareGlobalFunction( "Expression" );
+DeclareOperation( "Expression", [ IsDenseList, IsString ] );
+DeclareOperation( "Expression", [ IsString ] );
 
 DeclareAttribute( "Variables", IsExpression );
 DeclareAttribute( "String", IsExpression );
@@ -17,6 +18,8 @@ DeclareOperation( "AsFunction", [ IsDenseList, IsString ] );
 DeclareOperation( "DummyInputStrings", [ IsString, IsInt ] );
 DeclareOperation( "DummyInput", [ IsString, IsInt ] );
 
+DeclareGlobalFunction( "ConvertToConstantExpressions" );
 DeclareGlobalFunction( "ConvertToExpressions" );
 DeclareGlobalFunction( "AssignExpressions" );
 
+DeclareGlobalVariable( "LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS" );
