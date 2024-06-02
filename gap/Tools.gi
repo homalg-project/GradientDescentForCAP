@@ -156,12 +156,17 @@ InstallMethod( SimplifyExpressionUsingPython,
           [ IsDenseList, IsDenseList ],
   
   function ( vars, exps )
-    local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i, exp, o;
+    local constants, dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i, exp, o;
     
     if not ( ForAll( exps, IsString ) and ForAll( vars, IsString ) ) then
         TryNextMethod( );
     fi;
     
+    constants := List( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, String );
+    
+    vars := Concatenation( vars, constants );
+    
+    # create a copy
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
     
     dir := DirectoryTemporary( );
@@ -249,7 +254,11 @@ InstallMethod( JacobianMatrixUsingPython,
           [ IsDenseList, IsDenseList, IsDenseList ],
   
   function ( vars, exps, indices )
-    local dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
+    local constants, dir, input_path, input_file, output_path, import, symbols, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
+    
+    constants := List( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, String );
+    
+    vars := Concatenation( vars, constants );
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
     
@@ -385,9 +394,13 @@ InstallMethod( LaTeXOutputUsingPython,
           [ IsDenseList, IsDenseList ],
   
   function ( vars, exps )
-    local dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i;
+    local constants, evaluate, dir, input_path, input_file, output_path, import, symbols, functions, g_ops, p_ops, define_exps, simplify, write_output, stream, err, output_file, outputs, j, i, exp, o;
     
     exps := List( [ 1 .. Length( exps ) ], i -> exps[i] );
+    
+    constants := List( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, String );
+    
+    vars := Concatenation( vars, constants );
     
     dir := DirectoryTemporary( );
     
