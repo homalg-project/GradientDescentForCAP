@@ -12,7 +12,9 @@ e1 := Expression( vars, "x + Sin( y ) * Log( z )" );
 e2 := Expression( vars, "( x * y + Sin( z ) ) ^ 2" );
 #! (x * y + Sin( z )) ^ 2
 CategoriesOfObject( e1 );
-#! [ "IsExpression" ]
+#! [ "IsExtAElement", "IsNearAdditiveElement", "IsNearAdditiveElementWithZero",
+#!   "IsNearAdditiveElementWithInverse", "IsAdditiveElement", "IsExtLElement",
+#!   "IsExtRElement", "IsMultiplicativeElement", "IsExpression" ]
 KnownAttributesOfObject( e1 );
 #! [ "String", "Variables" ]
 String( e1 );
@@ -30,7 +32,7 @@ f := AsFunction( e );
 Display( f );
 #! function ( vec )
 #!     local x, y, z;
-#!     Assert( 0, Length( vec ) = 3 );
+#!     Assert( 0, IsDenseList( vec ) and Length( vec ) = 3 );
 #!     x := vec[1];
 #!     y := vec[2];
 #!     z := vec[3];
