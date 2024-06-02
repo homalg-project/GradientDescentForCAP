@@ -4,6 +4,9 @@
 # Implementations
 #
 
+InfoPython := NewInfoClass( "InfoPython" );
+
+SetInfoLevel( InfoPython, 0 );
 
 BindGlobal( "GAP_PYTHON_DIC",
   [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ],
@@ -165,6 +168,8 @@ InstallMethod( SimplifyExpressionUsingPython,
     
     input_path := Filename( dir, "expression.py" );
     
+    Info( InfoPython, 1, input_path );
+    
     input_file := IO_File( input_path, "w" );
     
     output_path := Filename( dir, "output.txt" );
@@ -251,6 +256,8 @@ InstallMethod( JacobianMatrixUsingPython,
     dir := DirectoryTemporary( );
     
     input_path := Filename( dir, "expression.py" );
+    
+    Info( InfoPython, 1, input_path );
     
     input_file := IO_File( input_path, "w" );
     
@@ -385,6 +392,8 @@ InstallMethod( LaTeXOutputUsingPython,
     dir := DirectoryTemporary( );
     
     input_path := Filename( dir, "expression.py" );
+    
+    Info( InfoPython, 1, input_path );
     
     input_file := IO_File( input_path, "w" );
     
