@@ -909,7 +909,16 @@ InstallOtherMethod( \.,
     elif f = "Cos" then
         
         return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Cos( x[1] ) ], x -> [ [ -1 * Sin( x[1] ) ] ] ], Smooth.( 1 ) );
+    
+    elif f = "IdFunc" then
         
+        return
+          function ( n )
+            
+            return IdentityMorphism( Smooth, Smooth.( n ) );
+            
+          end;
+          
     elif f = "Relu" then
         
         return
