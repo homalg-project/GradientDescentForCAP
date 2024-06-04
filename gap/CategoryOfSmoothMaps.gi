@@ -242,9 +242,9 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         rank_S := RankOfObject( S );
         rank_T := RankOfObject( T );
         
-        maps := ListWithIdenticalEntries( rank_T, x -> 0. );
+        maps := ListWithIdenticalEntries( rank_T, x -> 0 );
         
-        jacobian_matrix := ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, x -> 0. ) );
+        jacobian_matrix := ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, x -> 0 ) );
         
         return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
         
@@ -290,7 +290,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         jacobian_matrix :=
           x -> List( [ 1 .. rank_T ],
             i -> List( [ 1 .. rank_S ],
-              j -> Float( KroneckerDelta( j, index + i ) ) ) );
+              j -> KroneckerDelta( j, index + i ) ) );
         
         return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
         
@@ -345,9 +345,9 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
           x -> Concatenation(
                   List( [ 1 .. n ], i ->
                     ListN(
-                      ListWithIdenticalEntries( ranks_T[i], ListWithIdenticalEntries( indices[i], 0. ) ),
+                      ListWithIdenticalEntries( ranks_T[i], ListWithIdenticalEntries( indices[i], 0 ) ),
                       JacobianMatrix( L[i] )( List( [ 1 .. ranks_S[i] ], j -> x[indices[i] + j] ) ),
-                      ListWithIdenticalEntries( ranks_T[i], ListWithIdenticalEntries( indices[n + 1] - indices[i] - ranks_S[i], 0. ) ),
+                      ListWithIdenticalEntries( ranks_T[i], ListWithIdenticalEntries( indices[n + 1] - indices[i] - ranks_S[i], 0 ) ),
                           { l, m, r } -> Concatenation( l, m, r ) ) ) );
         
         return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
@@ -444,7 +444,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
         map := x -> Concatenation( x{[ rank_A + 1 .. rank_A + rank_B ]}, x{[ 1 .. rank_A ]} );
         
-        id_mat := DiagonalMat( ListWithIdenticalEntries( rank_A + rank_B, 1. ) );
+        id_mat := DiagonalMat( ListWithIdenticalEntries( rank_A + rank_B, 1 ) );
         
         jacobian_matrix := x -> Concatenation( id_mat{[ rank_A + 1 .. rank_A + rank_B ]}, id_mat{[ 1 .. rank_A ]} );
         
@@ -645,10 +645,10 @@ InstallOtherMethod( IsCongruentForMorphisms,
     100_random_inputs := List( [ 1 .. 100 ], i -> List( [ 1 .. rank_S ], j -> 0.001 * Random( [ 1 .. 100 ] ) ) );
     
     compare_maps :=
-      ForAll( 100_random_inputs, x -> ForAll( ListN( Eval( f, x ), Eval( g, x ), { a, b } -> a - b < 1.e-10 ), IdFunc ) );
+      ForAll( 100_random_inputs, x -> ForAll( ListN( Eval( f, x ), Eval( g, x ), { a, b } -> (a - b) - 1.e-10 < 0. ), IdFunc ) );
     
     compare_jacobian_matrices :=
-      ForAll( 100_random_inputs, x -> ForAll( ListN( EvalJacobianMatrix( f, x ), EvalJacobianMatrix( g, x ), { a, b } -> Sum( a - b ) < 1.e-10 ), IdFunc ) );
+      ForAll( 100_random_inputs, x -> ForAll( ListN( EvalJacobianMatrix( f, x ), EvalJacobianMatrix( g, x ), { a, b } -> Sum( a - b ) - 1.e-10 < 0. ), IdFunc ) );
     
     return compare_maps and compare_jacobian_matrices;
     
@@ -846,7 +846,7 @@ InstallOtherMethod( SmoothMorphism,
     
     map := x -> constants;
     
-    jacobian_matrix := x -> ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, 0. ) );
+    jacobian_matrix := x -> ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, 0 ) );
     
     return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
     
@@ -927,7 +927,7 @@ InstallOtherMethod( \.,
             
             relu := MorphismConstructor( Smooth,
                           Smooth.( 1 ),
-                          Pair( x -> [ Relu( x[1] ) ], x -> [ [ 0.5 * (1 + SignFloat( x[1] + 1.e-50 )) ] ] ),
+                          Pair( x -> [ Relu( x[1] ) ], x -> [ [ (1 + SignFloat( x[1] + 1.e-50 )) / 2 ] ] ),
                           Smooth.( 1 ) );
             
             return DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, relu ) );
@@ -942,7 +942,7 @@ InstallOtherMethod( \.,
             
             map := x -> [ Sum( x ) ];
             
-            jacobian_matrix := x -> [ ListWithIdenticalEntries( n, 1. ) ];
+            jacobian_matrix := x -> [ ListWithIdenticalEntries( n, 1 ) ];
             
             return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
@@ -1315,10 +1315,10 @@ InstallOtherMethod( \.,
             jacobian_matrix :=
               x ->  List( [ 1 .. n ], i ->
                       Concatenation(
-                        ListWithIdenticalEntries( ( i - 1 ) * ( m + 1 ), 0. ),
+                        ListWithIdenticalEntries( ( i - 1 ) * ( m + 1 ), 0 ),
                         List( [ 1 .. m ], i -> x[( m + 1) * n + i] ),
-                        [ 1. ],
-                        ListWithIdenticalEntries( ( n - i ) * ( m + 1 ), 0. ),
+                        [ 1 ],
+                        ListWithIdenticalEntries( ( n - i ) * ( m + 1 ), 0 ),
                         List( [ 1 .. m ], j -> x[( i - 1 ) * ( m + 1 ) + j] ) ) );
             
             return MorphismConstructor( Smooth, Smooth.( m * ( n + 1 ) + n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
