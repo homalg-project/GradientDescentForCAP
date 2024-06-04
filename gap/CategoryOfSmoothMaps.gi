@@ -1424,14 +1424,16 @@ InstallMethod( LaTeXOutput,
         [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
-    local rank_S, rank_T, vars, all, maps, jacobian_matrix;
+    local dummy_input, rank_S, rank_T, vars, all, maps, jacobian_matrix;
+    
+    dummy_input := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "dummy_input", DummyInput( f ) );
     
     rank_S := RankOfObject( Source( f ) );
     rank_T := RankOfObject( Target( f ) );
     
-    vars := List( DummyInput( f ), String );
+    vars := List( dummy_input, String );
     
-    all := LaTeXOutputUsingPython( vars, List( Concatenation( Eval( f ), Concatenation( EvalJacobianMatrix( f ) ) ), String ) );
+    all := LaTeXOutputUsingPython( vars, List( Concatenation( Eval( f, dummy_input ), Concatenation( EvalJacobianMatrix( f, dummy_input ) ) ), String ) );
     
     maps := all{[ 1 .. rank_T ]};
     
@@ -1494,8 +1496,7 @@ InstallMethod( DisplayString,
               " -> ",
               ViewString( Target( f ) ),
               "\n\n",
-              JoinStringsWithSeparator( maps, "\n" ),
-              "\n" );
+              JoinStringsWithSeparator( maps, "\n" ) );
     
 end );
 
@@ -1504,11 +1505,13 @@ InstallMethod( Display,
           [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
-    local m;
+    local dummy_input, m;
+    
+    dummy_input := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "dummy_input", DummyInput( f ) );
     
     Print( ViewString( Source( f ) ), " -> ", ViewString( Target( f ) ), "\n\n" );
     
-    for m in Map( f )( DummyInput( f ) ) do
+    for m in Map( f )( dummy_input ) do
         Display( Concatenation( "‣ ", ViewString( m ) ) );
     od;
     
