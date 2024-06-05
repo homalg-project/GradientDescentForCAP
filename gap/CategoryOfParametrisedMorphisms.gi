@@ -220,11 +220,18 @@ InstallOtherMethod( \/,
           [ IsCapCategoryMorphism, IsCategoryOfParametrisedMorphisms ],
   
   function ( f, Para )
+    local C;
     
-    return AsMorphismInCategoryOfParametrisedMorphisms( Para, f );
+    C := CapCategory( f );
+    
+    Assert( 0, IsIdenticalObj( C, UnderlyingCategory( Para ) ) );
+    
+    return MorphismConstructor( Para,
+                ObjectConstructor( Para, Source( f ) ),
+                Pair( TensorUnit( C ), f ),
+                ObjectConstructor( Para, Target( f ) ) );
     
 end );
-
 
 # Input:
 #
@@ -399,7 +406,7 @@ InstallOtherMethod( \.,
     
     if Int( f ) <> fail then
       
-      return ObjectConstructor( Para, C.( f ) );
+      return C.( f ) / Para;
       
     elif f = "LinearLayer" then
       
@@ -423,27 +430,14 @@ InstallOtherMethod( \.,
       
       return
         function ( arg... )
-          local h;
           
-          h := CallFuncList( C.( f ), arg );
+          return CallFuncList( C.( f ), arg ) / Para;
           
-          return
-            MorphismConstructor( Para,
-                ObjectConstructor( Para, Source( h ) ),
-                Pair( TensorUnit( C ), h ),
-                ObjectConstructor( Para, Target( h ) ) );
-        
         end;
         
     elif f in [ "Sqrt", "Exp", "Log", "Sin", "Cos" ] then
         
-        h := C.( f );
-        
-        return
-          MorphismConstructor( Para,
-              ObjectConstructor( Para, Source( h ) ),
-              Pair( TensorUnit( C ), h ),
-              ObjectConstructor( Para, Target( h ) ) );
+        return C.( f ) / Para;
         
     else
         
