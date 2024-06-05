@@ -18,8 +18,6 @@ DeclareOperation( "CategoryOfParametrisedMorphisms", [ IsCapCategory ] );
 
 DeclareAttribute( "UnderlyingCategory", IsCategoryOfParametrisedMorphisms );
 
-DeclareOperation( "AsMorphismInCategoryOfParametrisedMorphisms", [ IsCategoryOfParametrisedMorphisms, IsCapCategoryMorphism ] );
-
 DeclareAttribute( "UnderlyingObject", IsObjectInCategoryOfParametrisedMorphisms );
 
 DeclareAttribute( "ParameterObject", IsMorphismInCategoryOfParametrisedMorphisms );

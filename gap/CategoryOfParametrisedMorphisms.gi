@@ -216,30 +216,6 @@ InstallMethod( CategoryOfParametrisedMorphisms,
 end );
 
 ##
-InstallMethod( AsMorphismInCategoryOfParametrisedMorphisms,
-          [ IsCategoryOfParametrisedMorphisms, IsCapCategoryMorphism ],
-  
-  function ( Para, f )
-    local C, S, T;
-    
-    C := UnderlyingCategory( Para );
-    
-    if not IsIdenticalObj( C, CapCategory( f ) ) then
-        Error( "wrong input!" );
-    fi;
-    
-    S := ObjectConstructor( Para, Source( f ) );
-    T := ObjectConstructor( Para, Target( f ) );
-    
-    return
-      MorphismConstructor( Para,
-          S,
-          Pair( TensorUnit( C ), f ),
-          T );
-    
-end );
-
-##
 InstallOtherMethod( \/,
           [ IsCapCategoryMorphism, IsCategoryOfParametrisedMorphisms ],
   
