@@ -26,3 +26,6 @@ DeclareAttribute( "ParametrisedMorphism", IsMorphismInCategoryOfParametrisedMorp
 DeclareOperation( "ReparametriseMorphism", [ IsMorphismInCategoryOfParametrisedMorphisms, IsCapCategoryMorphism ] );
 DeclareOperation( "SwitchSourceAndParameterObject", [ IsMorphismInCategoryOfParametrisedMorphisms ] );
 
+DeclareOperation( "NaturalEmbeddingIntoCategoryOfParametrisedMorphisms", [ IsCapCategory, IsCategoryOfParametrisedMorphisms ] );
+DeclareOperation( "EmbeddingIntoCategoryOfParametrisedMorphisms", [ IsCategoryOfParametrisedMorphisms, IsCategoryOfParametrisedMorphisms ] );
+

@@ -314,46 +314,73 @@ InstallMethod( ReparametriseMorphism,
     
 end );
 
+##
+InstallMethod( NaturalEmbeddingIntoCategoryOfParametrisedMorphisms,
+        [ IsCapCategory, IsCategoryOfParametrisedMorphisms ],
+  
+  function ( C, Para )
+    local tau;
+    
+    Assert( 0, IsIdenticalObj( C, UnderlyingCategory( Para ) ) );
+    
+    tau := CapFunctor( "Natural embedding into category of parametrised morphisms", C, Para );
+    
+    AddObjectFunction( tau,
+      
+      function ( A )
+        
+        return ObjectConstructor( Para, A );
+        
+    end );
+    
+    AddMorphismFunction( tau,
+      
+      function ( source, f, target )
+        
+        return MorphismConstructor( Para, source, Pair( TensorUnit( C ), f ), target );
+        
+    end );
+    
+    return tau;
+    
+end );
 
-###
-#BindGlobal( "EmbeddingFunctorIntoParametrisedCategory",
-#      #[ IsCategoryOfParametrisedMorphisms, IsCategoryOfParametrisedMorphisms ],
-#  
-#  function ( Para, Para_LensC )
-#    local C, LensC, L, F;
-#    
-#    C := UnderlyingCategory( Para );
-#    
-#    LensC := UnderlyingCategory( Para_LensC );
-#    
-#    L := EmbeddingFunctorIntoLensCategory( C, LensC );
-#    
-#    F := CapFunctor( "Embedding functor", Para, Para_LensC );
-#    
-#    AddObjectFunction( F,
-#      function ( A )
-#        
-#        A := UnderlyingObject( A );
-#        
-#        return ObjectConstructor( Para_LensC, ObjectConstructor( LensC, Pair( A, A ) ) );
-#        
-#    end );
-#    
-#    AddMorphismFunction( F,
-#      function ( source, f, target )
-#        local P, Rf;
-#        
-#        P := ObjectConstructor( LensC, ListWithIdenticalEntries( 2, ParameterObject( f ) ) );
-#        
-#        Rf := ApplyFunctor( L, ParametrisedMorphism( f ) );
-#        
-#        return MorphismConstructor( Para_LensC, source, Pair( P, Rf ), target );
-#        
-#    end );
-#    
-#    return F;
-#    
-#end );
+##
+InstallMethod( EmbeddingIntoCategoryOfParametrisedMorphisms,
+        [ IsCategoryOfParametrisedMorphisms, IsCategoryOfParametrisedMorphisms ],
+  
+  function ( Para, Para_Lenses )
+    local C, Lenses, iota, delta;
+    
+    C := UnderlyingCategory( Para );
+    
+    Lenses := UnderlyingCategory( Para_Lenses );
+    
+    iota := EmbeddingIntoCategoryOfLenses( C, Lenses );
+    
+    delta := CapFunctor( "Embedding into category of parametrised morphisms", Para, Para_Lenses );
+    
+    AddObjectFunction( delta,
+      
+      function ( A )
+        
+        return ObjectConstructor( Para_Lenses, ObjectConstructor(  Lenses, ListWithIdenticalEntries( 2, UnderlyingObject( A ) ) ) );
+        
+    end );
+    
+    AddMorphismFunction( delta,
+      function ( source, f, target )
+        
+        return MorphismConstructor( Para_Lenses,
+                  source,
+                  Pair( ObjectConstructor(  Lenses, ListWithIdenticalEntries( 2, ParameterObject( f ) ) ), ApplyFunctor( iota, ParametrisedMorphism( f ) ) ),
+                  target );
+        
+    end );
+    
+    return delta;
+    
+end );
 
 ##
 InstallOtherMethod( \.,
