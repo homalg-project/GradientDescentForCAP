@@ -886,13 +886,9 @@ InstallOtherMethod( \.,
         
     fi;
     
-    if Float( f ) <> fail then
+    if f = "Sqrt" then
         
-        return MorphismConstructor( Smooth, Smooth.0, [ x -> Float( f ), x -> [ [ ] ] ], Smooth.( 1 ) );
-        
-    elif f = "Sqrt" then
-        
-        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Sqrt( x[1] ) ], x -> [ [ 1 / (2. * Sqrt( x[1] )) ] ] ], Smooth.( 1 ) );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Sqrt( x[1] ) ], x -> [ [ 1 / (2 * Sqrt( x[1] )) ] ] ], Smooth.( 1 ) );
         
     elif f = "Exp" then
         
@@ -900,7 +896,7 @@ InstallOtherMethod( \.,
         
     elif f = "Log" then
         
-        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Log( x[1] ) ], x -> [ [ (1 /  x[1] ) ] ] ], Smooth.( 1 ) );
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Log( x[1] ) ], x -> [ [ 1 /  x[1] ] ] ], Smooth.( 1 ) );
         
     elif f = "Sin" then
         
@@ -908,8 +904,39 @@ InstallOtherMethod( \.,
         
     elif f = "Cos" then
         
-        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Cos( x[1] ) ], x -> [ [ -1 * Sin( x[1] ) ] ] ], Smooth.( 1 ) );
-    
+        return MorphismConstructor( Smooth, Smooth.( 1 ), [ x -> [ Cos( x[1] ) ], x -> [ [ -Sin( x[1] ) ] ] ], Smooth.( 1 ) );
+        
+    elif f = "Constant" then
+        
+        return
+          function ( arg... )
+            local rank_S, l;
+            
+            if Length( arg ) = 2 then
+                rank_S := arg[1];
+                l := arg[2];
+            else
+                rank_S := 0;
+                l := arg[1];
+            fi;
+            
+            if not IsDenseList( l ) then
+                l := [ l ];
+            fi;
+            
+            return SmoothMorphism( Smooth, Smooth.( rank_S ), l, Smooth.( Length( l ) ) );
+            
+          end;
+         
+    elif f = "Zero" then
+        
+        return
+          function ( s, t )
+            
+            return ZeroMorphism( Smooth, Smooth.( s ), Smooth.( t ) );
+            
+          end;
+          
     elif f = "IdFunc" then
         
         return
