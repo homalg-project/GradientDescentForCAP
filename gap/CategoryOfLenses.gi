@@ -472,7 +472,256 @@ InstallOtherMethod( \.,
     
     f := NameRNam( string_as_int );
     
-    if f = "AdamOptimizerWithHyperparameters_" then
+    if f = "GradientDescentWithMomentumOptimizer_" then
+        
+        return
+          
+          function ( n )
+            return
+              # both are non-negative
+              function ( alpha, mu )
+                local P, Smooth, P3, P2, get, p1, p2, p3, s, put;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                
+                # (PxP, PxP) -> (P, P)
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P3 := Smooth.( 3 * n );
+                P2 := Smooth.( 2 * n );
+                
+                get := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                p1 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 1, P3 );
+                p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 2, P3 );
+                p3 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 3, P3 );
+                
+                s := AdditionForMorphisms( Smooth,
+                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, alpha, p3 ),
+                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, mu, p1 ) );
+                
+                put := UniversalMorphismIntoDirectProductWithGivenDirectProduct( Smooth,
+                            [ P, P ], P3, [ s, AdditionForMorphisms( Smooth, p2, s ) ], P2 );
+                
+                return MorphismConstructor( Lenses,
+                          ObjectConstructor( Lenses, [ P2, P2 ] ),
+                          Pair( get, put ),
+                          ObjectConstructor( Lenses, [ P, P ] ) );
+                
+              end;
+          
+          end;
+          
+    elif f = "GradientDescentWithMomentumOptimizer" then
+        
+        return
+          function ( n )
+            return
+              function ( alpha, mu )
+                local Smooth, P, P2, P3, get, map, jacobian_matrix, put, S, T;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                P2 := Smooth.( 2 * n );
+                P3 := Smooth.( 3 * n );
+                
+                get := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                map :=
+                  function ( vec )
+                    local s;
+                    
+                    s := List( [ 1 .. n ], i -> mu * vec[i] + alpha * vec[2 * n + i] );
+                    
+                    return Concatenation( s,  List( [ 1 .. n ], i -> vec[n + i] + s[i] ) );
+                    
+                  end;
+                
+                jacobian_matrix :=
+                  function ( vec )
+                    local mu_mat, alpha_mat, zero_mat, id_mat;
+                    
+                    mu_mat := DiagonalMat( ListWithIdenticalEntries( n, mu ) );
+                    alpha_mat := DiagonalMat( ListWithIdenticalEntries( n, alpha ) );
+                    zero_mat := DiagonalMat( ListWithIdenticalEntries( n, 0 ) );
+                    id_mat := DiagonalMat( ListWithIdenticalEntries( n, 1 ) );
+                    
+                    return
+                      Concatenation(
+                          ListN( mu_mat, zero_mat, alpha_mat, Concatenation ),
+                          ListN( mu_mat, id_mat, alpha_mat, Concatenation ) );
+                    
+                  end;
+                
+                put := MorphismConstructor( Smooth, P3, Pair( map, jacobian_matrix ), P2 );
+                
+                S := ObjectConstructor( Lenses, [ P2, P2 ] );
+                T := ObjectConstructor( Lenses, [ P, P ] );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), T );
+                
+              end;
+              
+          end;
+          
+    elif f = "GradientDescentWithNesterovMomentumOptimizer_" then
+        
+        return
+          
+          function ( n )
+            return
+              # both are non-negative
+              function ( alpha, mu )
+                local P, Smooth, P3, P2, get, p1, p2, p3, s, put;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                
+                # (PxP, PxP) -> (P, P)
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P3 := Smooth.( 3 * n );
+                P2 := Smooth.( 2 * n );
+                
+                p1 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 1, P2 );
+                p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                get := AdditionForMorphisms( Smooth,
+                          MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, mu, p1 ), p2 );
+                
+                put := PutMorphism( Lenses.GradientDescentWithMomentumOptimizer_( n )( alpha, mu ) );
+                
+                return MorphismConstructor( Lenses,
+                          ObjectConstructor( Lenses, [ P2, P2 ] ),
+                          Pair( get, put ),
+                          ObjectConstructor( Lenses, [ P, P ] ) );
+                
+              end;
+          
+          end;
+          
+    elif f = "GradientDescentWithNesterovMomentumOptimizer" then
+        
+        return
+          function ( n )
+            return
+              function ( alpha, mu )
+                local Smooth, P, P2, P3, p1, p2, get, put, S, T;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                P2 := Smooth.( 2 * n );
+                P3 := Smooth.( 3 * n );
+                
+                p1 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 1, P2 );
+                p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                get := AdditionForMorphisms( Smooth,
+                          MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, mu, p1 ), p2 );
+                
+                put := PutMorphism( Lenses.GradientDescentWithMomentumOptimizer( n )( alpha, mu ) );
+                
+                S := ObjectConstructor( Lenses, [ P2, P2 ] );
+                T := ObjectConstructor( Lenses, [ P, P ] );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), T );
+                
+              end;
+              
+          end;
+          
+    elif f = "GradientDescentOptimizer_" then
+        
+        return
+          function ( n )
+            return
+              function ( alpha )
+                local Smooth, P, P2, get, p1, p2, put, S;
+                
+                # (P, P) -> (P, P)
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                P2 := Smooth.( 2 * n );
+                
+                get := IdentityMorphism( Smooth, P );
+                
+                p1 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 1, P2 );
+                p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                put := AdditionForMorphisms( Smooth,
+                          p1, MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, alpha, p2 ) );
+                
+                S := ObjectConstructor( Lenses, Pair( P, P ) );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), S );
+                
+              end;
+              
+          end;
+          
+    elif f = "GradientDescentOptimizer" then
+        
+        return
+          function ( n )
+            return
+              function ( alpha )
+                local Smooth, P, get, map, jacobian_matrix, put, S;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                
+                get := IdentityMorphism( Smooth, P );
+                
+                map :=
+                  function ( vec )
+                    
+                    return List( [ 1 .. n ], i -> vec[i] + alpha * vec[n + i] );
+                    
+                  end;
+                
+                jacobian_matrix :=
+                  function ( vec )
+                    
+                    return ListN( IdentityMat( n ), DiagonalMat( ListWithIdenticalEntries( n, alpha ) ), Concatenation );
+                    
+                  end;
+                
+                put := MorphismConstructor( Smooth, Smooth.( 2 * n ), Pair( map, jacobian_matrix ), P );
+                
+                S := ObjectConstructor( Lenses, Pair( P, P ) );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), S );
+                
+              end;
+              
+            end;
+            
+    elif f = "DefaultGradientDescentOptimizer_" then
+        
+        return
+          function ( n )
+            
+            return Lenses.GradientDescentOptimizer_( n )( 0.1 );
+            
+          end;
+          
+    elif f = "DefaultGradientDescentOptimizer" then
+        
+        return
+          function ( n )
+            
+            return Lenses.GradientDescentOptimizer( n )( 0.1 );
+            
+          end;
+          
+    elif f = "AdamOptimizer_" then
         
         return
           function ( n )
@@ -572,7 +821,7 @@ InstallOtherMethod( \.,
           
           end;
           
-    elif f = "AdamOptimizerWithHyperparameters" then
+    elif f = "AdamOptimizer" then
         
         return
           function ( n )
@@ -697,13 +946,13 @@ InstallOtherMethod( \.,
               
           end;
           
-    elif f = "AdamOptimizer_" then
+    elif f = "DefaultAdamOptimizer_" then
         
-        return n -> Lenses.AdamOptimizerWithHyperparameters_( n )( 0.8, 0.999, 0.02, 1.e-8 );
+        return n -> Lenses.AdamOptimizer_( n )( 0.8, 0.999, 0.02, 1.e-8 );
         
-    elif f = "AdamOptimizer" then
+    elif f = "DefaultAdamOptimizer" then
         
-        return n -> Lenses.AdamOptimizerWithHyperparameters( n )( 0.8, 0.999, 0.02, 1.e-8 );
+        return n -> Lenses.AdamOptimizer( n )( 0.8, 0.999, 0.02, 1.e-8 );
         
     elif f in [ "IdFunc", "Sum", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax", "QuadraticLoss_",
                 "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss" ] then
