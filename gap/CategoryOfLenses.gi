@@ -557,7 +557,9 @@ InstallOtherMethod( \.,
                               DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Sqrt ) ) ) ),
                         DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( -1 ) ) ) );
                 
-                put_4 := SubtractionForMorphisms( Smooth, p4, epsilon * MultiplicationForMorphisms( Smooth, s, m_hat ) );
+                s := MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, epsilon, MultiplicationForMorphisms( Smooth, s, m_hat ) );
+                
+                put_4 := AdditionForMorphisms( Smooth, p4, s );
                 
                 put := UniversalMorphismIntoDirectProduct( Smooth, [ put_1, put_2, put_3, put_4 ] );
                 
@@ -622,7 +624,7 @@ InstallOtherMethod( \.,
                     new_t := [ t + 1 ];
                     new_m := List( [ 1 .. n ], i -> beta_1 * m[i] + c_1 * d[i] );
                     new_v := List( [ 1 .. n ], i -> beta_2 * v[i] + c_2 * d[i] ^ 2 );
-                    new_x := List( [ 1 .. n ], i -> -c_4 * ( new_m[i] / ( delta + Sqrt( new_v[i] / c_3 ) ) ) + x[i] );
+                    new_x := List( [ 1 .. n ], i -> x[i] + c_4 * ( new_m[i] / ( delta + Sqrt( new_v[i] / c_3 ) ) ) );
                     
                     return Concatenation( new_t, new_m, new_v, new_x );
                     
@@ -650,7 +652,7 @@ InstallOtherMethod( \.,
                     new_m := List( [ 1 .. n ], i -> beta_1 * m[i] + c_1 * d[i] );
                     new_v := List( [ 1 .. n ], i -> beta_2 * v[i] + c_2 * d[i] ^ 2 );
                     sqrt := List( [ 1 .. n ], i -> Sqrt( new_v[i] / c_4 ) );
-                    tau := List( [ 1 .. n ], i -> -c_8 * new_m[i] / ( delta + sqrt[i] ) );
+                    tau := List( [ 1 .. n ], i -> c_8 * new_m[i] / ( delta + sqrt[i] ) );
                     
                     j_t := [ Concatenation( [ 1 ], ListWithIdenticalEntries( 4 * n, 0 ) ) ];
                     
@@ -674,10 +676,10 @@ InstallOtherMethod( \.,
                     j_x :=
                       ListN(
                         List( [ 1 .. n ], i -> [ c_6 * tau[i] * ( 1 - new_v[i] / ( 2 * c_4 * sqrt[i] * ( delta + sqrt[i] ) ) ) ] ),
-                        DiagonalMat( List( [ 1 .. n ], i -> -c_7 / ( delta + sqrt[i] ) ) ),
-                        DiagonalMat( List( [ 1 .. n ], i -> beta_2 * epsilon * new_m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> c_7 / ( delta + sqrt[i] ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> -beta_2 * epsilon * new_m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) ) ),
                         IdentityMat( n ),
-                        DiagonalMat( List( [ 1 .. n ], i -> epsilon * ( d[i] * c_2 * new_m[i] / ( sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( delta + sqrt[i] ) ) ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> -epsilon * ( d[i] * c_2 * new_m[i] / ( sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( delta + sqrt[i] ) ) ) ) ),
                         Concatenation );
                     
                     return Concatenation( j_t, j_m, j_v, j_x );

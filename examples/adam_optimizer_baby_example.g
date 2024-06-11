@@ -16,7 +16,7 @@ f := ApplyFunctor( iota, f );
 
 l := MorphismConstructor( Lenses,
         ObjectConstructor( Lenses, [ Smooth.( 1 ), Smooth.( 1 ) ] ),
-        [ Smooth.IdFunc( 1 ), Smooth.Constant( 1, [ 1 ] ) ],
+        [ Smooth.IdFunc( 1 ), Smooth.Constant( 1, [ -1 ] ) ],
         ObjectConstructor( Lenses, [ Smooth.( 1 ), Smooth.( 0 ) ] ) );
 
 u := PreComposeList( Lenses, [ a, f, l ] );
