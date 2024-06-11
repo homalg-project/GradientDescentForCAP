@@ -46,6 +46,8 @@ InstallMethod( Expression,
                       Variables, [ ],
                       String, string );
     
+    MakeReadWriteGlobal( string );
+    
     DeclareSynonym( string, constant );
     
     Add( LIST_OF_GLOBAL_CONSTANT_EXPRESSIONS, constant );
