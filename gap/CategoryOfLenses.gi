@@ -472,6 +472,7 @@ InstallOtherMethod( \.,
     
     f := NameRNam( string_as_int );
     
+    # categorical construction
     if f = "GradientDescentWithMomentumOptimizer_" then
         
         return
@@ -514,6 +515,7 @@ InstallOtherMethod( \.,
           
           end;
           
+    # direct construction
     elif f = "GradientDescentWithMomentumOptimizer" then
         
         return
@@ -680,6 +682,7 @@ InstallOtherMethod( \.,
               
           end;
           
+    # categorical construction
     elif f = "GradientDescentOptimizer_" then
         
         return
@@ -710,6 +713,7 @@ InstallOtherMethod( \.,
               
           end;
           
+    # direct construction
     elif f = "GradientDescentOptimizer" then
         
         return
@@ -766,6 +770,7 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
     elif f = "AdamOptimizer_" then
         
         return
