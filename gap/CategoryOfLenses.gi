@@ -632,6 +632,119 @@ InstallOtherMethod( \.,
                 return MorphismConstructor( Lenses, S, Pair( get, put ), T );
                 
               end;
+            
+            end;
+            
+    elif f = "AdagradOptimizer_" then
+        
+        return
+          function ( n )
+            return
+              # the standard value of delta is 1.e-8
+              function ( alpha, delta )
+                local Smooth, P, P2, P3, get, p1, p2, p3, s, t, x, put, S, T;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                P2 := Smooth.( 2 * n );
+                P3 := Smooth.( 3 * n );
+                
+                get := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                p1 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 1, P3 );
+                
+                p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 2, P3 );
+                
+                p3 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 3, P3 );
+                
+                s := AdditionForMorphisms( Smooth,
+                        p1,
+                        PreCompose( Smooth, p3, DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) ) ) );
+                
+                t := MultiplicationForMorphisms( Smooth,
+                        SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, alpha ), Smooth.( n ) ),
+                        PreCompose( Smooth,
+                            AdditionForMorphisms( Smooth,
+                                  SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, delta ), Smooth.( n ) ),
+                                  PreCompose( Smooth,
+                                      s,
+                                      DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Sqrt ) ) ) ),
+                            DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( -1 ) ) ) ) );
+                
+                x := AdditionForMorphisms( Smooth, p2, MultiplicationForMorphisms( Smooth, t, p3 ) );
+                
+                put := UniversalMorphismIntoDirectProduct( Smooth, [ s, x ] );
+                
+                S := ObjectConstructor( Lenses, Pair( P2, P2 ) );
+                T := ObjectConstructor( Lenses, Pair( P, P ) );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), T );
+                
+              end;
+            
+          end;
+          
+    # direct construction
+    elif f = "AdagradOptimizer" then
+        
+        return
+          function ( n )
+            return
+              function ( alpha, delta )
+                local Smooth, P, P2, P3, get, map, jacobian_matrix, put, S, T;
+                
+                Smooth := UnderlyingCategory( Lenses );
+                
+                P := Smooth.( n );
+                P2 := Smooth.( 2 * n );
+                P3 := Smooth.( 3 * n );
+                
+                get := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
+                
+                map :=
+                  function ( vec )
+                    local l;
+                    
+                    l := List( [ 1 .. n ], i -> vec[2 * n + i] ^ 2 );
+                    
+                    return
+                      Concatenation(
+                        List( [ 1 .. n ], i -> vec[i] + l[i] ),
+                        List( [ 1 .. n ], i -> vec[n + i] + alpha * vec[2 * n + i] / ( delta + Sqrt( vec[i] + l[i] ) ) ) );
+                  end;
+                
+                jacobian_matrix :=
+                  function ( vec )
+                    local l, m;
+                    
+                    l := List( [ 1 .. n ], i -> Sqrt( vec[i] + vec[2 * n + i] ^ 2 ) );
+                    
+                    m := List( [ 1 .. n ], i -> - alpha * vec[2 * n + i] / ( l[i] * ( delta + l[i] ) ^ 2 ) );
+                    
+                    return
+                      Concatenation(
+                          ListN(
+                            IdentityMat( n ),
+                            ListWithIdenticalEntries( n, ListWithIdenticalEntries( n, 0 ) ),
+                            DiagonalMat( List( [ 1 .. n ], i -> 2 * vec[2 * n + i] ) ),
+                              Concatenation ),
+                          ListN(
+                            DiagonalMat( List( [ 1 .. n ], i -> m[i] / 2 ) ),
+                            IdentityMat( n ),
+                            DiagonalMat( List( [ 1 .. n ], i -> m[i] * vec[2 * n + i] + alpha / ( delta + l[i] ) ) ),
+                              Concatenation ) );
+                    
+                  end;
+                
+                put := MorphismConstructor( Smooth, P3, Pair( map, jacobian_matrix ), P2 );
+                
+                S := ObjectConstructor( Lenses, Pair( P2, P2 ) );
+                T := ObjectConstructor( Lenses, Pair( P, P ) );
+                
+                return MorphismConstructor( Lenses, S, Pair( get, put ), T );
+                
+              end;
               
           end;
           
