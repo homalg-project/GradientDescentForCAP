@@ -1538,7 +1538,7 @@ InstallMethod( Display,
     
     Print( ViewString( Source( f ) ), " -> ", ViewString( Target( f ) ), "\n\n" );
     
-    for m in Map( f )( dummy_input ) do
+    for m in Eval( f, dummy_input ) do
         Display( Concatenation( "‣ ", ViewString( m ) ) );
     od;
     
