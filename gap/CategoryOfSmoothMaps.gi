@@ -335,7 +335,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
         
         n := Length( L );
         
-        indices := List( [ 0 .. n ], i -> Sum( ranks_S{[ 1 .. i ]} ) );
+        indices := List( [ 0 .. n ], i -> Sum( [ 1 .. i ], j -> ranks_S[j] ) );
         
         map :=
           x -> Concatenation( List( [ 1 .. n ], i ->
