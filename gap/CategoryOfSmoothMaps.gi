@@ -355,6 +355,58 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
     end );
     
     ##
+    AddMorphismBetweenDirectProductsWithGivenDirectProducts( Smooth,
+      
+      function ( Smooth, S, diagram_S, F, diagram_T, T )
+        local m, n, ranks_S, ranks_T, indices, map, jacobian_matrix;
+        
+        m := Length( diagram_S );
+        n := Length( diagram_T );
+        
+        ranks_S := List( diagram_S, RankOfObject );
+        ranks_T := List( diagram_T, RankOfObject );
+        
+        indices := List( [ 0 .. m ], i -> Sum( [ 1 .. i ], j -> ranks_S[j] ) );
+        
+        map :=
+          x -> Concatenation(
+                  List( [ 1 .. n ],
+                    function ( i )
+                      local j, index;
+                      
+                      j := F[1][i] + 1;
+                      
+                      index := indices[j];
+                      
+                      return Map( F[2][i] )( List( [ 1 .. ranks_S[j] ], k -> x[index + k] ) );
+                      
+                  end ) );
+        
+        jacobian_matrix :=
+          x ->  Concatenation(
+                  List( [ 1 .. n ], i ->
+                    CallFuncList(
+                      ListN,
+                        Concatenation(
+                          List( [ 1 .. m ],
+                            function ( j )
+                              local index;
+                              
+                              index := indices[j];
+                              
+                              if j = F[1][i] + 1 then
+                                  return JacobianMatrix( F[2][i] )( List( [ 1 .. ranks_S[j] ], k -> x[index + k] ) );
+                              else
+                                  return ListWithIdenticalEntries( ranks_T[i], ListWithIdenticalEntries( ranks_S[j], 0 ) );
+                              fi;
+                              
+                            end ), [ Concatenation ] ) ) ) );
+        
+        return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
+        
+    end );
+    
+    ##
     AddCartesianAssociatorRightToLeftWithGivenDirectProducts( Smooth,
       
       function ( Smooth, S_x_UxT, S, U, T, SxU_x_T )
