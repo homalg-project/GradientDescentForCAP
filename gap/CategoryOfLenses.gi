@@ -887,7 +887,7 @@ InstallOtherMethod( \.,
                 map_1 :=
                   function ( vec )
                     
-                    return vec{[ 2 * n + 2 .. 3 * n + 1 ]};
+                    return List( [ 2 * n + 2 .. 3 * n + 1 ], i -> vec[i] );
                     
                   end;
                 
@@ -906,52 +906,41 @@ InstallOtherMethod( \.,
                 get := MorphismConstructor( Smooth, Smooth.( 3 * n + 1 ), Pair( map_1, jacobian_matrix_1 ), Smooth.( n ) );
                 
                 map_2 :=
+                  # vec: t, m, v, x, d
                   function ( vec )
-                    local t, m, v, x, d, c_1, c_2, c_3, c_4, new_t, new_m, new_v, new_x;
-                    
-                    t := vec[1];
-                    m := vec{[ 2 .. n + 1 ]};
-                    v := vec{[ n + 2 .. 2 * n + 1 ]};
-                    x := vec{[ 2 * n + 2 .. 3 * n + 1 ]};
-                    d := vec{[ 3 * n + 2 .. 4 * n + 1 ]};
+                    local c_1, c_2, c_3, c_4, t, m, v, x;
                     
                     c_1 := 1 - beta_1;
                     c_2 := 1 - beta_2;
-                    c_3 := 1 - beta_2 ^ t;
+                    c_3 := 1 - beta_2 ^ vec[1];
                     c_4 := epsilon / c_3;
                     
-                    new_t := [ t + 1 ];
-                    new_m := List( [ 1 .. n ], i -> beta_1 * m[i] + c_1 * d[i] );
-                    new_v := List( [ 1 .. n ], i -> beta_2 * v[i] + c_2 * d[i] ^ 2 );
-                    new_x := List( [ 1 .. n ], i -> x[i] + c_4 * ( new_m[i] / ( delta + Sqrt( new_v[i] / c_3 ) ) ) );
+                    t := [ vec[1] + 1 ];
+                    m := List( [ 1 .. n ], i -> beta_1 * vec[1 + i] + c_1 * vec[1 + 3 * n + i] );
+                    v := List( [ 1 .. n ], i -> beta_2 * vec[1 + n + i] + c_2 * vec[1 + 3 * n + i] ^ 2 );
+                    x := List( [ 1 .. n ], i -> vec[1 + 2 * n + i] + c_4 * ( m[i] / ( delta + Sqrt( v[i] / c_3 ) ) ) );
                     
-                    return Concatenation( new_t, new_m, new_v, new_x );
+                    return Concatenation( t, m, v, x );
                     
                   end;
                 
                 jacobian_matrix_2 :=
                   function ( vec )
-                    local t, m, v, x, d, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, new_m, new_v, sqrt, tau, j_t, j_m, j_v, j_x;
-                    
-                    t := vec[1];
-                    m := vec{[ 2 .. n + 1 ]};
-                    v := vec{[ n + 2 .. 2 * n + 1 ]};
-                    x := vec{[ 2 * n + 2 .. 3 * n + 1 ]};
-                    d := vec{[ 3 * n + 2 .. 4 * n + 1 ]};
+                    local c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, m, v, sqrt, tau, j_t, j_m, j_v, j_x;
                     
                     c_1 := 1 - beta_1;
                     c_2 := 1 - beta_2;
-                    c_3 := beta_2 ^ t;
+                    c_3 := beta_2 ^ vec[1];
                     c_4 := 1 - c_3;
                     c_5 := Log( beta_2 );
                     c_6 := c_3 * c_5;
                     c_7 := epsilon * beta_1 / c_4;
                     c_8 := epsilon / c_4 ^ 2;
                     
-                    new_m := List( [ 1 .. n ], i -> beta_1 * m[i] + c_1 * d[i] );
-                    new_v := List( [ 1 .. n ], i -> beta_2 * v[i] + c_2 * d[i] ^ 2 );
-                    sqrt := List( [ 1 .. n ], i -> Sqrt( new_v[i] / c_4 ) );
-                    tau := List( [ 1 .. n ], i -> c_8 * new_m[i] / ( delta + sqrt[i] ) );
+                    m := List( [ 1 .. n ], i -> beta_1 * vec[1 + i] + c_1 * vec[1 + 3 * n + i] );
+                    v := List( [ 1 .. n ], i -> beta_2 * vec[1 + n + i] + c_2 * vec[1 + 3 * n + i] ^ 2 );
+                    sqrt := List( [ 1 .. n ], i -> Sqrt( v[i] / c_4 ) );
+                    tau := List( [ 1 .. n ], i -> c_8 * m[i] / ( delta + sqrt[i] ) );
                     
                     j_t := [ Concatenation( [ 1 ], ListWithIdenticalEntries( 4 * n, 0 ) ) ];
                     
@@ -969,16 +958,17 @@ InstallOtherMethod( \.,
                         ListWithIdenticalEntries( n, ListWithIdenticalEntries( n, 0 ) ),
                         DiagonalMat( ListWithIdenticalEntries( n, beta_2 ) ),
                         ListWithIdenticalEntries( n, ListWithIdenticalEntries( n, 0 ) ),
-                        DiagonalMat( List( [ 1 .. n ], i -> 2 * d[i] * c_2 ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> 2 * vec[1 + 3 * n + i] * c_2 ) ),
                         Concatenation );
                     
                     j_x :=
                       ListN(
-                        List( [ 1 .. n ], i -> [ c_6 * tau[i] * ( 1 - new_v[i] / ( 2 * c_4 * sqrt[i] * ( delta + sqrt[i] ) ) ) ] ),
+                        List( [ 1 .. n ], i -> [ c_6 * tau[i] * ( 1 - v[i] / ( 2 * c_4 * sqrt[i] * ( delta + sqrt[i] ) ) ) ] ),
                         DiagonalMat( List( [ 1 .. n ], i -> c_7 / ( delta + sqrt[i] ) ) ),
-                        DiagonalMat( List( [ 1 .. n ], i -> -beta_2 * epsilon * new_m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> -beta_2 * epsilon * m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) ) ),
                         IdentityMat( n ),
-                        DiagonalMat( List( [ 1 .. n ], i -> -epsilon * ( d[i] * c_2 * new_m[i] / ( sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( delta + sqrt[i] ) ) ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i ->
+                          -epsilon * ( vec[1 + 3 * n + i] * c_2 * m[i] / ( sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( delta + sqrt[i] ) ) ) ) ),
                         Concatenation );
                     
                     return Concatenation( j_t, j_m, j_v, j_x );
