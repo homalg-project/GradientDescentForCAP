@@ -448,6 +448,54 @@ InstallOtherMethod( \.,
 end );
 
 ##
+InstallMethod( AdjustToBatchSize,
+          [ IsMorphismInCategoryOfParametrisedMorphisms, IsInt ],
+  
+  function ( f, n )
+    local Para, C, P, A, B, diagram_S, S, diagram_T, T, F1, F2, h, u, g;
+    
+    Para := CapCategory( f );
+    
+    C := UnderlyingCategory( Para );
+    
+    P := ParameterObject( f );
+    
+    A := UnderlyingObject( Source( f ) );
+    B := UnderlyingObject( Target( f ) );
+    
+    diagram_S := Concatenation( [ P ], ListWithIdenticalEntries( n, A ) );
+    
+    S := DirectProduct( diagram_S );
+    
+    diagram_T := Concatenation( ListWithIdenticalEntries( n, [ P, A ] ) );
+    
+    T := DirectProduct( diagram_T );
+    
+    F1 := Concatenation( List( [ 1 .. n ], i -> [ 0, i ] ) );
+    
+    F2 := Concatenation(
+            ListWithIdenticalEntries( n,
+              [ IdentityMorphism( C, P ), IdentityMorphism( C, A ) ] ) );
+    
+    h := MorphismBetweenDirectProductsWithGivenDirectProducts( C,
+            S, diagram_S, Pair( F1, F2 ), diagram_T, T );
+    
+    u := DirectProductFunctorial( C,
+            ListWithIdenticalEntries( n, ParametrisedMorphism( f ) ) );
+    
+    g := PreCompose( C, h, u );
+    
+    S := ObjectConstructor( Para,
+            DirectProduct( C, ListWithIdenticalEntries( n, A ) ) );
+    
+    T := ObjectConstructor( Para,
+            DirectProduct( C, ListWithIdenticalEntries( n, B ) ) );
+    
+    return MorphismConstructor( Para, S, Pair( P, g ), T );
+    
+end );
+
+##
 InstallMethod( ViewString,
           [ IsObjectInCategoryOfParametrisedMorphisms ],
   
