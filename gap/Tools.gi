@@ -374,6 +374,17 @@ InstallOtherMethod( JacobianMatrix,
 end );
 
 ##
+InstallOtherMethod( JacobianMatrix,
+          [ IsDenseList, IsFunction, IsDenseList ],
+  
+  function ( vars, map_func, indices )
+    
+    return JacobianMatrix( map_func( ConvertToExpressions( vars ) ), indices );
+    
+end );
+
+
+##
 InstallMethod( LazyJacobianMatrix,
           [ IsDenseList, IsDenseList, IsDenseList ],
   
