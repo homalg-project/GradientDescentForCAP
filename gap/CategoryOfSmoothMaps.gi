@@ -121,12 +121,14 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
       
       function ( Smooth, f, g )
         local rank_Sf, rank_Tf, rank_Sg, rank_Tg, map, jacobian_matrix;
-        
+         
         rank_Sf := RankOfObject( Source( f ) );
         rank_Tf := RankOfObject( Target( f ) );
         
         rank_Sg := RankOfObject( Source( g ) );
         rank_Tg := RankOfObject( Target( g ) );
+        
+        Assert( 0, rank_Tf = rank_Sg );
         
         map := x -> Map( g )( Map( f )( x ) );
         
