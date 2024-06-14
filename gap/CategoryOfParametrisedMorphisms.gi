@@ -425,7 +425,7 @@ InstallOtherMethod( \.,
           
         end;
         
-    elif f in [ "Constant", "Zero", "IdFunc", "Sum", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax",
+    elif f in [ "Constant", "Zero", "IdFunc", "Sum", "Mean", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax",
                 "QuadraticLoss_", "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss" ] then
       
       return

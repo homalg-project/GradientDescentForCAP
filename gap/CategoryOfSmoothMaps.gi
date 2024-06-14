@@ -1027,6 +1027,20 @@ InstallOtherMethod( \.,
             
           end;
           
+    elif f = "Mean" then
+        
+        return
+          function ( n )
+            local map, jacobian_matrix;
+            
+            map := x -> [ Sum( x ) / n ];
+            
+            jacobian_matrix := x -> [ ListWithIdenticalEntries( n, 1 / n ) ];
+            
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+          
     elif f = "Mul" then
         
         return
