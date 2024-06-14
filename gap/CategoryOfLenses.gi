@@ -910,6 +910,10 @@ InstallOtherMethod( \.,
                   function ( vec )
                     local c_1, c_2, c_3, c_4, t, m, v, x;
                     
+                    if IsZero( vec[1] ) then
+                        Error( "the first entry of the vector (time) must be an integer greater or equal to 1!\n" );
+                    fi;
+                    
                     c_1 := 1 - beta_1;
                     c_2 := 1 - beta_2;
                     c_3 := 1 - beta_2 ^ vec[1];
