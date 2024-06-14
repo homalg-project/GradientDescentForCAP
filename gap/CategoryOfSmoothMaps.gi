@@ -633,7 +633,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
                       1, [ x{[ rank_S + 1 .. rank_S + rank_T ]} ], rank_T,
                       rank_T, JacobianMatrix( f )( x{[ 1 .. rank_S ]} ), rank_S )[1];
         
-        return SmoothMorphism( Smooth, source, map, target );
+        return SmoothMorphism( Smooth, source, map, target, false );
         
     end );
     
@@ -850,13 +850,24 @@ InstallOtherMethod( SmoothMorphism,
           [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsFunction, IsObjectInCategoryOfSmoothMaps, IsBool ],
   
   function ( Smooth, S, map, T, use_python )
-    local dummy_input, maps;
+    local rank_S, rank_T, vars, jacobian_matrix;
     
-    dummy_input := DummyInput( "x", RankOfObject( S ) );
+    rank_S := RankOfObject( S );
+    rank_T := RankOfObject( T );
     
-    maps := List( map( dummy_input ), String );
+    vars := List( [ 1 .. rank_S ], i -> Concatenation( "x", String( i ) ) );
     
-    return SmoothMorphism( Smooth, S, maps, T, use_python );
+    if use_python then
+      
+      jacobian_matrix := JacobianMatrix( vars, map, [ 1 .. rank_S ] );
+      
+    else
+      
+      jacobian_matrix := LazyJacobianMatrix( vars, map, [ 1 .. rank_S ] );
+      
+    fi;
+    
+    return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
     
 end );
 
@@ -866,7 +877,7 @@ InstallOtherMethod( SmoothMorphism,
   
   function ( Smooth, S, map, T )
     
-    return SmoothMorphism( Smooth, S, map, T, false );
+    return SmoothMorphism( Smooth, S, map, T, true );
     
 end );
 
