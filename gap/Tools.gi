@@ -390,7 +390,7 @@ InstallMethod( LazyJacobianMatrix,
   
   function ( vars, exps, indices )
     
-    return x -> List( exps, exp -> List( indices, index -> LazyDiff( vars, exp, index )( x ) ) );
+    return vec -> List( exps, exp -> List( indices, index -> LazyDiff( vars, exp, index )( vec ) ) );
     
 end );
 
