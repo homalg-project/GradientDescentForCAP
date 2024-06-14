@@ -461,7 +461,12 @@ InstallMethod( AdjustToBatchSize,
     P := ParameterObject( f );
     
     A := UnderlyingObject( Source( f ) );
+    
     B := UnderlyingObject( Target( f ) );
+    
+    if RankOfObject( B ) <> 1 then
+        Error( "the rank of the target must be equal to 1!\n" );
+    fi;
     
     diagram_S := Concatenation( [ P ], ListWithIdenticalEntries( n, A ) );
     
@@ -483,13 +488,12 @@ InstallMethod( AdjustToBatchSize,
     u := DirectProductFunctorial( C,
             ListWithIdenticalEntries( n, ParametrisedMorphism( f ) ) );
     
-    g := PreCompose( C, h, u );
+    g := PreCompose( C, PreCompose( C, h, u ), C.Mean( n ) );
     
     S := ObjectConstructor( Para,
             DirectProduct( C, ListWithIdenticalEntries( n, A ) ) );
     
-    T := ObjectConstructor( Para,
-            DirectProduct( C, ListWithIdenticalEntries( n, B ) ) );
+    T := ObjectConstructor( Para, Target( g ) );
     
     return MorphismConstructor( Para, S, Pair( P, g ), T );
     
