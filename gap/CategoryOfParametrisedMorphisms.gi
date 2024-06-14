@@ -26,6 +26,10 @@ InstallMethod( CategoryOfParametrisedMorphisms,
              IsCapCategoryTwoCell
              : overhead := false );
     
+    SetIsLinearCategoryOverCommutativeRing( Para, true );
+    
+    SetCommutativeRingOfLinearCategory( Para, CommutativeRingOfLinearCategory( C ) );
+    
     SetUnderlyingCategory( Para, C );
     
     ## Adding Operations
@@ -177,20 +181,16 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
     end );
     
-    AddAdditionForMorphisms( Para,
+    AddMultiplyWithElementOfCommutativeRingForMorphisms( Para,
       
-      function ( Para, f, g )
+      function ( Para, a, f )
         local C;
         
         C := UnderlyingCategory( Para );
         
-        if not IsEqualForObjects( C, ParameterObject( f ), ParameterObject( g ) ) then
-              Error( "the two underlying objects must be equal!" );
-        fi;
-        
         return MorphismConstructor( Para,
                     Source( f ),
-                    Pair( ParameterObject( f ), AdditionForMorphisms( C, ParametrisedMorphism( f ), ParametrisedMorphism( f ) ) ),
+                    Pair( ParameterObject( f ), MultiplyWithElementOfCommutativeRingForMorphisms( C, a, ParametrisedMorphism( f ) ) ),
                     Target( f ) );
         
     end );
