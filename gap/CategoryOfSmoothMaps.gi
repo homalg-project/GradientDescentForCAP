@@ -1053,6 +1053,101 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
             
           end;
+         
+    elif f = "Variance_" then
+        
+        return
+          function ( n )
+            local f, m, squares, s;
+            
+            Assert( 0, n > 0 );
+            
+            f := Smooth.IdFunc( n );
+            
+            m := UniversalMorphismIntoDirectProduct( Smooth, ListWithIdenticalEntries( n, Smooth.Mean( n ) ) );
+            
+            squares := DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) );
+            
+            s := PreComposeList( Smooth, [ SubtractionForMorphisms( Smooth, f, m ), squares, Smooth.Sum( n ) ] );
+            
+            return MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, 1 / n, s );
+            
+          end;
+        
+    elif f = "Variance" then
+        
+        return
+          function ( n )
+            local map, jacobian_matrix;
+            
+            Assert( 0, n > 0 );
+            
+            map :=
+              function ( x )
+                local mu;
+                
+                mu := Sum( x ) / n;
+                
+                return [ Sum( [ 1 .. n ], i -> ( x[i] - mu ) ^ 2 ) / n ];
+                
+              end;
+            
+            jacobian_matrix :=
+              function ( x )
+                local mu;
+                
+                mu := Sum( x ) / n;
+                
+                return [ List( [ 1 .. n ], i -> 2 * ( x[i] - mu ) / n ) ];
+                
+              end;
+            
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
+          
+    elif f = "StandardDeviation_" then
+        
+        return
+          function ( n )
+            
+            return PreCompose( Smooth, Smooth.Variance_( n ), Smooth.Sqrt );
+            
+          end;
+          
+    elif f = "StandardDeviation" then
+        
+        return
+          function ( n )
+            local map, jacobian_matrix;
+            
+            Assert( 0, n > 0 );
+            
+            map :=
+              function ( x )
+                local mu;
+                
+                mu := Sum( x ) / n;
+                
+                return [ Sqrt( Sum( [ 1 .. n ], i -> ( x[i] - mu ) ^ 2 ) / n ) ];
+                
+              end;
+            
+            jacobian_matrix :=
+              function ( x )
+                local mu, sigma;
+                
+                mu := Sum( x ) / n;
+                
+                sigma := Sqrt( Sum( [ 1 .. n ], i -> ( x[i] - mu ) ^ 2 ) / n );
+                
+                return [ List( [ 1 .. n ], i -> ( x[i] - mu ) / ( n * sigma ) ) ];
+                
+              end;
+            
+            return MorphismConstructor( Smooth, Smooth.( n ), Pair( map, jacobian_matrix ), Smooth.( 1 ) );
+            
+          end;
           
     elif f = "Mul" then
         
