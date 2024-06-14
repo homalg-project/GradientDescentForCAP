@@ -401,6 +401,29 @@ InstallOtherMethod( LazyJacobianMatrix,
   { exps, indices } -> LazyJacobianMatrix( Variables( exps[1] ), List( exps, String ), indices )
 );
 
+##
+InstallOtherMethod( LazyJacobianMatrix,
+          [ IsDenseList, IsFunction, IsDenseList ],
+  
+  function ( vars, map_func, indices )
+    local exps;
+    
+    # dirty hack to prevent evaluating the function each time on a dummy input!
+    exps := fail;
+    
+    return
+      function( vec )
+         
+        if exps = fail then
+          exps := map_func( ConvertToExpressions( vars ) );
+        fi;
+        
+        return LazyJacobianMatrix( exps, indices )( vec );
+        
+      end;
+      
+end );
+
 InstallMethod( LaTeXOutputUsingPython,
           [ IsDenseList, IsDenseList ],
   
