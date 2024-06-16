@@ -9,8 +9,8 @@ InfoPython := NewInfoClass( "InfoPython" );
 SetInfoLevel( InfoPython, 0 );
 
 BindGlobal( "GAP_PYTHON_DIC",
-  [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat" ],
-    [ "sin", "cos", "tan", "cot", "tanh", "coth", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign" ] ] );
+  [ [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "^", "Sqrt", "AbsoluteValue", "Maximum", "Minimum", "SignFloat", "Relu" ],
+    [ "sin", "cos", "tan", "cot", "tanh", "coth", "log", "exp", "**", "sqrt", "Abs", "max", "min", "sign", "relu" ] ] );
 
 for op in [ "Sin", "Cos", "Tan", "Cot", "Tanh", "Coth", "Log", "Exp", "Sqrt","Square", "AbsoluteValue", "SignFloat", "Relu" ] do
   
@@ -526,3 +526,121 @@ InstallOtherMethod( LaTeXOutputUsingPython,
   
   e -> LaTeXOutputUsingPython( [ e ] )[1]
 );
+
+##
+InstallMethod( AsCythonFunction,
+          [ IsDenseList, IsDenseList, IsDenseList ],
+  
+  function ( vars, function_names, functions )
+    local nr_functions, g_ops, p_ops, dir, cython_functions, import, setup_py_path, setup_py, build_py_path, build_py, stream, err, j, i;
+    
+    nr_functions := Length( functions );
+    
+    Assert( 0, Length( vars ) = nr_functions and Length( function_names ) = nr_functions );
+    
+    g_ops := GAP_PYTHON_DIC[1];
+    p_ops := GAP_PYTHON_DIC[2];
+    
+    for j in [ 1 .. nr_functions ] do
+       
+      for i in [ 1 .. Length( g_ops ) ] do
+          functions[j] := ReplacedString( functions[j], g_ops[i], p_ops[i] );
+      od;
+      
+    od;
+    
+    dir := DirectoryTemporary( );
+    
+    Info( InfoPython, 1, dir );
+    
+    cython_functions := Filename( dir, "cython_functions.pyx" );
+    
+    cython_functions := IO_File( cython_functions, "w" );
+    
+    import := Concatenation(
+                "cimport cython;\n",
+                "from sympy import *;\n\n",
+                "@cython.boundscheck(False)\n",
+                "@cython.wraparound(False)\n\n" );
+    
+    IO_Write( cython_functions, import );
+    
+    IO_Write( cython_functions,
+          Concatenation(
+                  "def relu(double x):\n     ",
+                  "return max( x, 0 )",
+                  "\n\n" ) );
+    
+    for i in [ 1 .. nr_functions ] do
+      
+      IO_Write( cython_functions,
+          Concatenation(
+                  "def ",
+                  function_names[i],
+                  "(",
+                  JoinStringsWithSeparator( List( vars[i], var -> Concatenation( "double ", var ) ), ", " ),
+                  "):\n     ",
+                  "return ",
+                  functions[i],
+                  "\n\n" ) );
+      
+    od;
+    
+    IO_Close( cython_functions );
+    
+    setup_py_path := Filename( dir, "setup.py" );
+    
+    setup_py := IO_File( setup_py_path, "w" );
+    
+    IO_Write( setup_py,
+      Concatenation(
+            "from setuptools import setup;\n",
+            "from Cython.Build import cythonize;\n\n",
+            "setup( ext_modules = cythonize(\"cython_functions.pyx\", compiler_directives={'language_level': '3'} ) )" ) );
+    
+    IO_Close( setup_py );
+    
+    build_py_path := Filename( dir, "build.py" );
+    
+    build_py := IO_File( build_py_path, "w" );
+    
+    IO_Write( build_py,
+      Concatenation(
+        "import subprocess\n",
+        "import os\n\n",
+        "working_dir = \"",
+        Filename( dir, "" ),
+        "\"\n\n",
+        "subprocess.run([\"python\", \"setup.py\", \"build_ext\", \"--inplace\"], cwd=working_dir)" ) );
+    
+    IO_Close( build_py );
+    
+    stream := IO_Popen3( IO_FindExecutable( "python" ), [ build_py_path ] );
+    
+    err := Concatenation( IO_ReadLines( stream.stderr ) );
+    
+    IO_ReadLines( stream.stdout );
+    
+    IO_Close( stream.stdin );
+    
+    IO_Close( stream.stdout );
+    
+    IO_Close( stream.stderr );
+    
+    if not IsEmpty( err ) then
+      
+      Error( err, "\n" );
+      
+    fi;
+    
+    Print(
+      Concatenation( "cd ", Filename( dir, "" ), "\n\n" ),
+      "start python!\n\n",
+      "from cython_functions import ",
+      JoinStringsWithSeparator( function_names, ", " ),
+      ";\n\n# ",
+      "w = [ ", String( Length( vars[1] ) ), " entries :) ]\n\n# ",
+      function_names[1],
+      "(*w)" );
+    
+end );
