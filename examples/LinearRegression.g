@@ -19,8 +19,8 @@ dataset :=
     function ( i )
       local x1, x2, error;
       
-      x1 := Random( [ 0.01, 0.01 ] ) * Random( [ 1 .. 100 ] );
-      x2 := Random( [ 0.01, 0.01 ] ) * Random( [ 1 .. 100 ] );
+      x1 := Random( [ -0.01, 0.01 ] ) * Random( [ 1 .. 100 ] );
+      x2 := Random( [ -0.01, 0.01 ] ) * Random( [ 1 .. 100 ] );
       
       error := Random( [ 0.01, 0.01 ] ) * Random( [ 1 .. 100 ] );
       
@@ -47,7 +47,10 @@ model := SwitchSourceAndParameterObject( model );
 
 batches :=
   List( [ 1 .. Int( dataset_size / batch_size ) ],
-    i -> SmoothMorphism( Smooth, Smooth.( 0 ), Concatenation( dataset{[1 + batch_size * (i-1) .. batch_size * (i)]} ), Smooth.( 3 * batch_size ) ) );
+    i -> SmoothMorphism( Smooth,
+            Smooth.( 0 ),
+            Concatenation( dataset{[1 + batch_size * (i-1) .. batch_size * (i)]} ),
+            Smooth.( 3 * batch_size ) ) );
 
 models := List( batches, batch -> ReparametriseMorphism( model, batch ) );
 
