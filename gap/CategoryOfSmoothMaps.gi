@@ -723,10 +723,15 @@ InstallMethod( Eval,
           [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
   
   function ( f, x )
+    local y;
     
     Assert( 0, RankOfObject( Source( f ) ) = Length( x ) );
     
-    return Map( f )( x );
+    y := Map( f )( x );
+    
+    Assert( 0, IsDenseList( y ) );
+    
+    return y;
     
 end );
 
