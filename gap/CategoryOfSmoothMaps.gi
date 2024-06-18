@@ -990,9 +990,7 @@ InstallOtherMethod( \.,
                 l := arg[1];
             fi;
             
-            if not IsDenseList( l ) then
-                l := [ l ];
-            fi;
+            Assert( 0, IsDenseList( l ) );
             
             return SmoothMorphism( Smooth, Smooth.( rank_S ), l, Smooth.( Length( l ) ) );
             
