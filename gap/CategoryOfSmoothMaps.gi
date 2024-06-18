@@ -663,7 +663,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
           
           constants := List( [ 1 .. rank_T ], i -> 0.001 * Random( [ 1 .. 1000 ] ) );
           
-          return SmoothMorphism( Smooth, Smooth.( rank_S ), constants, Smooth.( rank_T ) );
+          return Smooth.Constant( rank_S, constants );
           
         else
           
@@ -671,7 +671,7 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
           
           constants := List( [ 1 .. ( rank_S + 1 ) * rank_T ], i -> 0.001 * Random( [ 1 .. 1000 ] ) );
           
-          l1 := [ SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( ( rank_S + 1 ) * rank_T ) ) ];
+          l1 := [ Smooth.Constant( 0, constants ) ];
           
           l2 := List( [ 1 .. rank_S ], i -> Smooth.Power( Random( [ 1 .. n ] ) ) );
           
@@ -1493,7 +1493,7 @@ InstallOtherMethod( \.,
             vec := ProjectionInFactorOfDirectProductWithGivenDirectProduct( diagram, n + 1, S );
             
             # append 1 to the end of the input vector
-            vec := DirectProductFunctorial( Smooth, [ vec, SmoothMorphism( Smooth, Smooth.( 0 ), [ 1 ], Smooth.( 1 ) ) ] );
+            vec := DirectProductFunctorial( Smooth, [ vec, Smooth.Constant( 0, [ 1 ] ) ] );
             
             # compute the dot products
             components := List( [ 1 .. n ], i -> PreCompose( Smooth, MultiplicationForMorphisms( Smooth, vec, weights[i] ), Smooth.Sum( m + 1 ) ) );
