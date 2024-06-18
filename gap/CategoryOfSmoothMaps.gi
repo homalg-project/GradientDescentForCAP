@@ -1203,8 +1203,8 @@ InstallOtherMethod( \.,
             
             h := PreCompose( Smooth,
                     AdditionForMorphisms( Smooth,
-                        SmoothMorphism( Smooth, Smooth.( 1 ), [ 1 ], Smooth.( 1 ) ),
-                        PreCompose( Smooth, Smooth.Exp, Smooth.Power( -1 ) ) ),
+                        Smooth.Constant( 1, [ 1 ] ),
+                        PreCompose( Smooth, AdditiveInverseForMorphisms( Smooth, Smooth.IdFunc( 1 ) ), Smooth.Exp ) ),
                     Smooth.Power( -1 ) );
             
             return DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, h ) );
@@ -1261,7 +1261,13 @@ InstallOtherMethod( \.,
             
             map :=
               function ( x )
-                local exp_x, s;
+                local max, exp_x, s;
+                
+                # standard trick to avoid numerical overflow
+                max := Maximum( x );
+                
+                x := List( [ 1 .. n ], i -> x[i] - max );
+                # trick ends here
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
                 
@@ -1273,7 +1279,13 @@ InstallOtherMethod( \.,
             
             jacobian_matrix :=
               function ( x )
-                local exp_x, s, d;
+                local max, exp_x, s, d;
+                
+                # standard trick to avoid numerical overflow
+                max := Maximum( x );
+                
+                x := List( [ 1 .. n ], i -> x[i] - max );
+                # trick ends here
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
                 
@@ -1465,7 +1477,13 @@ InstallOtherMethod( \.,
             
             map :=
               function ( x )
-                local l;
+                local max, l;
+                
+                ## standard trick to avoid numerical overflow
+                max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
+                
+                x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
+                ## end of the trick
                 
                 l := Log( Sum( [ 1 .. n ], i -> Exp( x[i] ) ) );
                 
@@ -1475,7 +1493,13 @@ InstallOtherMethod( \.,
             
             jacobian_matrix :=
               function ( x )
-                local exp_x, s, l, c;
+                local max, exp_x, s, l, c;
+                
+                ## standard trick to avoid numerical overflow
+                max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
+                
+                x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
+                ## end of the trick
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
                 
