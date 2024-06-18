@@ -435,7 +435,7 @@ InstallOtherMethod( \.,
           
         end;
         
-    elif f in [ "Sqrt", "Exp", "Log", "Sin", "Cos" ] then
+    elif f in [ "Sqrt", "Exp", "Log", "Sin", "Cos", "SigmoidBinaryCrossEntropyLoss_", "SigmoidBinaryCrossEntropyLoss" ] then
         
         return C.( f ) / Para;
         

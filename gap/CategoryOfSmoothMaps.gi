@@ -946,7 +946,7 @@ InstallOtherMethod( \.,
           [ IsCategoryOfSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
-    local f;
+    local f, l1, l2;
     
     f := NameRNam( string_as_int );
     
@@ -1348,6 +1348,43 @@ InstallOtherMethod( \.,
             
           end;
           
+    # categorical construction
+    elif f = "BinaryCrossEntropyLoss_" then
+        
+        l1 := PreCompose( Smooth, DirectProductFunctorial( Smooth, [ Smooth.Log, Smooth.IdFunc( 1 ) ] ), Smooth.Mul( 2 ) );
+        l2 := PreCompose( Smooth, SubtractionForMorphisms( Smooth, Smooth.Constant( 2, [ 1, 1 ] ), Smooth.IdFunc( 2 ) ), l1 );
+        
+        return AdditiveInverseForMorphisms( Smooth,
+                  PreCompose( Smooth,
+                      UniversalMorphismIntoDirectProduct( Smooth, [ l1, l2  ] ),
+                      Smooth.Sum( 2 ) ) );
+    
+    # direct construction
+    elif f = "BinaryCrossEntropyLoss" then
+        
+        return MorphismConstructor( Smooth,
+                  Smooth.( 2 ),
+                  Pair( x -> [ -( x[2] * Log( x[1] ) + ( 1 - x[2] ) * Log( 1 - x[1] ) ) ],
+                        x -> [ [ ( 1 - x[2] ) / ( 1 - x[1] ) - x[2] / x[1], -Log( x[1] ) + Log( 1 - x[1] ) ] ] ),
+                  Smooth.( 1 ) );
+    
+    # categorical construction
+    elif f = "SigmoidBinaryCrossEntropyLoss_" then
+        
+        return PreCompose( Smooth,
+                  DirectProductFunctorial( Smooth,
+                      [ Smooth.Sigmoid_( 1 ), Smooth.IdFunc( 1 ) ] ),
+                  Smooth.BinaryCrossEntropyLoss_ );
+        
+    # direct construction
+    elif f = "SigmoidBinaryCrossEntropyLoss" then
+        
+        return MorphismConstructor( Smooth,
+                  Smooth.( 2 ),
+                  Pair( x -> [ Log( 1 + Exp( -x[1] ) ) + ( 1 - x[2] ) * x[1] ],
+                        x -> [ [ - x[2] + 1 - Exp( -x[1] ) / ( 1 + Exp( - x[1] ) ), - x[1] ] ] ),
+                  Smooth.( 1 ) );
+        
     # categorical construction
     elif f = "CrossEntropyLoss_" then
         
