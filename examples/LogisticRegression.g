@@ -50,7 +50,7 @@ P := ParameterObject( f );
 
 nr_parameters := RankOfObject( P );
 
-forward := DirectProductFunctorial( Smooth, [ ParametrisedMorphism( f ), Smooth.IdFunc( 2 ) ] );
+forward := DirectProductFunctorial( Smooth, [ ParametrisedMorphism( f ), Smooth.IdFunc( output_size ) ] );
 loss := Smooth.CrossEntropyLoss( 2 );
 
 model := PreCompose( Smooth, forward, loss );
@@ -72,9 +72,7 @@ batches :=
             Concatenation( dataset{[1 + batch_size * ( i - 1 ) .. batch_size * ( i )]} ),
             Smooth.( ( input_size + output_size )  * batch_size ) ) );
 
-models := List( batches, batch -> ReparametriseMorphism( model, batch ) );
-
-models := List( models, model -> ParametrisedMorphism( model ) );
+models := List( batches, batch -> ParametrisedMorphism( ReparametriseMorphism( model, batch ) ) );
 
 R := EmbeddingIntoCategoryOfLenses( Smooth, Lenses );
 
@@ -107,7 +105,7 @@ v := m;
 w := random_weights;
 
 train :=
-  function( models, w, nr_epocs )
+  function( nr_epocs )
     local i, model;
      
     for i in [ 1 .. nr_epocs ] do
@@ -127,8 +125,6 @@ train :=
       #fi;
       
     od;
-    
-    return w;
     
   end;
 
