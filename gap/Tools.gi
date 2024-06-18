@@ -527,6 +527,8 @@ InstallOtherMethod( LaTeXOutputUsingPython,
   e -> LaTeXOutputUsingPython( [ e ] )[1]
 );
 
+
+## if the gap function is very large then compiling it using cython takes forever ...
 ##
 InstallMethod( AsCythonFunction,
           [ IsDenseList, IsDenseList, IsDenseList ],
@@ -576,12 +578,22 @@ InstallMethod( AsCythonFunction,
       IO_Write( cython_functions,
           Concatenation(
                   "def ",
-                  function_names[i],
+                  Concatenation( function_names[i], "_" ),
                   "(",
                   JoinStringsWithSeparator( List( vars[i], var -> Concatenation( "double ", var ) ), ", " ),
                   "):\n     ",
                   "return ",
                   functions[i],
+                  "\n\n" ) );
+      
+      IO_Write( cython_functions,
+          Concatenation(
+                  "def ",
+                  function_names[i],
+                  "(vec):\n     ",
+                  "return ",
+                  function_names[i],
+                  "_(*vec)",
                   "\n\n" ) );
       
     od;
@@ -641,6 +653,7 @@ InstallMethod( AsCythonFunction,
       ";\n\n# ",
       "w = [ ", String( Length( vars[1] ) ), " entries :) ]\n\n# ",
       function_names[1],
-      "(*w)" );
+      "(w)" );
+    
     
 end );
