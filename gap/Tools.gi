@@ -181,7 +181,7 @@ InstallMethod( SimplifyExpressionUsingPython,
     
     import := "from sympy import *;\n";
     symbols := Concatenation( JoinStringsWithSeparator( vars, ", " ), " = symbols( '", JoinStringsWithSeparator( vars, " " ), "' );\n" );
-    functions := "max, min, Relu = Function('max'), Function('min'), Function('Relu'); \n";
+    functions := "max, min, relu = Function('max'), Function('min'), Function('relu'); \n";
     
     g_ops := GAP_PYTHON_DIC[1];
     p_ops := GAP_PYTHON_DIC[2];
