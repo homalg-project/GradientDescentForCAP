@@ -31,8 +31,8 @@ dataset :=
 
 input_size := 2;
 
-hidden_size_1 := 6;
-hidden_size_2 := 6;
+hidden_size_1 := 3;
+hidden_size_2 := 3;
 
 output_size := 1;
 
@@ -125,6 +125,7 @@ train :=
     
   end;
 
+# train( 20 );
 
 train_points := List( dataset, example -> example{[ 1, 2 ]} );
 train_labels := List( dataset, example -> example[3] );
@@ -150,3 +151,5 @@ for x in 0.1 * [ -30 .. 30  ] do
 od;
 
 ScatterPlotUsingPython( train_points, train_labels, test_points, test_labels );
+
+
