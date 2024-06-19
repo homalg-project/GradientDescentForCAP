@@ -32,3 +32,5 @@ DeclareGlobalVariable( "MachineLearningForCAP" );
 
 DeclareGlobalFunction( "DummyInputStringsForLinearLayer" );
 DeclareGlobalFunction( "DummyInputForLinearLayer" );
+DeclareGlobalFunction( "DummyInputStringsForPolynomialLayer" );
+DeclareGlobalFunction( "DummyInputForPolynomialLayer" );

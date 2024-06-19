@@ -1631,6 +1631,77 @@ InstallOtherMethod( \.,
             
           end;
           
+    elif f = "PolynomialLayer" then
+      
+        return
+          function ( m, n, degree )
+            local combs, powers, non_trivial_powers, p, nr_parameters, map, diff_powers, jacobian_matrix;
+            
+            combs := List( Combinations( [ 1 .. degree + m - 1 ], m - 1 ), comb -> Concatenation( [ 0 ], comb, [degree + m] ) );
+            
+            powers := List( combs, comb -> List( [ 1 .. m ], i -> comb[i+1] - comb[i] - 1 ) );
+            
+            non_trivial_powers := List( powers, power -> PositionsProperty( power, e -> e <> 0 ) );
+            
+            p := Length( powers );
+            
+            nr_parameters := ( p + 1 ) * n;
+            
+            map :=
+              function ( vec )
+                local w, x, x_powers;
+                
+                w := List( [ 1 .. nr_parameters ], i -> vec[i] );
+                
+                w := SplitDenseList( w, p + 1 );
+                
+                x := List( [ 1 .. m ], i -> vec[ nr_parameters + i ] );
+                
+                x_powers := List( [ 1 .. p ], i -> Product( non_trivial_powers[p - i + 1], j -> x[j] ^ powers[p - i + 1][j] ) );
+                
+                return List( [ 1 .. n ], i -> Sum( [ 1 ..  p ], j -> x_powers[j] * w[i][j] ) + w[i][p+1] );
+                
+              end;
+            
+            diff_powers :=
+                List( [ 1 .. m ], i ->
+                  List( [ 1 .. p ], t ->
+                    [ powers[t][i], List( [ 1 .. m ], k -> Maximum( 0, powers[t][k] - KroneckerDelta( i, k ) ) ) ] ) );
+            
+            jacobian_matrix :=
+              function ( vec )
+                local w, x, x_powers, zeros, J_w, monomials, J_x;
+                
+                w := List( [ 1 .. nr_parameters ], i -> vec[i] );
+                
+                w := SplitDenseList( w, p + 1 );
+                
+                x := List( [ 1 .. m ], i -> vec[ nr_parameters + i ] );
+                
+                x_powers := List( [ 1 .. p ], i -> Product( non_trivial_powers[p - i + 1], j -> x[j] ^ powers[p - i + 1][j] ) );
+                
+                zeros := ListWithIdenticalEntries( p + 1, 0 );
+                
+                J_w :=
+                  List( [ 1 .. n ], i ->
+                    Concatenation(
+                      Concatenation( ListWithIdenticalEntries( i - 1, zeros ) ),
+                      x_powers,
+                      [ 1 ],
+                      Concatenation( ListWithIdenticalEntries( n - i, zeros ) ) ) );
+                
+                monomials := List( [ 1 .. m ], i -> List( [ 1 .. p ], j -> diff_powers[i][p-j+1][1] * Product( [ 1 .. m ], k -> x[k] ^ diff_powers[i][p-j+1][2][k] ) ) );
+                
+                J_x := List( [ 1 .. n ], i -> List( [ 1 .. m ], j -> w[i] * monomials[j] ) );
+                
+                return ListN( J_w, J_x, Concatenation );
+                
+              end;
+            
+            return MorphismConstructor( Smooth, Smooth.( nr_parameters + m ), Pair( map, jacobian_matrix ), Smooth.( n ) );
+            
+          end;
+          
     else
         
         Error( "unrecognized-string!\n" );
@@ -1676,6 +1747,55 @@ InstallGlobalFunction( DummyInputForLinearLayer,
   function ( arg... )
     
     return ConvertToExpressions( CallFuncList( DummyInputStringsForLinearLayer, arg ) );
+    
+end );
+
+## e.g., DummyInputStringsForLinearLayer( 2, 4, degree, "w", "b" [, "x"] )
+##
+InstallGlobalFunction( DummyInputStringsForPolynomialLayer,
+  
+  function ( arg... )
+    local m, n, degree, weight_str, bias_str, input_str, input_length, combs, powers, p, nr_parameters, parameters;
+    
+    m := arg[1];
+    n := arg[2];
+    degree := arg[3];
+    
+    weight_str := arg[4];
+    bias_str := arg[5];
+    
+    if Length( arg ) > 5 then
+        input_str := arg[6];
+        input_length := m;
+    else
+        input_length := 0;
+    fi;
+    
+    combs := List( Combinations( [ 1 .. degree + m - 1 ], m - 1 ), comb -> Concatenation( [ 0 ], comb, [degree + m] ) );
+    
+    powers := List( combs, comb -> List( [ 1 .. m ], i -> comb[i+1] - comb[i] - 1 ) );
+    
+    p := Length( powers );
+    
+    nr_parameters := ( p + 1 ) * n;
+    
+    parameters :=
+      Concatenation(
+        TransposedMat(
+          Concatenation(
+            List( [ 1 .. p ], i -> List( [ 1 .. n ], j -> Concatenation( weight_str, String( j ), "__", JoinStringsWithSeparator( powers[p-i+1], "_" ) ) ) ),
+            [ List( [ 1 .. n ], j -> Concatenation( bias_str, "_", String( j ) ) ) ] ) ) );
+    
+    return Concatenation( parameters, List( [ 1 .. input_length ], i -> Concatenation( input_str, String( i ) ) ) );
+
+end );
+
+##
+InstallGlobalFunction( DummyInputForPolynomialLayer,
+  
+  function ( arg... )
+    
+    return ConvertToExpressions( CallFuncList( DummyInputStringsForPolynomialLayer, arg ) );
     
 end );
 

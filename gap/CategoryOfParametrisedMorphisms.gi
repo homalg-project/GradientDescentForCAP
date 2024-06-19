@@ -428,6 +428,23 @@ InstallOtherMethod( \.,
           
         end;
         
+    elif f = "PolynomialLayer" then
+      
+      return
+        function( m, n, degree )
+          local h, S, T, P;
+          
+          h := CallFuncList( C.( f ), [ m, n, degree ] );
+          
+          S := ObjectConstructor( Para, ObjectConstructor( C, m ) );
+          T := ObjectConstructor( Para, Target( h ) );
+          
+          P := ObjectConstructor( C, ( Binomial( degree + m - 1, m - 1 ) + 1 ) * n );
+          
+          return MorphismConstructor( Para, S, Pair( P, h ), T );
+          
+        end;
+        
     elif f in [ "Constant", "Zero", "IdFunc", "Sum", "Mean", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax",
                 "QuadraticLoss_", "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss" ] then
       
