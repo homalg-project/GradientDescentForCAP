@@ -76,6 +76,8 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
       
       function ( Smooth, source, datum, target )
         
+        Assert( 0, Length( datum ) = 2 and ForAll( datum, IsFunction ) );
+        
         return CreateCapCategoryMorphismWithAttributes( Smooth,
                     source, target,
                     Map, datum[1],
