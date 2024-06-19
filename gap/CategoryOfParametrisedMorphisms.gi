@@ -408,13 +408,16 @@ InstallOtherMethod( \.,
       
       return C.( f ) / Para;
       
-    elif f = "LinearLayer" then
+    elif f in [ "LinearLayer_", "LinearLayer", "LinearLayerWithDropout" ] then
       
       return
-        function ( m, n )
-          local h, S, T, P;
+        function ( arg... )
+          local m, n, h, S, T, P;
           
-          h := C.LinearLayer( m, n );
+          m := arg[1];
+          n := arg[2];
+          
+          h := CallFuncList( C.( f ), arg );
           
           S := ObjectConstructor( Para, ObjectConstructor( C, m ) );
           T := ObjectConstructor( Para, Target( h ) );

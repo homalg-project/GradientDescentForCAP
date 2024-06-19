@@ -1597,6 +1597,39 @@ InstallOtherMethod( \.,
             return MorphismConstructor( Smooth, Smooth.( m * ( n + 1 ) + n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
             
           end;
+         
+    elif f = "LinearLayerWithDropout" then
+         
+        return
+          function( m, n, percentage )
+            local map, jacobian_matrix, dropout;
+            
+            map :=
+              function ( x )
+                local i;
+                
+                if MachineLearningForCAP.MOD = "basic" then
+                  
+                  # dropout is activated only while training
+                  return ListWithIdenticalEntries( n, 1 );
+                  
+                elif MachineLearningForCAP.MOD = "train" then
+                  
+                  i := Int( percentage * n );
+                  
+                  return Shuffle( Concatenation( ListWithIdenticalEntries( i, 0 ), ListWithIdenticalEntries( n - i, 1 ) ) );
+                  
+                fi;
+                  
+              end;
+              
+              jacobian_matrix := x -> ListWithIdenticalEntries( n, ListWithIdenticalEntries( m + ( m + 1 ) * n, 0 ) );
+              
+              dropout := MorphismConstructor( Smooth, Smooth.( m + ( m + 1 ) * n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
+              
+              return MultiplicationForMorphisms( Smooth, dropout, Smooth.LinearLayer( m, n ) );
+            
+          end;
           
     else
         
