@@ -28,5 +28,7 @@ DeclareAttribute( "JacobianMatrix", IsMorphismInCategoryOfSmoothMaps );
 DeclareOperation( "Eval", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
 DeclareOperation( "EvalJacobianMatrix", [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ] );
 
+DeclareGlobalVariable( "MachineLearningForCAP" );
+
 DeclareGlobalFunction( "DummyInputStringsForLinearLayer" );
 DeclareGlobalFunction( "DummyInputForLinearLayer" );

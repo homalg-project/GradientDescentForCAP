@@ -4,6 +4,11 @@
 # Implementations
 #
 
+##
+InstallValue( MachineLearningForCAP,
+  rec( MOD := "basic" ) ); # or train
+
+##
 InstallGlobalFunction( CategoryOfSmoothMaps,
   
   function ( )
