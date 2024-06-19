@@ -37,6 +37,19 @@ InstallGlobalFunction( SelectBasedOnCondition,
 end );
 
 ##
+InstallGlobalFunction( CallFuncListBasedOnCondition,
+  
+  function ( bool, f, g, l )
+    
+    if bool then
+        return CallFuncList( f, l );
+    else
+        return CallFuncList( g, l );
+    fi;
+    
+end );
+
+##
 InstallMethod( Relu,
       [ IsFloat ],
   
@@ -50,6 +63,23 @@ InstallMethod( Enumerate,
   function ( l )
     
     return ListN( [ 1 .. Length( l ) ], l, { i, l_i } -> [ i, l_i ] );
+    
+end );
+
+##
+InstallMethod( SplitDenseList,
+          [ IsDenseList, IsPosInt ],
+  
+  function ( l, n )
+    local N;
+    
+    N := Length( l );
+    
+    if N mod n <> 0 then
+        Error( "the length of the passed list 'l' must be divisible by passed positive integers 'n'!\n" );
+    fi;
+    
+    return List( [ 1 .. N / n ], i -> List( [ 1 .. n ], j -> l[ ( i - 1 ) * n + j] ) );
     
 end );
 

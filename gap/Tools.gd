@@ -7,10 +7,13 @@
 
 DeclareOperation( "Relu", [ IsFloat ] );
 DeclareOperation( "Enumerate", [ IsDenseList ] );
+DeclareOperation( "SplitDenseList", [ IsDenseList, IsPosInt ] );
 
 DeclareGlobalFunction( "SelectBasedOnCondition" );
+DeclareGlobalFunction( "CallFuncListBasedOnCondition" );
 DeclareGlobalFunction( "KroneckerDelta" );
 DeclareGlobalFunction( "MultiplyMatrices" );
+
 
 DeclareOperation( "SimplifyExpressionUsingPython", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "JacobianMatrixUsingPython", [ IsDenseList, IsDenseList, IsDenseList ] );
