@@ -783,30 +783,9 @@ InstallMethod( SmoothMorphism,
           [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
   
   function ( Smooth, S, datum, T )
-    local map, jacobian_matrix;
     
-    if not ForAll( datum, IsDenseList ) then
-        TryNextMethod ( );
-    fi;
+    return MorphismConstructor( Smooth, S, datum, T );
     
-    if Length( datum[1] ) <> RankOfObject( T ) or not ForAll( datum[1], IsFunction ) then
-        Error( "wrong input: 'datum[1]' must contain exactly ", RankOfObject( T ), " functions!\n" );
-    fi;
-    
-    if Length( datum[2] ) <> RankOfObject( T ) then
-        Error( "wrong input: 'datum[2]' must contain exactly ", RankOfObject( T ), " lists!\n" );
-    fi;
-    
-    if not ForAll( datum[2], d -> Length( d ) = RankOfObject( S ) or ForAll( d, IsFunction ) ) then
-        Error( "wrong input: each list in 'datum[2]' must contain exactly ", RankOfObject( S ), " functions!\n" );
-    fi;
-    
-    map := x -> List( datum[1], m -> m( x ) );
-    
-    jacobian_matrix := x -> List( datum[2], row -> List( row, m -> m( x ) ) );
-    
-    return MorphismConstructor( Smooth, S, Pair( map, jacobian_matrix ), T );
-
 end );
 
 ##
