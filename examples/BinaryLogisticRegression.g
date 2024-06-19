@@ -102,8 +102,11 @@ w := Concatenation( t, m, v, random_weights );
 train :=
   function( nr_epocs )
     local i, model;
+    
      
     for i in [ 1 .. nr_epocs ] do
+       
+      MachineLearningForCAP.MOD := "train";
       
       for model in models do
         
@@ -111,15 +114,14 @@ train :=
         
       od;
       
-      #if IsZero( i mod 5 ) then
-        
-        loss := Sum( models, model -> GetMorphism( model )( w ) ) / Length( models );
-        
-        Print( "Epoch: ", String( i ), ",  loss: ", String( loss[1] ), "\n" );
-        
-      #fi;
+      MachineLearningForCAP.MOD := "basic";
+      
+      loss := Sum( models, model -> GetMorphism( model )( w ) ) / Length( models );
+      
+      Print( "Epoch: ", String( i ), ",  loss: ", String( loss[1] ), "\n" );
       
     od;
+    
     
   end;
 

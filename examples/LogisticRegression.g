@@ -107,7 +107,9 @@ w := random_weights;
 train :=
   function( nr_epocs )
     local i, model;
-     
+    
+    MachineLearningForCAP.MOD := "train";
+    
     for i in [ 1 .. nr_epocs ] do
       
       for model in models do
@@ -125,6 +127,8 @@ train :=
       #fi;
       
     od;
+    
+    MachineLearningForCAP.MOD := "basic";
     
   end;
 
