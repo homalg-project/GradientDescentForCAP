@@ -1269,9 +1269,13 @@ InstallOtherMethod( \.,
                 local max, exp_x, s;
                 
                 # standard trick to avoid numerical overflow
-                max := Maximum( x );
-                
-                x := List( [ 1 .. n ], i -> x[i] - max );
+                if MachineLearningForCAP.MOD = "train" then
+                  
+                  max := Maximum( x );
+                  
+                  x := List( [ 1 .. n ], i -> x[i] - max );
+                  
+                fi;
                 # trick ends here
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
@@ -1287,9 +1291,13 @@ InstallOtherMethod( \.,
                 local max, exp_x, s, d;
                 
                 # standard trick to avoid numerical overflow
-                max := Maximum( x );
-                
-                x := List( [ 1 .. n ], i -> x[i] - max );
+                if MachineLearningForCAP.MOD = "train" then
+                  
+                  max := Maximum( x );
+                  
+                  x := List( [ 1 .. n ], i -> x[i] - max );
+                  
+                fi;
                 # trick ends here
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
@@ -1484,11 +1492,15 @@ InstallOtherMethod( \.,
               function ( x )
                 local max, l;
                 
-                ## standard trick to avoid numerical overflow
-                max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
-                
-                x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
-                ## end of the trick
+                # standard trick to avoid numerical overflow
+                if MachineLearningForCAP.MOD = "train" then
+                  
+                  max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
+                  
+                  x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
+                  
+                fi;
+                # end of the trick
                 
                 l := Log( Sum( [ 1 .. n ], i -> Exp( x[i] ) ) );
                 
@@ -1500,11 +1512,15 @@ InstallOtherMethod( \.,
               function ( x )
                 local max, exp_x, s, l, c;
                 
-                ## standard trick to avoid numerical overflow
-                max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
-                
-                x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
-                ## end of the trick
+                # standard trick to avoid numerical overflow
+                if MachineLearningForCAP.MOD = "train" then
+                  
+                  max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
+                  
+                  x := Concatenation( List( [ 1 .. n ], i -> x[i] - max ), List( [ 1 .. n ], i -> x[n + i] ) );
+                  
+                fi;
+                # end of the trick
                 
                 exp_x := List( [ 1 .. n ], i -> Exp( x[i] ) );
                 
