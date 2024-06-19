@@ -1543,21 +1543,6 @@ InstallOtherMethod( \.,
             
           end;
           
-    # to create input:
-    # e.g.
-    #
-    # m := 2; n := 4;
-    #
-    # vec :=
-    #   ConvertToExpressions(
-    #     Concatenation(
-    #       Concatenation(
-    #         TransposedMat(
-    #           Concatenation(
-    #               List( [ 1 .. m ], i -> List( [ 1 .. n ], j -> Concatenation( "w", String( i ), "_", String( j ) ) ) ),
-    #               [ List( [ 1 .. n ], j -> Concatenation( "b_", String( j ) ) ) ] ) ) ),
-    #           List( [ 1 .. m ], i -> Concatenation( "x", String( i ) ) ) ) );
-    #
     # categorical construction
     elif f = "LinearLayer_" then
         
