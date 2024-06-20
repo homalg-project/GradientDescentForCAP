@@ -398,7 +398,7 @@ InstallOtherMethod( \.,
     
     C := UnderlyingCategory( Para );
     
-    if not IsCategoryOfSmoothMaps( C ) then
+    if not IsCategoryOfSkeletalSmoothMaps( C ) then
         TryNextMethod( );
     fi;
     

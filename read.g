@@ -5,8 +5,8 @@
 #
 
 ReadPackage( "MachineLearningForCAP", "gap/Tools.gi");
-ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSmoothMaps.gi");
 ReadPackage( "MachineLearningForCAP", "gap/Expressions.gi");
 ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.gi");
+ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSkeletalSmoothMaps.gi");
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfParametrisedMorphisms.gi" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfLenses.gi" );

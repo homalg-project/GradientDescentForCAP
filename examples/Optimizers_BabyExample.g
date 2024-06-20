@@ -1,6 +1,6 @@
 LoadPackage( "MachineLearningForCAP" );
 
-Smooth := CategoryOfSmoothMaps( );
+Smooth := CategoryOfSkeletalSmoothMaps( );
 Lenses := CategoryOfLenses( Smooth );
 Para := CategoryOfParametrisedMorphisms( Smooth );
 

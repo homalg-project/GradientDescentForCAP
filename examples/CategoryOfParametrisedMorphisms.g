@@ -5,7 +5,7 @@
 LoadPackage( "MachineLearningForCAP" );
 
 #! @Example
-Smooth := CategoryOfSmoothMaps( );
+Smooth := CategoryOfSkeletalSmoothMaps( );
 #! Smooth
 Para := CategoryOfParametrisedMorphisms( Smooth );
 #! CategoryOfParametrisedMorphisms( Smooth )

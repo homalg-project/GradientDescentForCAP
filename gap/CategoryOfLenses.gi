@@ -414,7 +414,7 @@ end );
 
 ##
 InstallMethod( EmbeddingIntoCategoryOfLenses,
-          [ IsCategoryOfSmoothMaps, IsCategoryOfLenses ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsCategoryOfLenses ],
   
   function ( C, Lenses )
     local F;
@@ -466,7 +466,7 @@ InstallOtherMethod( \.,
     
     C := UnderlyingCategory( Lenses );
     
-    if not IsCategoryOfSmoothMaps( C ) then
+    if not IsCategoryOfSkeletalSmoothMaps( C ) then
         TryNextMethod( );
     fi;
     

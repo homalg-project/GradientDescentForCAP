@@ -5,10 +5,10 @@
 #
 
 ReadPackage( "MachineLearningForCAP", "gap/Tools.gd" );
-ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSmoothMaps.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/Expressions.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.autogen.gd" );
+ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSkeletalSmoothMaps.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfParametrisedMorphisms.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfLenses.gd" );
 

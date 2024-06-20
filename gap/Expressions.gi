@@ -107,7 +107,7 @@ end );
 
 ##
 InstallOtherMethod( DummyInput,
-          [ IsString, IsMorphismInCategoryOfSmoothMaps ],
+          [ IsString, IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( var, f )
     
@@ -117,7 +117,7 @@ end );
 
 ##
 InstallOtherMethod( DummyInput,
-          [ IsMorphismInCategoryOfSmoothMaps ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f )
     

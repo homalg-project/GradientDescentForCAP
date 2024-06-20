@@ -9,17 +9,17 @@ InstallValue( MachineLearningForCAP,
   rec( MOD := "basic" ) ); # or train
 
 ##
-InstallGlobalFunction( CategoryOfSmoothMaps,
+InstallGlobalFunction( CategoryOfSkeletalSmoothMaps,
   
   function ( )
     local name, Smooth;
     
-    name := "Smooth";
+    name := "SkeletalSmoothMaps";
     
     Smooth := CreateCapCategory( name,
-                  IsCategoryOfSmoothMaps,
-                  IsObjectInCategoryOfSmoothMaps,
-                  IsMorphismInCategoryOfSmoothMaps,
+                  IsCategoryOfSkeletalSmoothMaps,
+                  IsObjectInCategoryOfSkeletalSmoothMaps,
+                  IsMorphismInCategoryOfSkeletalSmoothMaps,
                   IsCapCategoryTwoCell
                   : overhead := false
                   );
@@ -695,8 +695,11 @@ InstallGlobalFunction( CategoryOfSmoothMaps,
 end );
 
 ##
+InstallValue( SkeletalSmoothMaps, CategoryOfSkeletalSmoothMaps( ) );
+
+##
 InstallOtherMethod( IsCongruentForMorphisms,
-        [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+        [ IsCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, f, g )
     local rank_S, 100_random_inputs, compare_maps, compare_jacobian_matrices;
@@ -717,7 +720,7 @@ end );
 
 ##
 InstallOtherMethod( IsEqualForMorphisms,
-        [ IsCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+        [ IsCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, f, g )
     
@@ -727,7 +730,7 @@ end );
 
 ##
 InstallMethod( Eval,
-          [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsDenseList ],
   
   function ( f, x )
     local y;
@@ -744,7 +747,7 @@ end );
 
 ##
 InstallOtherMethod( CallFuncList,
-          [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsDenseList ],
   
   function ( f, L )
     
@@ -754,14 +757,14 @@ end );
 
 ##
 InstallOtherMethod( Eval,
-        [ IsMorphismInCategoryOfSmoothMaps ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   f -> Eval( f, DummyInput( f ) )
 );
 
 ##
 InstallMethod( EvalJacobianMatrix,
-          [ IsMorphismInCategoryOfSmoothMaps, IsDenseList ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsDenseList ],
   
   function ( f, x )
     
@@ -773,14 +776,14 @@ end );
 
 ##
 InstallOtherMethod( EvalJacobianMatrix,
-        [ IsMorphismInCategoryOfSmoothMaps ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   f -> EvalJacobianMatrix( f, DummyInput( f ) )
 );
 
 ##
 InstallMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsDenseList, IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, S, datum, T )
     
@@ -790,7 +793,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps, IsBool ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsDenseList, IsObjectInCategoryOfSkeletalSmoothMaps, IsBool ],
   
   function ( Smooth, S, maps, T, use_python )
     local rank_S, rank_T, vars, jacobian_matrix, map;
@@ -824,7 +827,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsDenseList, IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, S, maps, T )
     
@@ -838,7 +841,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsFunction, IsObjectInCategoryOfSmoothMaps, IsBool ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsFunction, IsObjectInCategoryOfSkeletalSmoothMaps, IsBool ],
   
   function ( Smooth, S, map, T, use_python )
     local rank_S, rank_T, vars, jacobian_matrix;
@@ -864,7 +867,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsFunction, IsObjectInCategoryOfSmoothMaps ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsFunction, IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, S, map, T )
     
@@ -874,7 +877,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsDenseList, IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, S, maps, T )
     
@@ -888,7 +891,7 @@ end );
 
 ##
 InstallOtherMethod( SmoothMorphism,
-          [ IsCategoryOfSmoothMaps, IsObjectInCategoryOfSmoothMaps, IsDenseList, IsObjectInCategoryOfSmoothMaps ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsObjectInCategoryOfSkeletalSmoothMaps, IsDenseList, IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( Smooth, S, constants, T )
     local rank_S, rank_T, map, jacobian_matrix;
@@ -910,7 +913,7 @@ end );
 
 ##
 InstallOtherMethod( \.,
-          [ IsCategoryOfSmoothMaps, IsPosInt ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
     local i;
@@ -929,7 +932,7 @@ end );
 
 ##
 InstallOtherMethod( \.,
-          [ IsCategoryOfSmoothMaps, IsPosInt ],
+          [ IsCategoryOfSkeletalSmoothMaps, IsPosInt ],
   
   function ( Smooth, string_as_int )
     local f, l1, l2;
@@ -1780,7 +1783,7 @@ end );
 
 ##
 InstallOtherMethod( \^,
-        [ IsMorphismInCategoryOfSmoothMaps, IsAdditiveElement ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsAdditiveElement ],
   
   function ( f, n )
     local Smooth, p;
@@ -1795,7 +1798,7 @@ end );
 
 ##
 InstallOtherMethod( \*,
-        [ IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f, g )
     
@@ -1805,7 +1808,7 @@ end );
 
 ##
 InstallOtherMethod( \/,
-        [ IsMorphismInCategoryOfSmoothMaps, IsMorphismInCategoryOfSmoothMaps ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps, IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f, g )
     
@@ -1816,7 +1819,7 @@ end );
 
 ##
 InstallMethod( LaTeXOutput,
-        [ IsObjectInCategoryOfSmoothMaps ],
+        [ IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( U )
     
@@ -1826,7 +1829,7 @@ end );
 
 ##
 InstallMethod( LaTeXOutput,
-        [ IsMorphismInCategoryOfSmoothMaps ],
+        [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f )
     local dummy_input, rank_S, rank_T, vars, all, maps, jacobian_matrix;
@@ -1866,7 +1869,7 @@ end );
 
 ##
 InstallMethod( ViewString,
-          [ IsObjectInCategoryOfSmoothMaps ],
+          [ IsObjectInCategoryOfSkeletalSmoothMaps ],
   
   function ( U )
     
@@ -1876,7 +1879,7 @@ end );
 
 ##
 InstallMethod( ViewString,
-          [ IsMorphismInCategoryOfSmoothMaps ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f )
     
@@ -1889,7 +1892,7 @@ end );
 
 ##
 InstallMethod( DisplayString,
-          [ IsMorphismInCategoryOfSmoothMaps ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f )
     local dummy_input, maps;
@@ -1909,7 +1912,7 @@ end );
 
 ##
 InstallMethod( Display,
-          [ IsMorphismInCategoryOfSmoothMaps ],
+          [ IsMorphismInCategoryOfSkeletalSmoothMaps ],
   
   function ( f )
     local dummy_input, m;
