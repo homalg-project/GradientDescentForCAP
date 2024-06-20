@@ -1892,9 +1892,11 @@ InstallMethod( DisplayString,
           [ IsMorphismInCategoryOfSmoothMaps ],
   
   function ( f )
-    local maps;
+    local dummy_input, maps;
     
-    maps := List( Eval( f ), e -> Concatenation( "‣ ", ViewString( e ) ) );
+    dummy_input := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "dummy_input", DummyInput( f ) );
+    
+    maps := List( Eval( f, dummy_input ), e -> Concatenation( "‣ ", ViewString( e ) ) );
     
     return Concatenation(
               ViewString( Source( f ) ),
