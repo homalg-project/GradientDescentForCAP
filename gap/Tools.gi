@@ -68,18 +68,33 @@ end );
 
 ##
 InstallMethod( SplitDenseList,
+          [ IsDenseList, IsDenseList ],
+  
+  function ( l, dims )
+    local n, indices;
+    
+    Assert( 0, Length( l ) = Sum( dims ) );
+    
+    n := Length( dims );
+    
+    indices := List( [ 0 .. n - 1 ], i -> Sum( dims{ [ 1 .. i ] } ) );
+    
+    return List( [ 1 .. n ], i -> List( [ indices[i] + 1 .. indices[i] + dims[i] ], j -> l[j] ) );
+    
+end );
+
+##
+InstallMethod( SplitDenseList,
           [ IsDenseList, IsPosInt ],
   
   function ( l, n )
     local N;
     
-    N := Length( l );
-    
-    if N mod n <> 0 then
+    if Length( l ) mod n <> 0 then
         Error( "the length of the passed list 'l' must be divisible by passed positive integers 'n'!\n" );
     fi;
     
-    return List( [ 1 .. N / n ], i -> List( [ 1 .. n ], j -> l[ ( i - 1 ) * n + j] ) );
+    return SplitDenseList( l, ListWithIdenticalEntries( Length( l ) / n, n ) );
     
 end );
 

@@ -7,6 +7,7 @@
 
 DeclareOperation( "Relu", [ IsFloat ] );
 DeclareOperation( "Enumerate", [ IsDenseList ] );
+DeclareOperation( "SplitDenseList", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "SplitDenseList", [ IsDenseList, IsPosInt ] );
 
 DeclareGlobalFunction( "SelectBasedOnCondition" );
