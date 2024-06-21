@@ -6,7 +6,7 @@ LoadPackage( "MachineLearningForCAP" );
 
 #! @Example
 Smooth := CategoryOfSkeletalSmoothMaps( );
-#! Smooth
+#! SkeletalSmoothMaps
 R2 := ObjectConstructor( Smooth, 2 );
 #! ℝ^2
 R2 = Smooth.2;

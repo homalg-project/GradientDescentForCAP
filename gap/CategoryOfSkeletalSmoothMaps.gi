@@ -1565,16 +1565,16 @@ InstallOtherMethod( \.,
             local map, jacobian_matrix;
             
             map :=
-              x -> List( [ 1 .. n ], i -> Sum( [ 1 .. m ], j -> x[( m + 1 ) * n + j] * x[( i - 1 ) * ( m + 1 ) + j] ) + x[i * ( m + 1 )] );
+              x -> List( [ 1 .. n ], i -> Sum( [ 1 .. m ], j ->  x[( i - 1 ) * ( m + 1 ) + j] * x[( m + 1 ) * n + j] ) + x[i * ( m + 1 )] );
             
             jacobian_matrix :=
               x ->  List( [ 1 .. n ], i ->
                       Concatenation(
                         ListWithIdenticalEntries( ( i - 1 ) * ( m + 1 ), 0 ),
-                        List( [ 1 .. m ], i -> x[( m + 1) * n + i] ),
+                        List( [ ( m + 1 ) * n + 1 .. ( m + 1 ) * n + m ], i -> x[i] ),
                         [ 1 ],
                         ListWithIdenticalEntries( ( n - i ) * ( m + 1 ), 0 ),
-                        List( [ 1 .. m ], j -> x[( i - 1 ) * ( m + 1 ) + j] ) ) );
+                        List( [ ( i - 1 ) * ( m + 1 ) + 1 .. ( i - 1 ) * ( m + 1 ) + m ], i -> x[i] ) ) );
             
             return MorphismConstructor( Smooth, Smooth.( m * ( n + 1 ) + n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
             

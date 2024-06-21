@@ -6,9 +6,9 @@ LoadPackage( "MachineLearningForCAP" );
 
 #! @Example
 Smooth := CategoryOfSkeletalSmoothMaps( );
-#! Smooth
+#! SkeletalSmoothMaps
 Para := CategoryOfParametrisedMorphisms( Smooth );
-#! CategoryOfParametrisedMorphisms( Smooth )
+#! CategoryOfParametrisedMorphisms( SkeletalSmoothMaps )
 R1 := Smooth.( 1 );
 #! ℝ^1
 R2 := Smooth.( 2 );
@@ -103,12 +103,12 @@ Display( h );
 #! ----------------------
 #! ℝ^11 -> ℝ^2
 #!
-#! ‣ Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )) * x1
-#! + Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp(x11 )) * x2 +
-#! Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )) * x3 + x4
-#! ‣ Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )) * x5
-#! + Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp(x11 )) * x6 +
-#! Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )) * x7 + x8
+#! ‣ x1 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+#!   + x2 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+#!   + x3 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x4
+#! ‣ x5 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+#!   + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+#!   + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8
 constants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;
 r := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );
 #! ℝ^0 -> ℝ^10
@@ -133,10 +133,10 @@ Display( t );
 #! ----------------------
 #! ℝ^1 -> ℝ^2
 #!
-#! ‣ 2.39116 / (5.10727 + Exp( x1 )) * 0.91 + 2.71611 / (5.10727 + Exp( x1 )) * 0.24
-#!   + Exp( x1 ) / (5.10727 + Exp( x1 )) * 0.88 + 0.59
-#! ‣ 2.39116 / (5.10727 + Exp( x1 )) * 0.67 + 2.71611 / (5.10727 + Exp( x1 )) * 0.05
-#!   + Exp( x1 ) / (5.10727 + Exp( x1 )) * 0.85 + 0.31
+#! ‣ 0.91 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.24 * (2.71611 / (5.10727 + Exp( x1 )))
+#!   + 0.88 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.59
+#! ‣ 0.67 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.05 * (2.71611 / (5.10727 + Exp( x1 )))
+#!   + 0.85 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.31
 s := SimplifyMorphism( t, infinity );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
