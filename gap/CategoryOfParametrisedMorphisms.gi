@@ -439,7 +439,7 @@ InstallOtherMethod( \.,
           S := ObjectConstructor( Para, ObjectConstructor( C, m ) );
           T := ObjectConstructor( Para, Target( h ) );
           
-          P := ObjectConstructor( C, ( Binomial( degree + m - 1, m - 1 ) + 1 ) * n );
+          P := ObjectConstructor( C, Binomial( degree + m, m ) * n );
           
           return MorphismConstructor( Para, S, Pair( P, h ), T );
           

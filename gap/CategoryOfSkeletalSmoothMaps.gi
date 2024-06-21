@@ -1617,9 +1617,9 @@ InstallOtherMethod( \.,
       
         return
           function ( m, n, degree )
-            local combs, powers, non_trivial_powers, p, nr_parameters, map, diff_powers, jacobian_matrix;
+            local combs, powers, non_trivial_powers, p, nr_parameters, map, diff_powers, non_trivial_powers_, jacobian_matrix;
             
-            combs := List( Combinations( [ 1 .. degree + m - 1 ], m - 1 ), comb -> Concatenation( [ 0 ], comb, [degree + m] ) );
+            combs := List( Combinations( [ 1 .. degree + m ], m ), comb -> Concatenation( [ 0 ], comb, [degree + m + 1] ) );
             
             powers := List( combs, comb -> List( [ 1 .. m ], i -> comb[i+1] - comb[i] - 1 ) );
             
@@ -1627,7 +1627,17 @@ InstallOtherMethod( \.,
             
             p := Length( powers );
             
-            nr_parameters := ( p + 1 ) * n;
+            nr_parameters := p * n;
+            
+            diff_powers :=
+                List( [ 1 .. m ], i ->
+                  List( [ 1 .. p ], j ->
+                    [ powers[j][i], List( [ 1 .. m ], k -> powers[j][k] - KroneckerDelta( i, k ) ) ] ) );
+            
+            non_trivial_powers_ :=
+                List( [ 1 .. m ], i ->
+                  List( [ 1 .. p ], j ->
+                    PositionsProperty( diff_powers[i][j][2], e -> e > 0 ) ) );
             
             map :=
               function ( vec )
@@ -1635,46 +1645,43 @@ InstallOtherMethod( \.,
                 
                 w := List( [ 1 .. nr_parameters ], i -> vec[i] );
                 
-                w := SplitDenseList( w, p + 1 );
+                w := SplitDenseList( w, p );
                 
-                x := List( [ 1 .. m ], i -> vec[ nr_parameters + i ] );
+                x := List( [ nr_parameters + 1 .. nr_parameters + m ], i -> vec[i] );
                 
                 x_powers := List( [ 1 .. p ], i -> Product( non_trivial_powers[p - i + 1], j -> x[j] ^ powers[p - i + 1][j] ) );
                 
-                return List( [ 1 .. n ], i -> Sum( [ 1 ..  p ], j -> x_powers[j] * w[i][j] ) + w[i][p+1] );
+                return List( [ 1 .. n ], i -> Sum( [ 1 ..  p ], j -> w[i][j] * x_powers[j] ) );
                 
               end;
             
-            diff_powers :=
-                List( [ 1 .. m ], i ->
-                  List( [ 1 .. p ], t ->
-                    [ powers[t][i], List( [ 1 .. m ], k -> Maximum( 0, powers[t][k] - KroneckerDelta( i, k ) ) ) ] ) );
-            
             jacobian_matrix :=
               function ( vec )
-                local w, x, x_powers, zeros, J_w, monomials, J_x;
+                local w, x, x_powers, zeros, J_w, J_x;
                 
                 w := List( [ 1 .. nr_parameters ], i -> vec[i] );
                 
-                w := SplitDenseList( w, p + 1 );
+                w := SplitDenseList( w, p );
                 
-                x := List( [ 1 .. m ], i -> vec[ nr_parameters + i ] );
+                x := List( [ nr_parameters + 1 .. nr_parameters + m ], i -> vec[i] );
                 
                 x_powers := List( [ 1 .. p ], i -> Product( non_trivial_powers[p - i + 1], j -> x[j] ^ powers[p - i + 1][j] ) );
                 
-                zeros := ListWithIdenticalEntries( p + 1, 0 );
+                zeros := ListWithIdenticalEntries( p, 0 );
                 
                 J_w :=
                   List( [ 1 .. n ], i ->
                     Concatenation(
                       Concatenation( ListWithIdenticalEntries( i - 1, zeros ) ),
                       x_powers,
-                      [ 1 ],
                       Concatenation( ListWithIdenticalEntries( n - i, zeros ) ) ) );
                 
-                monomials := List( [ 1 .. m ], i -> List( [ 1 .. p ], j -> diff_powers[i][p-j+1][1] * Product( [ 1 .. m ], k -> x[k] ^ diff_powers[i][p-j+1][2][k] ) ) );
-                
-                J_x := List( [ 1 .. n ], i -> List( [ 1 .. m ], j -> w[i] * monomials[j] ) );
+                x_powers :=
+                  List( [ 1 .. m ],
+                    i -> List( [ 1 .. p ],
+                      j -> diff_powers[i][p - j + 1][1] * Product( non_trivial_powers_[i][p - j + 1], k -> x[k] ^ diff_powers[i][p - j + 1][2][k] ) ) );
+               
+                J_x := List( [ 1 .. n ], i -> List( [ 1 .. m ], j -> w[i] * x_powers[j] ) );
                 
                 return ListN( J_w, J_x, Concatenation );
                 
@@ -1744,29 +1751,28 @@ InstallGlobalFunction( DummyInputStringsForPolynomialLayer,
     degree := arg[3];
     
     weight_str := arg[4];
-    bias_str := arg[5];
     
-    if Length( arg ) > 5 then
-        input_str := arg[6];
+    if Length( arg ) > 4 then
+        input_str := arg[5];
         input_length := m;
     else
         input_length := 0;
     fi;
     
-    combs := List( Combinations( [ 1 .. degree + m - 1 ], m - 1 ), comb -> Concatenation( [ 0 ], comb, [degree + m] ) );
+    combs := List( Combinations( [ 1 .. degree + m ], m ), comb -> Concatenation( [ 0 ], comb, [degree + m + 1] ) );
     
-    powers := List( combs, comb -> List( [ 1 .. m ], i -> comb[i+1] - comb[i] - 1 ) );
+    powers := List( combs, comb -> List( [ 1 .. m ], i -> comb[i + 1] - comb[i] - 1 ) );
     
     p := Length( powers );
     
-    nr_parameters := ( p + 1 ) * n;
+    nr_parameters := p * n;
     
     parameters :=
       Concatenation(
         TransposedMat(
-          Concatenation(
-            List( [ 1 .. p ], i -> List( [ 1 .. n ], j -> Concatenation( weight_str, String( j ), "__", JoinStringsWithSeparator( powers[p-i+1], "_" ) ) ) ),
-            [ List( [ 1 .. n ], j -> Concatenation( bias_str, "_", String( j ) ) ) ] ) ) );
+            List( [ 1 .. p ],
+              i -> List( [ 1 .. n ],
+                j -> Concatenation( weight_str, String( j ), "__", JoinStringsWithSeparator( powers[p - i + 1], "_" ) ) ) ) ) );
     
     return Concatenation( parameters, List( [ 1 .. input_length ], i -> Concatenation( input_str, String( i ) ) ) );
 
