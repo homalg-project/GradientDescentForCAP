@@ -7,16 +7,16 @@
 
 ##
 InstallMethod( OneEpochUpdateLens,
-          [ IsMorphismInCategoryOfParametrisedMorphisms, IsFunction, IsString, IsPosInt ],
+          [ IsMorphismInCategoryOfParametrisedMorphisms, IsFunction, IsDenseList, IsPosInt ],
   
-  function ( parametrised_morphism, optimizer, training_examples_path, batch_size )
-    local Para, Smooth, nr_parameters, training_examples, train, nr_train_examples, r, random_indices, cost, costs, Lenses, L, negative_learning_rate, get_per_epoch, put_per_epoch, epoch_lens;
+  function ( parametrised_morphism, optimizer, training_examples, batch_size )
+    local Para, Smooth, nr_parameters, nr_training_examples, r, random_indices, cost, costs, Lenses, L, negative_learning_rate, get_per_epoch, put_per_epoch, epoch_lens;
     
     Para := CapCategory( parametrised_morphism );
     Smooth := UnderlyingCategory( Para );
     
-    if not IsCategoryOfParametrisedMorphisms( Para ) then
-        Error( "the passed morphism 'parametrised_morphism' must be a morphism in a category of parametrised morphisms!\n" );
+    if IsEmpty( training_examples ) then
+        Error( "the passed list 'training_examples' must contain at least one element!\n" );
     fi;
     
     nr_parameters := RankOfObject( ParameterObject( parametrised_morphism ) );
@@ -25,29 +25,21 @@ InstallMethod( OneEpochUpdateLens,
         Error( "the target of the parametrised_morphism morphism must be equal to 1!\n" );
     fi;
     
-    if not IsExistingFile( training_examples_path ) then
-        Error( "no file is found at ", training_examples_path, "!\n" );
-    fi;
+    nr_training_examples := Length( training_examples );
     
-    training_examples := IO_File( training_examples_path );
-    
-    train := EvalString( IO_ReadUntilEOF( training_examples ) );
-    
-    nr_train_examples := Length( train );
-    
-    if batch_size > nr_train_examples then
+    if batch_size > nr_training_examples then
         Error( "the batch size must be smaller than the number of training examples!\n" );
     fi;
     
-    r := nr_train_examples mod batch_size;
+    r := nr_training_examples mod batch_size;
     
     if r <> 0 then
         
-        random_indices := Shuffle( [ 1 .. nr_train_examples ] ){[1 .. batch_size - r]};
+        random_indices := Shuffle( [ 1 .. nr_training_examples ] ){[1 .. batch_size - r]};
         
-        Append( train, train{random_indices} );
+        Append( training_examples, training_examples{random_indices} );
         
-        nr_train_examples := nr_train_examples + batch_size - r;
+        nr_training_examples := nr_training_examples + batch_size - r;
         
     fi;
     
@@ -56,7 +48,7 @@ InstallMethod( OneEpochUpdateLens,
     cost := SwitchSourceAndParameterObject( parametrised_morphism );
     
     costs :=
-      List( SplitDenseList( train, batch_size ),
+      List( SplitDenseList( training_examples, batch_size ),
         batch -> ParametrisedMorphism( ReparametriseMorphism( cost, Smooth.Constant( Concatenation( batch ) ) ) ) );
     
     optimizer := optimizer( nr_parameters );
@@ -76,7 +68,7 @@ InstallMethod( OneEpochUpdateLens,
     
     costs := List( costs, cost -> PreCompose( Lenses, optimizer, PreCompose( Lenses, cost, negative_learning_rate ) ) );
     
-    get_per_epoch := PreCompose( UniversalMorphismIntoDirectProduct( Smooth, List( costs, cost -> GetMorphism( cost ) ) ), Smooth.Mean( nr_train_examples / batch_size ) ); 
+    get_per_epoch := PreCompose( UniversalMorphismIntoDirectProduct( Smooth, List( costs, cost -> GetMorphism( cost ) ) ), Smooth.Mean( nr_training_examples / batch_size ) );
     
     put_per_epoch := PreComposeList( Smooth, List( costs, cost -> PutMorphism( cost ) ) );
     
@@ -90,6 +82,36 @@ InstallMethod( OneEpochUpdateLens,
     
 end );
 
+##
+InstallOtherMethod( OneEpochUpdateLens,
+          [ IsMorphismInCategoryOfParametrisedMorphisms, IsFunction, IsString, IsPosInt ],
+  
+  function ( parametrised_morphism, optimizer, training_examples_path, batch_size )
+    local Para, Smooth, training_examples;
+    
+    Para := CapCategory( parametrised_morphism );
+    Smooth := UnderlyingCategory( Para );
+    
+    if not IsCategoryOfParametrisedMorphisms( Para ) then
+        Error( "the passed morphism 'parametrised_morphism' must be a morphism in a category of parametrised morphisms!\n" );
+    fi;
+    
+    if RankOfObject( UnderlyingObject( Target( parametrised_morphism ) ) ) <> 1 then
+        Error( "the target of the parametrised_morphism morphism must be equal to 1!\n" );
+    fi;
+    
+    if not IsExistingFile( training_examples_path ) then
+        Error( "no file is found at ", training_examples_path, "!\n" );
+    fi;
+    
+    training_examples := EvalString( IO_ReadUntilEOF( IO_File( training_examples_path ) ) );
+    
+    return OneEpochUpdateLens( parametrised_morphism, optimizer, training_examples, batch_size );
+    
+end );
+
+
+##
 InstallMethod( Fit,
           [ IsMorphismInCategoryOfLenses, IsPosInt, IsDenseList ],
   
