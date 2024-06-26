@@ -20,6 +20,7 @@ AutoDoc( rec(
             LateExtraPreamble := """
                 \usepackage{mathtools}
                 \DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
+                \DeclareUnicodeCharacter{2023}{\ensuremath{\blacktriangleright}}
                 % Many thanks to https://tex.stackexchange.com/questions/22466/how-to-convince-fancyvrb-to-give-overfull-warnings/534486#534486
                 \makeatletter
                 \def\FV@ListProcessLine#1{%
