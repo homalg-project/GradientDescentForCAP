@@ -703,10 +703,11 @@ InstallMethod( AsCythonFunction,
 end );
 
 ##
-BindGlobal( "ScatterPlotUsingPython",
+InstallMethod( ScatterPlotUsingPython,
+          [ IsDenseList, IsDenseList ],
   
-  function ( train_points, train_labels, test_points, test_labels )
-    local dir, path, file, stream, err, p;
+  function ( points, labels )
+    local dir, path, file, size, stream, err, p;
     
     dir := DirectoryTemporary( );
     
@@ -716,39 +717,67 @@ BindGlobal( "ScatterPlotUsingPython",
     
     file := IO_File( path, "w" );
     
+    size := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "size", "20" );
+    
     IO_Write( file,
       Concatenation(
         "import matplotlib.pyplot as plt\n",
         "import matplotlib.patches as patches\n\n",
         
-        "train_points =", String( train_points ), "\n",
-        "train_labels =", String( train_labels ), "\n",
+        "points =", String( points ), "\n",
+        "labels = [ str(label) for label in ", String( labels ), "]\n",
         
-        "test_points =", String( test_points ), "\n",
-        "test_labels =", String( test_labels ), "\n",
+        #"#test_points =", String( test_points ), "\n",
+        #"#test_labels = [ str(label) for label in ", String( test_labels ), "]\n",
         
-        "# Convert the train_points to separate x and y lists\n",
-        "x1 = [p[0] for p in train_points]\n",
-        "y1 = [p[1] for p in train_points]\n",
+        "# Convert the points to separate x and y lists\n",
+        "x1 = [p[0] for p in points]\n",
+        "y1 = [p[1] for p in points]\n",
         
-        "x2 = [p[0] for p in test_points]\n",
-        "y2 = [p[1] for p in test_points]\n",
+        "#x2 = [p[0] for p in test_points]\n",
+        "#y2 = [p[1] for p in test_points]\n",
         
+        "# Unique classes\n",
+        "unique_classes = list(set(labels))\n",
+        
+        "# Number of unique classes\n",
+        "num_classes = len(unique_classes)\n",
+        
+        "markers = ['+', '*', 'o', 'v', '^', '<', '>', '1', '2', '3', '4', 's', 'p', 'x', 'h', 'H', '.', ',', 'D', 'd', '|', '_']\n",
+        
+        "# Generate a list of colors using a colormap\n",
+        "colormap = plt.get_cmap('rainbow')\n",
+        "colors = [colormap(i / num_classes) for i in range(num_classes)]",
+        
+        "# Map classes to colors\n",
+        "style_map = {cls: colors[i] for i, cls in enumerate(unique_classes)}\n",
+        "markers = {cls : markers[i] for i, cls in enumerate(unique_classes)}\n",
         "# Create a figure and an axes\n",
         "fig, ax = plt.subplots()\n",
         
-        "# Create a scatter plot\n",
-        "scatter1 = plt.scatter(x1, y1, c=train_labels, cmap='viridis', marker='v', s=100, label='training data')\n",
-        "scatter2 = plt.scatter(x2, y2, c=test_labels, cmap='viridis', marker='o', s=20, label='test data')\n",
-       
+        "# Create a scatter plots\n",
+        "for cls in unique_classes:",
+        "\n     ",
+        "x1_class = [x1[i] for i in range(len(x1)) if labels[i] == cls]",
+        "\n     ",
+        "y1_class = [y1[i] for i in range(len(y1)) if labels[i] == cls]",
+        "\n     ",
+        "scatter1 = plt.scatter(x1_class, y1_class, color=style_map[cls], marker=markers[cls], s=", size, ", label=cls)\n",
+        
+        "\n     ",
+        "#x2_class = [x2[i] for i in range(len(x2)) if test_labels[i] == cls]",
+        "\n     ",
+        "#y2_class = [y2[i] for i in range(len(y2)) if test_labels[i] == cls]",
+        "\n     ",
+        "#scatter2 = plt.scatter(x2_class, y2_class, color=style_map[cls], marker='v', s=100, label=cls)\n",
+      
         "# Set the limits of the plot based on min and max values of x and y\n",
-        "plt.xlim(min(x1+x2) - 0.1, max(x1+x2) + 0.1)\n",
-        "plt.ylim(min(y1+y2) - 0.1, max(y1+y2) + 0.1)\n",
+        "plt.xlim(min(x1) - 0.1, max(x1) + 0.1)\n",
+        "plt.ylim(min(y1) - 0.1, max(y1) + 0.1)\n",
         
         "plt.xlabel('X-axis')\n",
         "plt.ylabel('Y-axis')\n",
         "plt.title('Scatter Plot using Matplotlib')\n",
-        "plt.colorbar(label='Label')\n",
         "plt.legend()\n",
         "plt.show()\n" ) );
     

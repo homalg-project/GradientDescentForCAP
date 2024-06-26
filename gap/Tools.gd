@@ -15,7 +15,7 @@ DeclareGlobalFunction( "CallFuncListBasedOnCondition" );
 DeclareGlobalFunction( "KroneckerDelta" );
 DeclareGlobalFunction( "MultiplyMatrices" );
 
-
+DeclareOperation( "ScatterPlotUsingPython", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "SimplifyExpressionUsingPython", [ IsDenseList, IsDenseList ] );
 DeclareOperation( "JacobianMatrixUsingPython", [ IsDenseList, IsDenseList, IsDenseList ] );
 DeclareOperation( "LazyJacobianMatrix", [ IsDenseList, IsDenseList, IsDenseList ] );
