@@ -11,4 +11,5 @@ ReadPackage( "MachineLearningForCAP", "gap/MethodRecord.autogen.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfSkeletalSmoothMaps.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfParametrisedMorphisms.gd" );
 ReadPackage( "MachineLearningForCAP", "gap/CategoryOfLenses.gd" );
-
+ReadPackage( "MachineLearningForCAP", "gap/FitParameters.gd" );
+ReadPackage( "MachineLearningForCAP", "gap/NeuralNetworks.gd" );
