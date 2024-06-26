@@ -477,10 +477,15 @@ InstallOtherMethod( \.,
         
         return
           
-          function ( n )
+          function ( )
+            local learning_rate, momentum;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            
             return
               # both are non-negative
-              function ( alpha, mu )
+              function ( n )
                 local P, Smooth, P3, P2, get, p1, p2, p3, s, put;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -500,8 +505,8 @@ InstallOtherMethod( \.,
                 p3 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P, P ], 3, P3 );
                 
                 s := AdditionForMorphisms( Smooth,
-                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, alpha, p3 ),
-                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, mu, p1 ) );
+                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, learning_rate, p3 ),
+                        MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, momentum, p1 ) );
                 
                 put := UniversalMorphismIntoDirectProductWithGivenDirectProduct( Smooth,
                             [ P, P ], P3, [ s, AdditionForMorphisms( Smooth, p2, s ) ], P2 );
@@ -519,9 +524,14 @@ InstallOtherMethod( \.,
     elif f = "GradientDescentWithMomentumOptimizer" then
         
         return
-          function ( n )
+          function ( )
+            local learning_rate, momentum;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            
             return
-              function ( alpha, mu )
+              function ( n )
                 local Smooth, P, P2, P3, get, map, jacobian_matrix, put, S, T;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -536,7 +546,7 @@ InstallOtherMethod( \.,
                   function ( vec )
                     local s;
                     
-                    s := List( [ 1 .. n ], i -> mu * vec[i] + alpha * vec[2 * n + i] );
+                    s := List( [ 1 .. n ], i -> momentum * vec[i] + learning_rate * vec[2 * n + i] );
                     
                     return Concatenation( s,  List( [ 1 .. n ], i -> vec[n + i] + s[i] ) );
                     
@@ -544,17 +554,17 @@ InstallOtherMethod( \.,
                 
                 jacobian_matrix :=
                   function ( vec )
-                    local mu_mat, alpha_mat, zero_mat, id_mat;
+                    local m_mat, l_mat, zero_mat, id_mat;
                     
-                    mu_mat := DiagonalMat( ListWithIdenticalEntries( n, mu ) );
-                    alpha_mat := DiagonalMat( ListWithIdenticalEntries( n, alpha ) );
+                    m_mat := DiagonalMat( ListWithIdenticalEntries( n, momentum ) );
+                    l_mat := DiagonalMat( ListWithIdenticalEntries( n, learning_rate ) );
                     zero_mat := DiagonalMat( ListWithIdenticalEntries( n, 0 ) );
                     id_mat := DiagonalMat( ListWithIdenticalEntries( n, 1 ) );
                     
                     return
                       Concatenation(
-                          ListN( mu_mat, zero_mat, alpha_mat, Concatenation ),
-                          ListN( mu_mat, id_mat, alpha_mat, Concatenation ) );
+                          ListN( m_mat, zero_mat, l_mat, Concatenation ),
+                          ListN( m_mat, id_mat, l_mat, Concatenation ) );
                     
                   end;
                 
@@ -572,10 +582,15 @@ InstallOtherMethod( \.,
     elif f = "AdagradOptimizer_" then
         
         return
-          function ( n )
+          # the standard value of delta is 1.e-8
+          function ( )
+            local learning_rate, epsilon;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            epsilon := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "epsilon", 1.e-7 );
+            
             return
-              # the standard value of delta is 1.e-8
-              function ( alpha, delta )
+              function ( n )
                 local Smooth, P, P2, P3, get, p1, p2, p3, s, t, x, put, S, T;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -597,10 +612,10 @@ InstallOtherMethod( \.,
                         PreCompose( Smooth, p3, DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( 2 ) ) ) ) );
                 
                 t := MultiplicationForMorphisms( Smooth,
-                        SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, alpha ), Smooth.( n ) ),
+                        SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, learning_rate ), Smooth.( n ) ),
                         PreCompose( Smooth,
                             AdditionForMorphisms( Smooth,
-                                  SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, delta ), Smooth.( n ) ),
+                                  SmoothMorphism( Smooth, P3, ListWithIdenticalEntries( n, epsilon ), Smooth.( n ) ),
                                   PreCompose( Smooth,
                                       s,
                                       DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Sqrt ) ) ) ),
@@ -623,9 +638,14 @@ InstallOtherMethod( \.,
     elif f = "AdagradOptimizer" then
         
         return
-          function ( n )
+          function ( )
+            local learning_rate, epsilon;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            epsilon := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "epsilon", 1.e-7 );
+            
             return
-              function ( alpha, delta )
+              function ( n )
                 local Smooth, P, P2, P3, get, map, jacobian_matrix, put, S, T;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -645,7 +665,7 @@ InstallOtherMethod( \.,
                     return
                       Concatenation(
                         List( [ 1 .. n ], i -> vec[i] + l[i] ),
-                        List( [ 1 .. n ], i -> vec[n + i] + alpha * vec[2 * n + i] / ( delta + Sqrt( vec[i] + l[i] ) ) ) );
+                        List( [ 1 .. n ], i -> vec[n + i] + learning_rate * vec[2 * n + i] / ( epsilon + Sqrt( vec[i] + l[i] ) ) ) );
                   end;
                 
                 jacobian_matrix :=
@@ -654,7 +674,7 @@ InstallOtherMethod( \.,
                     
                     l := List( [ 1 .. n ], i -> Sqrt( vec[i] + vec[2 * n + i] ^ 2 ) );
                     
-                    m := List( [ 1 .. n ], i -> - alpha * vec[2 * n + i] / ( l[i] * ( delta + l[i] ) ^ 2 ) );
+                    m := List( [ 1 .. n ], i -> - learning_rate * vec[2 * n + i] / ( l[i] * ( epsilon + l[i] ) ^ 2 ) );
                     
                     return
                       Concatenation(
@@ -666,7 +686,7 @@ InstallOtherMethod( \.,
                           ListN(
                             DiagonalMat( List( [ 1 .. n ], i -> m[i] / 2 ) ),
                             IdentityMat( n ),
-                            DiagonalMat( List( [ 1 .. n ], i -> m[i] * vec[2 * n + i] + alpha / ( delta + l[i] ) ) ),
+                            DiagonalMat( List( [ 1 .. n ], i -> m[i] * vec[2 * n + i] + learning_rate / ( epsilon + l[i] ) ) ),
                               Concatenation ) );
                     
                   end;
@@ -686,9 +706,13 @@ InstallOtherMethod( \.,
     elif f = "GradientDescentOptimizer_" then
         
         return
-          function ( n )
+          function ( )
+            local learning_rate;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            
             return
-              function ( alpha )
+              function ( n )
                 local Smooth, P, P2, get, p1, p2, put, S;
                 
                 # (P, P) -> (P, P)
@@ -703,7 +727,7 @@ InstallOtherMethod( \.,
                 p2 := ProjectionInFactorOfDirectProductWithGivenDirectProduct( Smooth, [ P, P ], 2, P2 );
                 
                 put := AdditionForMorphisms( Smooth,
-                          p1, MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, alpha, p2 ) );
+                          p1, MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, learning_rate, p2 ) );
                 
                 S := ObjectConstructor( Lenses, Pair( P, P ) );
                 
@@ -717,9 +741,13 @@ InstallOtherMethod( \.,
     elif f = "GradientDescentOptimizer" then
         
         return
-          function ( n )
+          function ( )
+            local learning_rate;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
+            
             return
-              function ( alpha )
+              function ( n )
                 local Smooth, P, get, map, jacobian_matrix, put, S;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -731,14 +759,14 @@ InstallOtherMethod( \.,
                 map :=
                   function ( vec )
                     
-                    return List( [ 1 .. n ], i -> vec[i] + alpha * vec[n + i] );
+                    return List( [ 1 .. n ], i -> vec[i] + learning_rate * vec[n + i] );
                     
                   end;
                 
                 jacobian_matrix :=
                   function ( vec )
                     
-                    return ListN( IdentityMat( n ), DiagonalMat( ListWithIdenticalEntries( n, alpha ) ), Concatenation );
+                    return ListN( IdentityMat( n ), DiagonalMat( ListWithIdenticalEntries( n, learning_rate ) ), Concatenation );
                     
                   end;
                 
@@ -752,31 +780,20 @@ InstallOtherMethod( \.,
               
             end;
             
-    elif f = "DefaultGradientDescentOptimizer_" then
-        
-        return
-          function ( n )
-            
-            return Lenses.GradientDescentOptimizer_( n )( 0.1 );
-            
-          end;
-          
-    elif f = "DefaultGradientDescentOptimizer" then
-        
-        return
-          function ( n )
-            
-            return Lenses.GradientDescentOptimizer( n )( 0.1 );
-            
-          end;
-          
     # categorical construction
     elif f = "AdamOptimizer_" then
         
         return
-          function ( n )
+          function ( )
+            local learning_rate, beta_1, beta_2, epsilon;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.001 );
+            beta_1 := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "beta_1", 0.9 );
+            beta_2 := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "beta_2", 0.999 );
+            epsilon := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "epsilon", 1.e-7 );
+            
             return
-              function ( beta_1, beta_2, epsilon, delta )
+              function ( n )
                 local Smooth, P, T, diagram, TxP3, get, TxP4, p1, p2, p3, p4, p5,
                   put_1, m, put_2, b, m_hat, v, put_3, v_hat, delta_n, s, put_4, put;
                 
@@ -845,7 +862,7 @@ InstallOtherMethod( \.,
                 
                 delta_n := SmoothMorphism( Smooth,
                               TxP4,
-                              ListWithIdenticalEntries( n, delta ),
+                              ListWithIdenticalEntries( n, epsilon ),
                               Smooth.( n ) );
                 
                 s := PreCompose( Smooth,
@@ -856,7 +873,7 @@ InstallOtherMethod( \.,
                               DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Sqrt ) ) ) ),
                         DirectProductFunctorial( Smooth, ListWithIdenticalEntries( n, Smooth.Power( -1 ) ) ) );
                 
-                s := MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, epsilon, MultiplicationForMorphisms( Smooth, s, m_hat ) );
+                s := MultiplyWithElementOfCommutativeRingForMorphisms( Smooth, learning_rate, MultiplicationForMorphisms( Smooth, s, m_hat ) );
                 
                 put_4 := AdditionForMorphisms( Smooth, p4, s );
                 
@@ -874,12 +891,19 @@ InstallOtherMethod( \.,
     elif f = "AdamOptimizer" then
         
         return
-          function ( n )
+          #
+          # the default values: learning_rate := 0.001, beta_1 := 0.9, beta_2 := 0.999, epsilon := 1.e-7
+          #
+          function ( )
+            local learning_rate, beta_1, beta_2, epsilon;
+            
+            learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.001 );
+            beta_1 := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "beta_1", 0.9 );
+            beta_2 := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "beta_2", 0.999 );
+            epsilon := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "epsilon", 1.e-7 );
+            
             return
-              #
-              # the default values: beta_1 := 0.8, beta_2 := 0.999, epsilon := 0.02, delta := 1.e-8
-              #
-              function ( beta_1, beta_2, epsilon, delta )
+              function ( n )
                 local Smooth, map_1, jacobian_matrix_1, get, map_2, jacobian_matrix_2, put;
                 
                 Smooth := UnderlyingCategory( Lenses );
@@ -910,19 +934,19 @@ InstallOtherMethod( \.,
                   function ( vec )
                     local c_1, c_2, c_3, c_4, t, m, v, x;
                     
-                    if IsZero( vec[1] ) then
+                    if IsIdenticalObj( vec[1], 0 ) then
                         Error( "the first entry of the vector (time) must be an integer greater or equal to 1!\n" );
                     fi;
                     
                     c_1 := 1 - beta_1;
                     c_2 := 1 - beta_2;
                     c_3 := 1 - beta_2 ^ vec[1];
-                    c_4 := epsilon / c_3;
+                    c_4 := learning_rate / c_3;
                     
                     t := [ vec[1] + 1 ];
                     m := List( [ 1 .. n ], i -> beta_1 * vec[1 + i] + c_1 * vec[1 + 3 * n + i] );
                     v := List( [ 1 .. n ], i -> beta_2 * vec[1 + n + i] + c_2 * vec[1 + 3 * n + i] ^ 2 );
-                    x := List( [ 1 .. n ], i -> vec[1 + 2 * n + i] + c_4 * ( m[i] / ( delta + Sqrt( v[i] / c_3 ) ) ) );
+                    x := List( [ 1 .. n ], i -> vec[1 + 2 * n + i] + c_4 * ( m[i] / ( epsilon + Sqrt( v[i] / c_3 ) ) ) );
                     
                     return Concatenation( t, m, v, x );
                     
@@ -938,13 +962,13 @@ InstallOtherMethod( \.,
                     c_4 := 1 - c_3;
                     c_5 := Log( beta_2 );
                     c_6 := c_3 * c_5;
-                    c_7 := epsilon * beta_1 / c_4;
-                    c_8 := epsilon / c_4 ^ 2;
+                    c_7 := learning_rate * beta_1 / c_4;
+                    c_8 := learning_rate / c_4 ^ 2;
                     
                     m := List( [ 1 .. n ], i -> beta_1 * vec[1 + i] + c_1 * vec[1 + 3 * n + i] );
                     v := List( [ 1 .. n ], i -> beta_2 * vec[1 + n + i] + c_2 * vec[1 + 3 * n + i] ^ 2 );
                     sqrt := List( [ 1 .. n ], i -> Sqrt( v[i] / c_4 ) );
-                    tau := List( [ 1 .. n ], i -> c_8 * m[i] / ( delta + sqrt[i] ) );
+                    tau := List( [ 1 .. n ], i -> c_8 * m[i] / ( epsilon + sqrt[i] ) );
                     
                     j_t := [ Concatenation( [ 1 ], ListWithIdenticalEntries( 4 * n, 0 ) ) ];
                     
@@ -967,12 +991,12 @@ InstallOtherMethod( \.,
                     
                     j_x :=
                       ListN(
-                        List( [ 1 .. n ], i -> [ c_6 * tau[i] * ( 1 - v[i] / ( 2 * c_4 * sqrt[i] * ( delta + sqrt[i] ) ) ) ] ),
-                        DiagonalMat( List( [ 1 .. n ], i -> c_7 / ( delta + sqrt[i] ) ) ),
-                        DiagonalMat( List( [ 1 .. n ], i -> -beta_2 * epsilon * m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) ) ),
+                        List( [ 1 .. n ], i -> [ c_6 * tau[i] * ( 1 - v[i] / ( 2 * c_4 * sqrt[i] * ( epsilon + sqrt[i] ) ) ) ] ),
+                        DiagonalMat( List( [ 1 .. n ], i -> c_7 / ( epsilon + sqrt[i] ) ) ),
+                        DiagonalMat( List( [ 1 .. n ], i -> -beta_2 * learning_rate * m[i] / ( 2 * sqrt[i] * c_4 ^ 2 * ( epsilon + sqrt[i] ) ^ 2 ) ) ),
                         IdentityMat( n ),
                         DiagonalMat( List( [ 1 .. n ], i ->
-                          -epsilon * ( vec[1 + 3 * n + i] * c_2 * m[i] / ( sqrt[i] * c_4 ^ 2 * ( delta + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( delta + sqrt[i] ) ) ) ) ),
+                          -learning_rate * ( vec[1 + 3 * n + i] * c_2 * m[i] / ( sqrt[i] * c_4 ^ 2 * ( epsilon + sqrt[i] ) ^ 2 ) - c_1 / ( c_4 * ( epsilon + sqrt[i] ) ) ) ) ),
                         Concatenation );
                     
                     return Concatenation( j_t, j_m, j_v, j_x );
@@ -990,14 +1014,6 @@ InstallOtherMethod( \.,
               
           end;
           
-    elif f = "DefaultAdamOptimizer_" then
-        
-        return n -> Lenses.AdamOptimizer_( n )( 0.8, 0.999, 0.02, 1.e-8 );
-        
-    elif f = "DefaultAdamOptimizer" then
-        
-        return n -> Lenses.AdamOptimizer( n )( 0.8, 0.999, 0.02, 1.e-8 );
-        
     elif f in [ "IdFunc", "Sum", "Mean", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax", "QuadraticLoss_",
                 "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss" ] then
         
