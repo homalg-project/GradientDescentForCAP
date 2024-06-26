@@ -32,7 +32,7 @@ DeclareOperation( "EvalJacobianMatrix", [ IsMorphismInCategoryOfSkeletalSmoothMa
 
 DeclareGlobalVariable( "MachineLearningForCAP" );
 
-DeclareGlobalFunction( "DummyInputStringsForLinearLayer" );
-DeclareGlobalFunction( "DummyInputForLinearLayer" );
-DeclareGlobalFunction( "DummyInputStringsForPolynomialLayer" );
-DeclareGlobalFunction( "DummyInputForPolynomialLayer" );
+DeclareGlobalFunction( "DummyInputStringsForAffineTransformation" );
+DeclareGlobalFunction( "DummyInputForAffineTransformation" );
+DeclareGlobalFunction( "DummyInputStringsForPolynomialTransformation" );
+DeclareGlobalFunction( "DummyInputForPolynomialTransformation" );

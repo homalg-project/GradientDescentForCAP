@@ -72,7 +72,7 @@ Display( g );
 #! ‣ Exp( Sqrt( x1 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
 #! ‣ Exp( Cos( x2 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
 #! ‣ Exp( x3 ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
-l := Para.LinearLayer( 3, 2 );
+l := Para.AffineTransformation( 3, 2 );
 #! ℝ^3 -> ℝ^2 defined by:
 #!
 #! Parameter Object:

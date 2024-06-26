@@ -674,7 +674,7 @@ InstallGlobalFunction( CategoryOfSkeletalSmoothMaps,
           
         else
           
-          l := Smooth.LinearLayer( rank_S, rank_T );
+          l := Smooth.AffineTransformation( rank_S, rank_T );
           
           constants := List( [ 1 .. ( rank_S + 1 ) * rank_T ], i -> 0.001 * Random( [ 1 .. 1000 ] ) );
           
@@ -1526,7 +1526,7 @@ InstallOtherMethod( \.,
           end;
           
     # categorical construction
-    elif f = "LinearLayer_" then
+    elif f = "AffineTransformation_" then
         
         return
           function ( m, n )
@@ -1558,7 +1558,7 @@ InstallOtherMethod( \.,
             
           end;
           
-    elif f = "LinearLayer" then
+    elif f = "AffineTransformation" then
         
         return
           function ( m, n )
@@ -1580,7 +1580,7 @@ InstallOtherMethod( \.,
             
           end;
          
-    elif f = "LinearLayerWithDropout" then
+    elif f = "AffineTransformationWithDropout" then
          
         return
           function( m, n, percentage )
@@ -1609,11 +1609,11 @@ InstallOtherMethod( \.,
               
               dropout := MorphismConstructor( Smooth, Smooth.( m + ( m + 1 ) * n ), Pair( map, jacobian_matrix ), Smooth.( n ) );
               
-              return MultiplicationForMorphisms( Smooth, dropout, Smooth.LinearLayer( m, n ) );
+              return MultiplicationForMorphisms( Smooth, dropout, Smooth.AffineTransformation( m, n ) );
             
           end;
           
-    elif f = "PolynomialLayer" then
+    elif f = "PolynomialTransformation" then
       
         return
           function ( m, n, degree )
@@ -1699,9 +1699,9 @@ InstallOtherMethod( \.,
     
 end );
 
-## e.g., DummyInputStringsForLinearLayer( 2, 4, "w", "b" [, "x"] )
+## e.g., DummyInputStringsForAffineTransformation( 2, 4, "w", "b" [, "x"] )
 ##
-InstallGlobalFunction( DummyInputStringsForLinearLayer,
+InstallGlobalFunction( DummyInputStringsForAffineTransformation,
   
   function ( arg... )
     local m, n, weight_str, bias_str, input_str, input_length, parameters;
@@ -1731,17 +1731,17 @@ InstallGlobalFunction( DummyInputStringsForLinearLayer,
 end );
 
 ##
-InstallGlobalFunction( DummyInputForLinearLayer,
+InstallGlobalFunction( DummyInputForAffineTransformation,
   
   function ( arg... )
     
-    return ConvertToExpressions( CallFuncList( DummyInputStringsForLinearLayer, arg ) );
+    return ConvertToExpressions( CallFuncList( DummyInputStringsForAffineTransformation, arg ) );
     
 end );
 
-## e.g., DummyInputStringsForLinearLayer( 2, 4, degree, "w", "b" [, "x"] )
+## e.g., DummyInputStringsForAffineTransformation( 2, 4, degree, "w", "b" [, "x"] )
 ##
-InstallGlobalFunction( DummyInputStringsForPolynomialLayer,
+InstallGlobalFunction( DummyInputStringsForPolynomialTransformation,
   
   function ( arg... )
     local m, n, degree, weight_str, bias_str, input_str, input_length, combs, powers, p, nr_parameters, parameters;
@@ -1779,11 +1779,11 @@ InstallGlobalFunction( DummyInputStringsForPolynomialLayer,
 end );
 
 ##
-InstallGlobalFunction( DummyInputForPolynomialLayer,
+InstallGlobalFunction( DummyInputForPolynomialTransformation,
   
   function ( arg... )
     
-    return ConvertToExpressions( CallFuncList( DummyInputStringsForPolynomialLayer, arg ) );
+    return ConvertToExpressions( CallFuncList( DummyInputStringsForPolynomialTransformation, arg ) );
     
 end );
 

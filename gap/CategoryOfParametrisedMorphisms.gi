@@ -408,7 +408,7 @@ InstallOtherMethod( \.,
       
       return C.( f ) / Para;
       
-    elif f in [ "LinearLayer_", "LinearLayer", "LinearLayerWithDropout" ] then
+    elif f in [ "AffineTransformation_", "AffineTransformation", "AffineTransformationWithDropout" ] then
       
       return
         function ( arg... )
@@ -428,7 +428,7 @@ InstallOtherMethod( \.,
           
         end;
         
-    elif f = "PolynomialLayer" then
+    elif f = "PolynomialTransformation" then
       
       return
         function( m, n, degree )
