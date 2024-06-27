@@ -49,8 +49,17 @@ model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['ac
 
 # View the initial weights
 initial_weights = model.get_weights()
-for i, weight in enumerate(initial_weights):
-    print(f'Initial weights for layer {i+1}: {weight}')
+initial_weights_vec = []
+
+for i in range(0, len(initial_weights), 2):
+    w = initial_weights[i]
+    b = initial_weights[i+1]
+    b = b[np.newaxis, :]
+    m = np.concatenate([w, b])
+    print( f"affine matrix of layer {i//2 + 1}:\n{m}\n" )
+    initial_weights_vec = m.flatten('F').tolist() + initial_weights_vec
+
+print(f"initial weights as vector: \n{initial_weights_vec}")
 
 # View the parameters of the Adam optimizer
 print(f'Learning rate: {optimizer.learning_rate.numpy()}')
@@ -64,3 +73,17 @@ model.fit(X_train, y_train, epochs=50, batch_size=1)
 # Evaluate the model. Accuracy should less or more than 83%
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f'Accuracy: {accuracy}')
+
+# View the learnt weights
+weights = model.get_weights()
+
+weights_vec = []
+for i in range(0, len(weights), 2):
+    w = weights[i]
+    b = weights[i+1]
+    b = b[np.newaxis, :]
+    m = np.concatenate([w, b])
+    print( f"affine matrix of layer {i//2 + 1}:\n{m}\n" )
+    weights_vec = m.flatten('F').tolist() + weights_vec
+
+print(f"weights as vector: \n{weights_vec}")
