@@ -18,9 +18,9 @@ test: doc
 
 test-basic-spacing:
 	# exit code 1 means no match, which is what we want here (exit code 2 signals an error)
-	grep -RPl "\t" examples/ gap/; test $$? -eq 1 || (echo "Tabs found" && exit 1)
-	grep -RPl "\r" examples/ gap/; test $$? -eq 1 || (echo "Windows line-endings found" && exit 1)
-	grep -RPzL "\n\z" examples/ gap/ | grep ""; test $$? -eq 1 || (echo "File with no newline at end of file found" && exit 1)
+	grep -RPl "\t" examples/*.g gap/*.g*; test $$? -eq 1 || (echo "Tabs found" && exit 1)
+	grep -RPl "\r" examples/*.g gap/*.g*; test $$? -eq 1 || (echo "Windows line-endings found" && exit 1)
+	grep -RPzL "\n\z" examples/*.g gap/*.g* | grep ""; test $$? -eq 1 || (echo "File with no newline at end of file found" && exit 1)
 
 test-doc: doc
 	cp -aT doc/ doc_tmp/
@@ -54,4 +54,4 @@ test-spacing:
 	rm spacing_diff
 	rm spacing_diff_no_blanks
 
-ci-test: test
+ci-test: test-basic-spacing test-with-coverage
