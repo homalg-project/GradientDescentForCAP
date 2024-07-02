@@ -23,7 +23,7 @@ InstallMethod( LogitsMorphismOfNeuralNetwork,
         
         l_i := Para.AffineTransformation( dims[i], dims[i + 1] );
         
-        P_i := ParameterObject( l_i );
+        P_i := UnderlyingObject( l_i );
         
         Print( "Creating a morphism from layer ", String( i ), " to ", String( i + 1 ), " with ", String( RankOfObject( P_i ) ), " parameters\n" );
         
@@ -71,11 +71,11 @@ InstallMethod( LossMorphismOfNeuralNetwork,
     
     logits := LogitsMorphismOfNeuralNetwork( Para, input_layer_dim, hidden_layers_dims, output_layer_dim );
     
-    paramter_obj := ParameterObject( logits );
+    paramter_obj := UnderlyingObject( logits );
     
     nr_parameters := RankOfObject( paramter_obj );
     
-    logits := ParametrisedMorphism( logits );
+    logits := UnderlyingMorphism( logits );
     
     id_output := Smooth.IdFunc( output_layer_dim );
     

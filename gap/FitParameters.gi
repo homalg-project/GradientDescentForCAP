@@ -19,7 +19,7 @@ InstallMethod( OneEpochUpdateLens,
         Error( "the passed list 'training_examples' must contain at least one element!\n" );
     fi;
     
-    nr_parameters := RankOfObject( ParameterObject( parametrised_morphism ) );
+    nr_parameters := RankOfObject( UnderlyingObject( parametrised_morphism ) );
     
     if RankOfObject( UnderlyingObject( Target( parametrised_morphism ) ) ) <> 1 then
         Error( "the target of the parametrised_morphism morphism must be equal to 1!\n" );
@@ -45,11 +45,11 @@ InstallMethod( OneEpochUpdateLens,
     
     parametrised_morphism := AdjustToBatchSize( parametrised_morphism, batch_size );
     
-    cost := SwitchSourceAndParameterObject( parametrised_morphism );
+    cost := SwitchSourceAndUnderlyingObject( parametrised_morphism );
     
     costs :=
       List( SplitDenseList( training_examples, batch_size ),
-        batch -> ParametrisedMorphism( ReparametriseMorphism( cost, Smooth.Constant( Concatenation( batch ) ) ) ) );
+        batch -> UnderlyingMorphism( ReparametriseMorphism( cost, Smooth.Constant( Concatenation( batch ) ) ) ) );
     
     optimizer := optimizer( nr_parameters );
     

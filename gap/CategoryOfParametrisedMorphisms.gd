@@ -21,11 +21,11 @@ DeclareAttribute( "UnderlyingCategory", IsCategoryOfParametrisedMorphisms );
 
 DeclareAttribute( "UnderlyingObject", IsObjectInCategoryOfParametrisedMorphisms );
 
-DeclareAttribute( "ParameterObject", IsMorphismInCategoryOfParametrisedMorphisms );
-DeclareAttribute( "ParametrisedMorphism", IsMorphismInCategoryOfParametrisedMorphisms );
+DeclareAttribute( "UnderlyingObject", IsMorphismInCategoryOfParametrisedMorphisms );
+DeclareAttribute( "UnderlyingMorphism", IsMorphismInCategoryOfParametrisedMorphisms );
 
 DeclareOperation( "ReparametriseMorphism", [ IsMorphismInCategoryOfParametrisedMorphisms, IsCapCategoryMorphism ] );
-DeclareOperation( "SwitchSourceAndParameterObject", [ IsMorphismInCategoryOfParametrisedMorphisms ] );
+DeclareOperation( "SwitchSourceAndUnderlyingObject", [ IsMorphismInCategoryOfParametrisedMorphisms ] );
 
 DeclareOperation( "AdjustToBatchSize", [ IsMorphismInCategoryOfParametrisedMorphisms, IsInt ] );
 DeclareOperation( "NaturalEmbeddingIntoCategoryOfParametrisedMorphisms", [ IsCapCategory, IsCategoryOfParametrisedMorphisms ] );

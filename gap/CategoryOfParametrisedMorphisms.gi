@@ -78,8 +78,8 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return CreateCapCategoryMorphismWithAttributes( Para,
                     source, target,
-                    ParameterObject, datum[1],
-                    ParametrisedMorphism, datum[2] );
+                    UnderlyingObject, datum[1],
+                    UnderlyingMorphism, datum[2] );
 
     end );
     
@@ -88,7 +88,7 @@ InstallMethod( CategoryOfParametrisedMorphisms,
       
       function ( Para, f )
         
-        return Pair( ParameterObject( f ), ParametrisedMorphism( f ) );
+        return Pair( UnderlyingObject( f ), UnderlyingMorphism( f ) );
         
     end );
     
@@ -100,8 +100,8 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         C := UnderlyingCategory( Para );
         
-        f_o := ParameterObject( f );
-        f_m := ParametrisedMorphism( f );
+        f_o := UnderlyingObject( f );
+        f_m := UnderlyingMorphism( f );
         
         S := UnderlyingObject( Source( f ) );
         T := UnderlyingObject( Target( f ) );
@@ -121,8 +121,8 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return  IsEqualForObjects( Para, Source( f ), Source( g ) ) and
                 IsEqualForObjects( Para, Target( f ), Target( g ) ) and
-                IsEqualForObjects( C, ParameterObject( f ), ParameterObject( g ) ) and
-                IsEqualForMorphisms( C, ParametrisedMorphism( f ), ParametrisedMorphism( g ) );
+                IsEqualForObjects( C, UnderlyingObject( f ), UnderlyingObject( g ) ) and
+                IsEqualForMorphisms( C, UnderlyingMorphism( f ), UnderlyingMorphism( g ) );
         
     end );
     
@@ -135,8 +135,8 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return  IsEqualForObjects( Para, Source( f ), Source( g ) ) and
                 IsEqualForObjects( Para, Target( f ), Target( g ) ) and
-                IsEqualForObjects( C, ParameterObject( f ), ParameterObject( g ) ) and
-                IsCongruentForMorphisms( C, ParametrisedMorphism( f ), ParametrisedMorphism( g ) );
+                IsEqualForObjects( C, UnderlyingObject( f ), UnderlyingObject( g ) ) and
+                IsCongruentForMorphisms( C, UnderlyingMorphism( f ), UnderlyingMorphism( g ) );
         
     end );
     
@@ -168,11 +168,11 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         C := UnderlyingCategory( Para );
         
-        f_o := ParameterObject( f );
-        g_o := ParameterObject( g );
+        f_o := UnderlyingObject( f );
+        g_o := UnderlyingObject( g );
         
-        f_m := ParametrisedMorphism( f );
-        g_m := ParametrisedMorphism( g );
+        f_m := UnderlyingMorphism( f );
+        g_m := UnderlyingMorphism( g );
         
         return MorphismConstructor( Para,
                   Source( f ),
@@ -190,7 +190,7 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return MorphismConstructor( Para,
                     Source( f ),
-                    Pair( ParameterObject( f ), MultiplyWithElementOfCommutativeRingForMorphisms( C, a, ParametrisedMorphism( f ) ) ),
+                    Pair( UnderlyingObject( f ), MultiplyWithElementOfCommutativeRingForMorphisms( C, a, UnderlyingMorphism( f ) ) ),
                     Target( f ) );
         
     end );
@@ -204,7 +204,7 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
         return MorphismConstructor( Para,
                   Source( f ),
-                  Pair( ParameterObject( f ), SimplifyMorphism( C, ParametrisedMorphism( f ), n ) ),
+                  Pair( UnderlyingObject( f ), SimplifyMorphism( C, UnderlyingMorphism( f ), n ) ),
                   Target( f ) );
         
     end );
@@ -251,7 +251,7 @@ end );
 #
 # a direct implementation:
 #
-InstallMethod( SwitchSourceAndParameterObject,
+InstallMethod( SwitchSourceAndUnderlyingObject,
           [ IsMorphismInCategoryOfParametrisedMorphisms ],
   
   function ( f )
@@ -261,11 +261,11 @@ InstallMethod( SwitchSourceAndParameterObject,
     
     C := UnderlyingCategory( Para );
     
-    P := ParameterObject( f );
+    P := UnderlyingObject( f );
     
     S := UnderlyingObject( Source( f ) );
     
-    h := PreCompose( C, Braiding( C, S, P ), ParametrisedMorphism( f ) );
+    h := PreCompose( C, Braiding( C, S, P ), UnderlyingMorphism( f ) );
     
     return MorphismConstructor( Para,
               ObjectConstructor( Para, P ),
@@ -312,7 +312,7 @@ InstallMethod( ReparametriseMorphism,
     
     h := PreCompose( C,
             TensorProductOnMorphisms( C, r, IdentityMorphism( C, S ) ),
-            ParametrisedMorphism( f ) );
+            UnderlyingMorphism( f ) );
     
     return MorphismConstructor( Para,
               Source( f ),
@@ -380,7 +380,7 @@ InstallMethod( EmbeddingIntoCategoryOfParametrisedMorphisms,
         
         return MorphismConstructor( Para_Lenses,
                   source,
-                  Pair( ObjectConstructor(  Lenses, ListWithIdenticalEntries( 2, ParameterObject( f ) ) ), ApplyFunctor( iota, ParametrisedMorphism( f ) ) ),
+                  Pair( ObjectConstructor(  Lenses, ListWithIdenticalEntries( 2, UnderlyingObject( f ) ) ), ApplyFunctor( iota, UnderlyingMorphism( f ) ) ),
                   target );
         
     end );
@@ -478,7 +478,7 @@ InstallMethod( AdjustToBatchSize,
     
     C := UnderlyingCategory( Para );
     
-    P := ParameterObject( f );
+    P := UnderlyingObject( f );
     
     A := UnderlyingObject( Source( f ) );
     
@@ -506,7 +506,7 @@ InstallMethod( AdjustToBatchSize,
             S, diagram_S, Pair( F1, F2 ), diagram_T, T );
     
     u := DirectProductFunctorial( C,
-            ListWithIdenticalEntries( n, ParametrisedMorphism( f ) ) );
+            ListWithIdenticalEntries( n, UnderlyingMorphism( f ) ) );
     
     g := PreCompose( C, PreCompose( C, h, u ), C.Mean( n ) );
     
@@ -553,9 +553,9 @@ InstallMethod( ViewString,
         ViewString( Target( f ) ),
         " defined by:",
         "\n\nParameter Object:\n-----------------\n",
-        ViewString( ParameterObject( f ) ),
+        ViewString( UnderlyingObject( f ) ),
         "\n\nParametrised Morphism:\n----------------------\n",
-        ViewString( ParametrisedMorphism( f ) ) );
+        ViewString( UnderlyingMorphism( f ) ) );
     
 end );
 
@@ -572,9 +572,9 @@ InstallMethod( DisplayString,
         ViewString( Target( f ) ),
         " defined by:",
         "\n\nParameter Object:\n-----------------\n",
-        ViewString( ParameterObject( f ) ),
+        ViewString( UnderlyingObject( f ) ),
         "\n\nParametrised Morphism:\n----------------------\n",
-        DisplayString( ParametrisedMorphism( f ) ) );
+        DisplayString( UnderlyingMorphism( f ) ) );
     
 end );
 
@@ -591,9 +591,9 @@ InstallMethod( Display,
         ViewString( Target( f ) ),
         " defined by:",
         "\n\nParameter Object:\n-----------------\n",
-        ViewString( ParameterObject( f ) ),
+        ViewString( UnderlyingObject( f ) ),
         "\n\nParametrised Morphism:\n----------------------\n" ) );
     
-    Display( ParametrisedMorphism( f ) );
+    Display( UnderlyingMorphism( f ) );
     
 end );
