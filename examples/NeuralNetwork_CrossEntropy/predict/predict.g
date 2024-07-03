@@ -20,7 +20,7 @@ w := [ 0.927523, -1.16534, 3.09767, 1.21408, 0.666635, -1.43307, -0.985489, 0.87
        -1.89215, 2.74446, 1.19491, 1.01804 ];
 
 ## Let us use w to predict:
-predict_using_w := ParametrisedMorphism( ReparametriseMorphism( predict, Smooth.Constant( w ) ) );
+predict_using_w := UnderlyingMorphism( ReparametriseMorphism( predict, Smooth.Constant( w ) ) );
 
 ## create inputs:
 inputs := Cartesian( 0.01 * [ -100 .. 100 ], 0.01 * [ -100 .. 100 ] );
