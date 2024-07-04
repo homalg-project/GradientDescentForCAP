@@ -137,27 +137,27 @@ Display( t );
 #!   + 0.88 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.59
 #! ‣ 0.67 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.05 * (2.71611 / (5.10727 + Exp( x1 )))
 #!   + 0.85 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.31
-s := SimplifyMorphism( t, infinity );
-#! ℝ^1 -> ℝ^2 defined by:
-#!
-#! Parameter Object:
-#! -----------------
-#! ℝ^0
-#!
-#! Parametrised Morphism:
-#! ----------------------
-#! ℝ^1 -> ℝ^2
-Display( s );
-#! ℝ^1 -> ℝ^2 defined by:
-#!
-#! Parameter Object:
-#! -----------------
-#! ℝ^0
-#!
-#! Parametrised Morphism:
-#! ----------------------
-#! ℝ^1 -> ℝ^2
-#!
-#! ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
-#! ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)
+# gap> s := SimplifyMorphism( t, infinity );
+# ℝ^1 -> ℝ^2 defined by:
+#
+# Parameter Object:
+# -----------------
+# ℝ^0
+#
+# Parametrised Morphism:
+# ----------------------
+# ℝ^1 -> ℝ^2
+# gap> Display( s );
+# ℝ^1 -> ℝ^2 defined by:
+#
+# Parameter Object:
+# -----------------
+# ℝ^0
+#
+# Parametrised Morphism:
+# ----------------------
+# ℝ^1 -> ℝ^2
+#
+# ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
+# ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)
 #! @EndExample
