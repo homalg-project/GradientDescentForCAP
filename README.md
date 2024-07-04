@@ -19,6 +19,7 @@ To obtain current versions of all dependencies, `git clone` (or `git pull` to up
 |--- | ---------- | ------- |
 | 1. | [**homalg_project**](https://github.com/homalg-project/homalg_project#readme) | https://github.com/homalg-project/homalg_project.git |
 | 2. | [**CAP_project**](https://github.com/homalg-project/CAP_project#readme) | https://github.com/homalg-project/CAP_project.git |
+| 3. | [**CategoricalTowers**](https://github.com/homalg-project/CategoricalTowers#readme) | https://github.com/homalg-project/CategoricalTowers.git |
 
 [html-img]: https://img.shields.io/badge/🔗%20HTML-stable-blue.svg
 [html-url]: https://homalg-project.github.io/MachineLearningForCAP/doc/chap0_mj.html
