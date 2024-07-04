@@ -1,0 +1,20 @@
+  
+  [1X2 [33X[0;0YMachineLearningForCAP automatic generated documentation[133X[101X
+  
+  
+  [1X2.1 [33X[0;0YMachineLearningForCAP automatic generated documentation of categories[133X[101X
+  
+  [1X2.1-1 IsObjectInCategoryOfLenses[101X
+  
+  [33X[1;0Y[29X[2XIsObjectInCategoryOfLenses[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of objects in path categories.[133X
+  
+  [1X2.1-2 IsMorphismInCategoryOfLenses[101X
+  
+  [33X[1;0Y[29X[2XIsMorphismInCategoryOfLenses[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of morphisms in path categories.[133X
+  

@@ -1,0 +1,48 @@
+  
+  
+                            [1X MachineLearningForCAP [101X
+  
+  
+                [1X Exploring categorical machine learning in CAP [101X
+  
+  
+                                   2024.07-01
+  
+  
+                                  4 July 2024
+  
+  
+                                  Kamal Saleh
+  
+  
+  
+  Kamal Saleh
+      Email:    [7Xmailto:kamal.saleh@uni-siegen.de[107X
+      Homepage: [7Xhttps://github.com/kamalsaleh[107X
+      Address:  [33X[0;14YWalter-Flex-Str. 3[133X
+                [33X[0;14Y57068 Siegen[133X
+                [33X[0;14YGermany[133X
+  
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (MachineLearningForCAP)[101X
+  
+  1 [33X[0;0YExamples and Tests[133X
+    1.1 [33X[0;0YCategory of Parametrised Morphisms[133X
+    1.2 [33X[0;0YCategory of Smooth Maps[133X
+    1.3 [33X[0;0YExpressions[133X
+  2 [33X[0;0YMachineLearningForCAP automatic generated documentation[133X
+    2.1 [33X[0;0YMachineLearningForCAP automatic generated documentation of categories[133X
+      2.1-1 IsObjectInCategoryOfLenses
+      2.1-2 IsMorphismInCategoryOfLenses
+  3 [33X[0;0Yoperations for machine learning in CAP[133X
+    3.1 [33X[0;0YAdd-methods[133X
+      3.1-1 AddMultiplicationForMorphisms
+      3.1-2 AddReverseDifferential
+      3.1-3 AddReverseDifferentialWithGivenObjects
+  
+  
+  [32X

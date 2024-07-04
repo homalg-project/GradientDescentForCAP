@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (MachineLearningForCAP) - Chapter 1: Examples and Tests</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap1.html">[MathJax off]</a></p>
+<p><a id="X7967FE8E7BBDF485" name="X7967FE8E7BBDF485"></a></p>
+<div class="ChapSects"><a href="chap1_mj.html#X7967FE8E7BBDF485">1 <span class="Heading">Examples and Tests</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7F8623D983FA64BD">1.1 <span class="Heading">Category of Parametrised Morphisms</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X81D232927BEA7917">1.2 <span class="Heading">Category of Smooth Maps</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7BAFE9C1817253C6">1.3 <span class="Heading">Expressions</span></a>
+</span>
+</div>
+</div>
+
+<h3>1 <span class="Heading">Examples and Tests</span></h3>
+
+<p><a id="X7F8623D983FA64BD" name="X7F8623D983FA64BD"></a></p>
+
+<h4>1.1 <span class="Heading">Category of Parametrised Morphisms</span></h4>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Smooth := CategoryOfSkeletalSmoothMaps( );</span>
+SkeletalSmoothMaps
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Para := CategoryOfParametrisedMorphisms( Smooth );</span>
+CategoryOfParametrisedMorphisms( SkeletalSmoothMaps )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R1 := Smooth.( 1 );</span>
+ℝ^1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R2 := Smooth.( 2 );</span>
+ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R3 := Smooth.( 3 );</span>
+ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := Smooth.Softmax( 3 );</span>
+ℝ^3 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );</span>
+ℝ^1 -&gt; ℝ^3 defined by:
+
+Parameter Object:
+-----------------
+ℝ^2
+
+Parametrised Morphism:
+----------------------
+ℝ^3 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
+ℝ^1 -&gt; ℝ^3 defined by:
+
+Parameter Object:
+-----------------
+ℝ^2
+
+Parametrised Morphism:
+----------------------
+ℝ^3 -&gt; ℝ^3
+
+‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
+‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
+‣ Exp( x3 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := DirectProductFunctorial( Smooth, [ Smooth.Sqrt, Smooth.Cos ] );</span>
+ℝ^2 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( r );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ Sqrt( x1 )
+‣ Cos( x2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := ReparametriseMorphism( f, r );</span>
+ℝ^1 -&gt; ℝ^3 defined by:
+
+Parameter Object:
+-----------------
+ℝ^2
+
+Parametrised Morphism:
+----------------------
+ℝ^3 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( g );</span>
+ℝ^1 -&gt; ℝ^3 defined by:
+
+Parameter Object:
+-----------------
+ℝ^2
+
+Parametrised Morphism:
+----------------------
+ℝ^3 -&gt; ℝ^3
+
+‣ Exp( Sqrt( x1 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
+‣ Exp( Cos( x2 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
+‣ Exp( x3 ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">l := Para.AffineTransformation( 3, 2 );</span>
+ℝ^3 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^8
+
+Parametrised Morphism:
+----------------------
+ℝ^11 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">h := PreCompose( g, l );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^10
+
+Parametrised Morphism:
+----------------------
+ℝ^11 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( h );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^10
+
+Parametrised Morphism:
+----------------------
+ℝ^11 -&gt; ℝ^2
+
+‣ x1 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+  + x2 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+  + x3 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x4
+‣ x5 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+  + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
+  + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">constants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );</span>
+ℝ^0 -&gt; ℝ^10
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t := ReparametriseMorphism( h, r );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^1 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( t );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^1 -&gt; ℝ^2
+
+‣ 0.91 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.24 * (2.71611 / (5.10727 + Exp( x1 )))
+  + 0.88 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.59
+‣ 0.67 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.05 * (2.71611 / (5.10727 + Exp( x1 )))
+  + 0.85 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.31
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># gap&gt; s := SimplifyMorphism( t, infinity );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2 defined by:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parameter Object:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># -----------------</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^0</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parametrised Morphism:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ----------------------</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># gap&gt; Display( s );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2 defined by:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parameter Object:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># -----------------</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^0</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parametrised Morphism:</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ----------------------</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)</span>
+</pre></div>
+
+<p><a id="X81D232927BEA7917" name="X81D232927BEA7917"></a></p>
+
+<h4>1.2 <span class="Heading">Category of Smooth Maps</span></h4>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Smooth := CategoryOfSkeletalSmoothMaps( );</span>
+SkeletalSmoothMaps
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R2 := ObjectConstructor( Smooth, 2 );</span>
+ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R2 = Smooth.2;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Smooth,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Smooth.2,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Pair(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">          x -&gt; [ x[1] ^ 2 + Sin( x[2] ), Exp( x[1] ) + 3 * x[2] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">          x -&gt; [ [ 2 * x[1], Cos( x[2] ) ], [ Exp( x[1] ), 3 ] ] ),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Smooth.2 );</span>
+ℝ^2 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ x1 ^ 2 + Sin( x2 )
+‣ Exp( x1 ) + 3 * x2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dummy_input := ConvertToExpressions( [ "x1", "x2" ] );</span>
+[ x1, x2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( f )( dummy_input );</span>
+[ x1 ^ 2 + Sin( x2 ), Exp( x1 ) + 3 * x2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( f )( dummy_input );</span>
+[ [ 2 * x1, Cos( x2 ) ], [ Exp( x1 ), 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x := [ 0.2, 0.3 ];</span>
+[ 0.2, 0.3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( f )( x );</span>
+[ 0.33552, 2.1214 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( f )( x );</span>
+[ [ 0.4, 0.955336 ], [ 1.2214, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := MorphismConstructor( Smooth,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Smooth.2,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Pair(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">          x -&gt; [ 3 * x[1], Exp( x[2] ), x[1] ^ 3 + Log( x[2] ) ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">          x -&gt; [ [ 3, 0 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                 [ 0, Exp( x[2] ) ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                 [ 3 * x[1] ^ 2, 1 / x[2] ] ] ),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Smooth.3 );</span>
+ℝ^2 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( g );</span>
+ℝ^2 -&gt; ℝ^3
+
+‣ 3 * x1
+‣ Exp( x2 )
+‣ x1 ^ 3 + Log( x2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( g )( dummy_input );</span>
+[ 3 * x1, Exp( x2 ), x1 ^ 3 + Log( x2 ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( g )( dummy_input );</span>
+[ [ 3, 0 ], [ 0, Exp( x2 ) ], [ 3 * x1 ^ 2, 1 / x2 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">h := PostCompose( g, f );</span>
+ℝ^2 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( h );</span>
+ℝ^2 -&gt; ℝ^3
+
+‣ 3 * (x1 ^ 2 + Sin( x2 ))
+‣ Exp( Exp( x1 ) + 3 * x2 )
+‣ (x1 ^ 2 + Sin( x2 )) ^ 3 + Log( (Exp( x1 ) + 3 * x2) )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x;</span>
+[ 0.2, 0.3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( h )( x );</span>
+[ 1.00656, 8.34283, 0.789848 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( g )( Map( f )( x ) );</span>
+[ 1.00656, 8.34283, 0.789848 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( h )( x );</span>
+[ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( g )( Map( f )( x ) ) * JacobianMatrix( f )( x );</span>
+[ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ]
+</pre></div>
+
+<p><a id="X7BAFE9C1817253C6" name="X7BAFE9C1817253C6"></a></p>
+
+<h4>1.3 <span class="Heading">Expressions</span></h4>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vars := [ "x", "y", "z" ];</span>
+[ "x", "y", "z" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e1 := Expression( vars, "x + Sin( y ) * Log( z )" );</span>
+x + Sin( y ) * Log( z )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e2 := Expression( vars, "( x * y + Sin( z ) ) ^ 2" );</span>
+(x * y + Sin( z )) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CategoriesOfObject( e1 );</span>
+[ "IsExtAElement", "IsNearAdditiveElement", "IsNearAdditiveElementWithZero",
+  "IsNearAdditiveElementWithInverse", "IsAdditiveElement", "IsExtLElement",
+  "IsExtRElement", "IsMultiplicativeElement", "IsExpression" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">KnownAttributesOfObject( e1 );</span>
+[ "String", "Variables" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">String( e1 );</span>
+"x + Sin( y ) * Log( z )"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Variables( e1 );</span>
+[ "x", "y", "z" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e1 + e2;</span>
+x + Sin( y ) * Log( z ) + (x * y + Sin( z )) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e1 * e2;</span>
+(x + Sin( y ) * Log( z )) * (x * y + Sin( z )) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Sin( e1 ) / e2;</span>
+Sin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := AsFunction( e );</span>
+function( vec ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
+function ( vec )
+    local x, y, z;
+    Assert( 0, IsDenseList( vec ) and Length( vec ) = 3 );
+    x := vec[1];
+    y := vec[2];
+    z := vec[3];
+    return Sin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2;
+end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x := [ 3, 2, 4 ];</span>
+[ 3, 2, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f( x );</span>
+-0.032725
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dummy_input := ConvertToExpressions( [ "x1", "x2", "x3" ] );</span>
+[ x1, x2, x3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f( dummy_input );</span>
+Sin( (x1 + Sin( x2 ) * Log( x3 )) ) / (x1 * x2 + Sin( x3 )) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AssignExpressions( dummy_input );</span>
+#I  MakeReadWriteGlobal: x1 already read-write
+#I  MakeReadWriteGlobal: x2 already read-write
+#I  MakeReadWriteGlobal: x3 already read-write
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">x1;</span>
+x1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Variables( x1 );</span>
+[ "x1", "x2", "x3" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">[ [ x1, x2 ] ] * [ [ x3 ], [ -x3 ] ];</span>
+[ [ x1 * x3 + x2 * (- x3) ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2;</span>
+Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># SimplifyExpressionUsingPython( [ e ] );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># [ "Tan(x1) + 1" ]</span>
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

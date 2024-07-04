@@ -1,0 +1,298 @@
+  
+  [1X1 [33X[0;0YExamples and Tests[133X[101X
+  
+  
+  [1X1.1 [33X[0;0YCategory of Parametrised Morphisms[133X[101X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSmooth := CategoryOfSkeletalSmoothMaps( );[127X[104X
+    [4X[28XSkeletalSmoothMaps[128X[104X
+    [4X[25Xgap>[125X [27XPara := CategoryOfParametrisedMorphisms( Smooth );[127X[104X
+    [4X[28XCategoryOfParametrisedMorphisms( SkeletalSmoothMaps )[128X[104X
+    [4X[25Xgap>[125X [27XR1 := Smooth.( 1 );[127X[104X
+    [4X[28Xℝ^1[128X[104X
+    [4X[25Xgap>[125X [27XR2 := Smooth.( 2 );[127X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XR3 := Smooth.( 3 );[127X[104X
+    [4X[28Xℝ^3[128X[104X
+    [4X[25Xgap>[125X [27Xf := Smooth.Softmax( 3 );[127X[104X
+    [4X[28Xℝ^3 -> ℝ^3[128X[104X
+    [4X[25Xgap>[125X [27Xf := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^3 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^3 -> ℝ^3[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( f );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^3 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^3 -> ℝ^3[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
+    [4X[28X‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
+    [4X[28X‣ Exp( x3 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
+    [4X[25Xgap>[125X [27Xr := DirectProductFunctorial( Smooth, [ Smooth.Sqrt, Smooth.Cos ] );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( r );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ Sqrt( x1 )[128X[104X
+    [4X[28X‣ Cos( x2 )[128X[104X
+    [4X[25Xgap>[125X [27Xg := ReparametriseMorphism( f, r );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^3 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^3 -> ℝ^3[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( g );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^3 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^3 -> ℝ^3[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ Exp( Sqrt( x1 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))[128X[104X
+    [4X[28X‣ Exp( Cos( x2 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))[128X[104X
+    [4X[28X‣ Exp( x3 ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))[128X[104X
+    [4X[25Xgap>[125X [27Xl := Para.AffineTransformation( 3, 2 );[127X[104X
+    [4X[28Xℝ^3 -> ℝ^2 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^8[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^11 -> ℝ^2[128X[104X
+    [4X[25Xgap>[125X [27Xh := PreCompose( g, l );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^2 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^10[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^11 -> ℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( h );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^2 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^10[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^11 -> ℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ x1 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))[128X[104X
+    [4X[28X  + x2 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))[128X[104X
+    [4X[28X  + x3 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x4[128X[104X
+    [4X[28X‣ x5 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))[128X[104X
+    [4X[28X  + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))[128X[104X
+    [4X[28X  + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8[128X[104X
+    [4X[25Xgap>[125X [27Xconstants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;[127X[104X
+    [4X[25Xgap>[125X [27Xr := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );[127X[104X
+    [4X[28Xℝ^0 -> ℝ^10[128X[104X
+    [4X[25Xgap>[125X [27Xt := ReparametriseMorphism( h, r );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^2 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^0[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^1 -> ℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( t );[127X[104X
+    [4X[28Xℝ^1 -> ℝ^2 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^0[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^1 -> ℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ 0.91 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.24 * (2.71611 / (5.10727 + Exp( x1 )))[128X[104X
+    [4X[28X  + 0.88 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.59[128X[104X
+    [4X[28X‣ 0.67 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.05 * (2.71611 / (5.10727 + Exp( x1 )))[128X[104X
+    [4X[28X  + 0.85 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.31[128X[104X
+    [4X[25Xgap>[125X [27X# gap> s := SimplifyMorphism( t, infinity );[127X[104X
+    [4X[25Xgap>[125X [27X# ℝ^1 -> ℝ^2 defined by:[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# Parameter Object:[127X[104X
+    [4X[25X>[125X [27X# -----------------[127X[104X
+    [4X[25X>[125X [27X# ℝ^0[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# Parametrised Morphism:[127X[104X
+    [4X[25X>[125X [27X# ----------------------[127X[104X
+    [4X[25X>[125X [27X# ℝ^1 -> ℝ^2[127X[104X
+    [4X[25X>[125X [27X# gap> Display( s );[127X[104X
+    [4X[25Xgap>[125X [27X# ℝ^1 -> ℝ^2 defined by:[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# Parameter Object:[127X[104X
+    [4X[25X>[125X [27X# -----------------[127X[104X
+    [4X[25X>[125X [27X# ℝ^0[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# Parametrised Morphism:[127X[104X
+    [4X[25X>[125X [27X# ----------------------[127X[104X
+    [4X[25X>[125X [27X# ℝ^1 -> ℝ^2[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)[127X[104X
+    [4X[25X>[125X [27X# ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.2 [33X[0;0YCategory of Smooth Maps[133X[101X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSmooth := CategoryOfSkeletalSmoothMaps( );[127X[104X
+    [4X[28XSkeletalSmoothMaps[128X[104X
+    [4X[25Xgap>[125X [27XR2 := ObjectConstructor( Smooth, 2 );[127X[104X
+    [4X[28Xℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XR2 = Smooth.2;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xf := MorphismConstructor( Smooth,[127X[104X
+    [4X[25X>[125X [27X        Smooth.2,[127X[104X
+    [4X[25X>[125X [27X        Pair([127X[104X
+    [4X[25X>[125X [27X          x -> [ x[1] ^ 2 + Sin( x[2] ), Exp( x[1] ) + 3 * x[2] ],[127X[104X
+    [4X[25X>[125X [27X          x -> [ [ 2 * x[1], Cos( x[2] ) ], [ Exp( x[1] ), 3 ] ] ),[127X[104X
+    [4X[25X>[125X [27X        Smooth.2 );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^2[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( f );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^2[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ x1 ^ 2 + Sin( x2 )[128X[104X
+    [4X[28X‣ Exp( x1 ) + 3 * x2[128X[104X
+    [4X[25Xgap>[125X [27Xdummy_input := ConvertToExpressions( [ "x1", "x2" ] );[127X[104X
+    [4X[28X[ x1, x2 ][128X[104X
+    [4X[25Xgap>[125X [27XMap( f )( dummy_input );[127X[104X
+    [4X[28X[ x1 ^ 2 + Sin( x2 ), Exp( x1 ) + 3 * x2 ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( f )( dummy_input );[127X[104X
+    [4X[28X[ [ 2 * x1, Cos( x2 ) ], [ Exp( x1 ), 3 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xx := [ 0.2, 0.3 ];[127X[104X
+    [4X[28X[ 0.2, 0.3 ][128X[104X
+    [4X[25Xgap>[125X [27XMap( f )( x );[127X[104X
+    [4X[28X[ 0.33552, 2.1214 ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( f )( x );[127X[104X
+    [4X[28X[ [ 0.4, 0.955336 ], [ 1.2214, 3 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xg := MorphismConstructor( Smooth,[127X[104X
+    [4X[25X>[125X [27X        Smooth.2,[127X[104X
+    [4X[25X>[125X [27X        Pair([127X[104X
+    [4X[25X>[125X [27X          x -> [ 3 * x[1], Exp( x[2] ), x[1] ^ 3 + Log( x[2] ) ],[127X[104X
+    [4X[25X>[125X [27X          x -> [ [ 3, 0 ],[127X[104X
+    [4X[25X>[125X [27X                 [ 0, Exp( x[2] ) ],[127X[104X
+    [4X[25X>[125X [27X                 [ 3 * x[1] ^ 2, 1 / x[2] ] ] ),[127X[104X
+    [4X[25X>[125X [27X        Smooth.3 );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^3[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( g );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^3[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ 3 * x1[128X[104X
+    [4X[28X‣ Exp( x2 )[128X[104X
+    [4X[28X‣ x1 ^ 3 + Log( x2 )[128X[104X
+    [4X[25Xgap>[125X [27XMap( g )( dummy_input );[127X[104X
+    [4X[28X[ 3 * x1, Exp( x2 ), x1 ^ 3 + Log( x2 ) ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( g )( dummy_input );[127X[104X
+    [4X[28X[ [ 3, 0 ], [ 0, Exp( x2 ) ], [ 3 * x1 ^ 2, 1 / x2 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xh := PostCompose( g, f );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^3[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( h );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^3[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ 3 * (x1 ^ 2 + Sin( x2 ))[128X[104X
+    [4X[28X‣ Exp( Exp( x1 ) + 3 * x2 )[128X[104X
+    [4X[28X‣ (x1 ^ 2 + Sin( x2 )) ^ 3 + Log( (Exp( x1 ) + 3 * x2) )[128X[104X
+    [4X[25Xgap>[125X [27Xx;[127X[104X
+    [4X[28X[ 0.2, 0.3 ][128X[104X
+    [4X[25Xgap>[125X [27XMap( h )( x );[127X[104X
+    [4X[28X[ 1.00656, 8.34283, 0.789848 ][128X[104X
+    [4X[25Xgap>[125X [27XMap( g )( Map( f )( x ) );[127X[104X
+    [4X[28X[ 1.00656, 8.34283, 0.789848 ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( h )( x );[127X[104X
+    [4X[28X[ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( g )( Map( f )( x ) ) * JacobianMatrix( f )( x );[127X[104X
+    [4X[28X[ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.3 [33X[0;0YExpressions[133X[101X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvars := [ "x", "y", "z" ];[127X[104X
+    [4X[28X[ "x", "y", "z" ][128X[104X
+    [4X[25Xgap>[125X [27Xe1 := Expression( vars, "x + Sin( y ) * Log( z )" );[127X[104X
+    [4X[28Xx + Sin( y ) * Log( z )[128X[104X
+    [4X[25Xgap>[125X [27Xe2 := Expression( vars, "( x * y + Sin( z ) ) ^ 2" );[127X[104X
+    [4X[28X(x * y + Sin( z )) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27XCategoriesOfObject( e1 );[127X[104X
+    [4X[28X[ "IsExtAElement", "IsNearAdditiveElement", "IsNearAdditiveElementWithZero",[128X[104X
+    [4X[28X  "IsNearAdditiveElementWithInverse", "IsAdditiveElement", "IsExtLElement",[128X[104X
+    [4X[28X  "IsExtRElement", "IsMultiplicativeElement", "IsExpression" ][128X[104X
+    [4X[25Xgap>[125X [27XKnownAttributesOfObject( e1 );[127X[104X
+    [4X[28X[ "String", "Variables" ][128X[104X
+    [4X[25Xgap>[125X [27XString( e1 );[127X[104X
+    [4X[28X"x + Sin( y ) * Log( z )"[128X[104X
+    [4X[25Xgap>[125X [27XVariables( e1 );[127X[104X
+    [4X[28X[ "x", "y", "z" ][128X[104X
+    [4X[25Xgap>[125X [27Xe1 + e2;[127X[104X
+    [4X[28Xx + Sin( y ) * Log( z ) + (x * y + Sin( z )) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27Xe1 * e2;[127X[104X
+    [4X[28X(x + Sin( y ) * Log( z )) * (x * y + Sin( z )) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27Xe := Sin( e1 ) / e2;[127X[104X
+    [4X[28XSin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27Xf := AsFunction( e );[127X[104X
+    [4X[28Xfunction( vec ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XDisplay( f );[127X[104X
+    [4X[28Xfunction ( vec )[128X[104X
+    [4X[28X    local x, y, z;[128X[104X
+    [4X[28X    Assert( 0, IsDenseList( vec ) and Length( vec ) = 3 );[128X[104X
+    [4X[28X    x := vec[1];[128X[104X
+    [4X[28X    y := vec[2];[128X[104X
+    [4X[28X    z := vec[3];[128X[104X
+    [4X[28X    return Sin( (x + Sin( y ) * Log( z )) ) / (x * y + Sin( z )) ^ 2;[128X[104X
+    [4X[28Xend[128X[104X
+    [4X[25Xgap>[125X [27Xx := [ 3, 2, 4 ];[127X[104X
+    [4X[28X[ 3, 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27Xf( x );[127X[104X
+    [4X[28X-0.032725[128X[104X
+    [4X[25Xgap>[125X [27Xdummy_input := ConvertToExpressions( [ "x1", "x2", "x3" ] );[127X[104X
+    [4X[28X[ x1, x2, x3 ][128X[104X
+    [4X[25Xgap>[125X [27Xf( dummy_input );[127X[104X
+    [4X[28XSin( (x1 + Sin( x2 ) * Log( x3 )) ) / (x1 * x2 + Sin( x3 )) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27XAssignExpressions( dummy_input );[127X[104X
+    [4X[28X#I  MakeReadWriteGlobal: x1 already read-write[128X[104X
+    [4X[28X#I  MakeReadWriteGlobal: x2 already read-write[128X[104X
+    [4X[28X#I  MakeReadWriteGlobal: x3 already read-write[128X[104X
+    [4X[25Xgap>[125X [27Xx1;[127X[104X
+    [4X[28Xx1[128X[104X
+    [4X[25Xgap>[125X [27XVariables( x1 );[127X[104X
+    [4X[28X[ "x1", "x2", "x3" ][128X[104X
+    [4X[25Xgap>[125X [27X[ [ x1, x2 ] ] * [ [ x3 ], [ -x3 ] ];[127X[104X
+    [4X[28X[ [ x1 * x3 + x2 * (- x3) ] ][128X[104X
+    [4X[25Xgap>[125X [27Xe := Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2;[127X[104X
+    [4X[28XSin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2[128X[104X
+    [4X[25Xgap>[125X [27X# SimplifyExpressionUsingPython( [ e ] );[127X[104X
+    [4X[25Xgap>[125X [27X# [ "Tan(x1) + 1" ][127X[104X
+  [4X[32X[104X
+  
