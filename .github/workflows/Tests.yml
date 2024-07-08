@@ -84,7 +84,7 @@ jobs:
             TOKEN="${{ secrets.GITHUB_TOKEN }}" ./dev/simulate_dist.sh; \
           fi
       - name: Upload code coverage
-        if: github.event_name != 'schedule' && matrix.image == 'ghcr.io/homalg-project/gap-docker-master:latest'
+        if: github.event_name != 'schedule' && matrix.image == 'ghcr.io/kamalsaleh/gap-sympy-docker:latest'
         run: |
           cd MachineLearningForCAP
           ./dev/upload_codecov.sh
