@@ -58,6 +58,6 @@ Variables( x1 );
 #! [ [ x1 * x3 + x2 * (- x3) ] ]
 e := Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2;
 #! Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2
-# SimplifyExpressionUsingPython( [ e ] );
-# [ "Tan(x1) + 1" ]
+SimplifyExpressionUsingPython( [ e ] );
+#! [ "Tan(x1) + 1" ]
 #! @EndExample
