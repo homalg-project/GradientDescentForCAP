@@ -251,9 +251,9 @@ InstallGlobalFunction( CategoryOfSkeletalSmoothMaps,
         rank_S := RankOfObject( S );
         rank_T := RankOfObject( T );
         
-        maps := ListWithIdenticalEntries( rank_T, x -> 0 );
+        maps := x -> ListWithIdenticalEntries( rank_T, 0 );
         
-        jacobian_matrix := ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, x -> 0 ) );
+        jacobian_matrix := x -> ListWithIdenticalEntries( rank_T, ListWithIdenticalEntries( rank_S, 0 ) );
         
         return MorphismConstructor( Smooth, S, Pair( maps, jacobian_matrix ), T );
         
