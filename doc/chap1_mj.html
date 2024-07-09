@@ -25,22 +25,355 @@
 <p id="mathjaxlink" class="pcenter"><a href="chap1.html">[MathJax off]</a></p>
 <p><a id="X7967FE8E7BBDF485" name="X7967FE8E7BBDF485"></a></p>
 <div class="ChapSects"><a href="chap1_mj.html#X7967FE8E7BBDF485">1 <span class="Heading">Examples and Tests</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7F8623D983FA64BD">1.1 <span class="Heading">Category of Parametrised Morphisms</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X79328812874EED64">1.1 <span class="Heading">Category of Lenses</span></a>
 </span>
 </div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X81D232927BEA7917">1.2 <span class="Heading">Category of Smooth Maps</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7F8623D983FA64BD">1.2 <span class="Heading">Category of Parametrised Morphisms</span></a>
 </span>
 </div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7BAFE9C1817253C6">1.3 <span class="Heading">Expressions</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X81D232927BEA7917">1.3 <span class="Heading">Category of Smooth Maps</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7BAFE9C1817253C6">1.4 <span class="Heading">Expressions</span></a>
 </span>
 </div>
 </div>
 
 <h3>1 <span class="Heading">Examples and Tests</span></h3>
 
+<p><a id="X79328812874EED64" name="X79328812874EED64"></a></p>
+
+<h4>1.1 <span class="Heading">Category of Lenses</span></h4>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Smooth := CategoryOfSkeletalSmoothMaps( );</span>
+SkeletalSmoothMaps
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Lenses := CategoryOfLenses( Smooth );</span>
+CategoryOfLenses( SkeletalSmoothMaps )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := ObjectConstructor( Lenses, [ Smooth.( 1 ), Smooth.( 2 ) ] );</span>
+(ℝ^1, ℝ^2)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWellDefined( A );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CapCategory( A );</span>
+CategoryOfLenses( SkeletalSmoothMaps )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A_datum := ObjectDatum( A );</span>
+[ ℝ^1, ℝ^2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CapCategory( A_datum[1] );</span>
+SkeletalSmoothMaps
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := ObjectConstructor( Lenses, [ Smooth.( 3 ), Smooth.( 4 ) ] );</span>
+(ℝ^3, ℝ^4)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">get := RandomMorphism( Smooth.( 1 ), Smooth.( 3 ), 5 );</span>
+ℝ^1 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">put := RandomMorphism( Smooth.( 1 + 4 ), Smooth.( 2 ), 5 );</span>
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Lenses, A, [ get, put ], B );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^3, ℝ^4) defined by:
+
+Get Morphism:
+----------
+ℝ^1 -&gt; ℝ^3
+
+Put Morphism:
+----------
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MorphismDatum( f );</span>
+[ ℝ^1 -&gt; ℝ^3, ℝ^5 -&gt; ℝ^2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWellDefined( f );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^3, ℝ^4) defined by:
+
+Get Morphism:
+------------
+ℝ^1 -&gt; ℝ^3
+
+‣ 0.766 * x1 ^ 4 + 0.234
+‣ 1. * x1 ^ 4 + 0.388
+‣ 0.459 * x1 ^ 4 + 0.278
+
+Put Morphism:
+------------
+ℝ^5 -&gt; ℝ^2
+
+‣ 0.677 * x1 ^ 5 + 0.19 * x2 ^ 4 + 0.659 * x3 ^ 4
++ 0.859 * x4 ^ 5 + 0.28 * x5 ^ 1 + 0.216
+‣ 0.37 * x1 ^ 5 + 0.571 * x2 ^ 4 + 0.835 * x3 ^ 4
++ 0.773 * x4 ^ 5 + 0.469 * x5 ^ 1 + 0.159
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">id_A := IdentityMorphism( Lenses, A );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^1, ℝ^2) defined by:
+
+Get Morphism:
+----------
+ℝ^1 -&gt; ℝ^1
+
+Put Morphism:
+----------
+ℝ^3 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( id_A );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^1, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^1 -&gt; ℝ^1
+
+‣ x1
+
+Put Morphism:
+------------
+ℝ^3 -&gt; ℝ^2
+
+‣ x2
+‣ x3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsCongruentForMorphisms( PreCompose( id_A, f ), f );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TensorUnit( Lenses );</span>
+(ℝ^0, ℝ^0)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TensorProductOnObjects( A, B );</span>
+(ℝ^4, ℝ^6)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f1 := RandomMorphism( A, B, 5 );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^3, ℝ^4) defined by:
+
+Get Morphism:
+----------
+ℝ^1 -&gt; ℝ^3
+
+Put Morphism:
+----------
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f2 := RandomMorphism( A, B, 5 );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^3, ℝ^4) defined by:
+
+Get Morphism:
+----------
+ℝ^1 -&gt; ℝ^3
+
+Put Morphism:
+----------
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f3 := RandomMorphism( A, B, 5 );</span>
+(ℝ^1, ℝ^2) -&gt; (ℝ^3, ℝ^4) defined by:
+
+Get Morphism:
+----------
+ℝ^1 -&gt; ℝ^3
+
+Put Morphism:
+----------
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f1_f2 := TensorProductOnMorphisms( Lenses, f1, f2 );</span>
+(ℝ^2, ℝ^4) -&gt; (ℝ^6, ℝ^8) defined by:
+
+Get Morphism:
+----------
+ℝ^2 -&gt; ℝ^6
+
+Put Morphism:
+----------
+ℝ^10 -&gt; ℝ^4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f2_f3 := TensorProductOnMorphisms( Lenses, f2, f3 );</span>
+(ℝ^2, ℝ^4) -&gt; (ℝ^6, ℝ^8) defined by:
+
+Get Morphism:
+----------
+ℝ^2 -&gt; ℝ^6
+
+Put Morphism:
+----------
+ℝ^10 -&gt; ℝ^4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t1 := TensorProductOnMorphisms( Lenses, f1_f2, f3 );</span>
+(ℝ^3, ℝ^6) -&gt; (ℝ^9, ℝ^12) defined by:
+
+Get Morphism:
+----------
+ℝ^3 -&gt; ℝ^9
+
+Put Morphism:
+----------
+ℝ^15 -&gt; ℝ^6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t2 := TensorProductOnMorphisms( Lenses, f1, f2_f3 );</span>
+(ℝ^3, ℝ^6) -&gt; (ℝ^9, ℝ^12) defined by:
+
+Get Morphism:
+----------
+ℝ^3 -&gt; ℝ^9
+
+Put Morphism:
+----------
+ℝ^15 -&gt; ℝ^6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsCongruentForMorphisms( t1, t2 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Braiding( A, B ) );</span>
+(ℝ^4, ℝ^6) -&gt; (ℝ^4, ℝ^6) defined by:
+
+Get Morphism:
+------------
+ℝ^4 -&gt; ℝ^4
+
+‣ x2
+‣ x3
+‣ x4
+‣ x1
+
+Put Morphism:
+------------
+ℝ^10 -&gt; ℝ^6
+
+‣ x9
+‣ x10
+‣ x5
+‣ x6
+‣ x7
+‣ x8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( PreCompose( Braiding( A, B ), BraidingInverse( A, B ) ) );</span>
+(ℝ^4, ℝ^6) -&gt; (ℝ^4, ℝ^6) defined by:
+
+Get Morphism:
+------------
+ℝ^4 -&gt; ℝ^4
+
+‣ x1
+‣ x2
+‣ x3
+‣ x4
+
+Put Morphism:
+------------
+ℝ^10 -&gt; ℝ^6
+
+‣ x5
+‣ x6
+‣ x7
+‣ x8
+‣ x9
+‣ x10
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R := EmbeddingIntoCategoryOfLenses( Smooth, Lenses );</span>
+Embedding functor into category of lenses
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SourceOfFunctor( R );</span>
+SkeletalSmoothMaps
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RangeOfFunctor( R );</span>
+CategoryOfLenses( SkeletalSmoothMaps )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := Smooth.Softmax( 2 );</span>
+ℝ^2 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ))
+‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Rf := ApplyFunctor( R, f );</span>
+(ℝ^2, ℝ^2) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+----------
+ℝ^2 -&gt; ℝ^2
+
+Put Morphism:
+----------
+ℝ^4 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Rf );</span>
+(ℝ^2, ℝ^2) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^2 -&gt; ℝ^2
+
+‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ))
+‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ))
+
+Put Morphism:
+------------
+ℝ^4 -&gt; ℝ^2
+
+‣ x3 *
+  ((Exp( x1 ) + Exp( x2 ) - Exp( x1 )) * (Exp( x1 ) / (Exp( x1 ) + Exp( x2 )) ^ 2))
+  + x4 * ((- Exp( x1 )) * (Exp( x2 ) / (Exp( x1 ) + Exp( x2 )) ^ 2))
+‣ x3 * ((- Exp( x2 )) * (Exp( x1 ) / (Exp( x1 ) + Exp( x2 )) ^ 2)) +
+  x4 *
+  ((Exp( x1 ) + Exp( x2 ) - Exp( x2 )) * (Exp( x2 ) / (Exp( x1 ) + Exp( x2 )) ^ 2))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Lenses.GradientDescentOptimizer( :learning_rate := 0.01 )( 2 ) );</span>
+(ℝ^2, ℝ^2) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^2 -&gt; ℝ^2
+
+‣ x1
+‣ x2
+
+Put Morphism:
+------------
+ℝ^4 -&gt; ℝ^2
+
+‣ x1 + 0.01 * x3
+‣ x2 + 0.01 * x4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Lenses.GradientDescentWithMomentumOptimizer(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">            :learning_rate := 0.01, momentum := 0.9 )( 2 ) );</span>
+(ℝ^4, ℝ^4) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^4 -&gt; ℝ^2
+
+‣ x3
+‣ x4
+
+Put Morphism:
+------------
+ℝ^6 -&gt; ℝ^4
+
+‣ 0.9 * x1 + 0.01 * x5
+‣ 0.9 * x2 + 0.01 * x6
+‣ x3 + (0.9 * x1 + 0.01 * x5)
+‣ x4 + (0.9 * x2 + 0.01 * x6)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Lenses.AdagradOptimizer( :learning_rate := 0.01 )( 2 ) );</span>
+(ℝ^4, ℝ^4) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^4 -&gt; ℝ^2
+
+‣ x3
+‣ x4
+
+Put Morphism:
+------------
+ℝ^6 -&gt; ℝ^4
+
+‣ x1 + x5 ^ 2
+‣ x2 + x6 ^ 2
+‣ x3 + 0.01 * x5 / (1.e-07 + Sqrt( (x1 + x5 ^ 2) ))
+‣ x4 + 0.01 * x6 / (1.e-07 + Sqrt( (x2 + x6 ^ 2) ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Lenses.AdamOptimizer(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">          :learning_rate := 0.01, beta_1 := 0.9, beta_2 := 0.999 )( 2 ) );</span>
+(ℝ^7, ℝ^7) -&gt; (ℝ^2, ℝ^2) defined by:
+
+Get Morphism:
+------------
+ℝ^7 -&gt; ℝ^2
+
+‣ x6
+‣ x7
+
+Put Morphism:
+------------
+ℝ^9 -&gt; ℝ^7
+
+‣ x1 + 1
+‣ 0.9 * x2 + 0.1 * x8
+‣ 0.9 * x3 + 0.1 * x9
+‣ 0.999 * x4 + 0.001 * x8 ^ 2
+‣ 0.999 * x5 + 0.001 * x9 ^ 2
+‣ x6 + 0.01 / (1 - 0.999 ^ x1)
+  * ((0.9 * x2 + 0.1 * x8) /
+     (1.e-07 + Sqrt( (0.999 * x4 + 0.001 * x8 ^ 2) / (1 - 0.999 ^ x1) )))
+‣ x7 + 0.01 / (1 - 0.999 ^ x1)
+  * ((0.9 * x3 + 0.1 * x9) /
+     (1.e-07 + Sqrt( (0.999 * x5 + 0.001 * x9 ^ 2) / (1 - 0.999 ^ x1) )))
+</pre></div>
+
 <p><a id="X7F8623D983FA64BD" name="X7F8623D983FA64BD"></a></p>
 
-<h4>1.1 <span class="Heading">Category of Parametrised Morphisms</span></h4>
+<h4>1.2 <span class="Heading">Category of Parametrised Morphisms</span></h4>
 
 
 <div class="example"><pre>
@@ -176,34 +509,34 @@ Parametrised Morphism:
   + 0.88 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.59
 ‣ 0.67 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.05 * (2.71611 / (5.10727 + Exp( x1 )))
   + 0.85 * (Exp( x1 ) / (5.10727 + Exp( x1 ))) + 0.31
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># gap&gt; s := SimplifyMorphism( t, infinity );</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2 defined by:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parameter Object:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># -----------------</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^0</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parametrised Morphism:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ----------------------</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># gap&gt; Display( s );</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2 defined by:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parameter Object:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># -----------------</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^0</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># Parametrised Morphism:</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ----------------------</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ℝ^1 -&gt; ℝ^2</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput"># ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s := SimplifyMorphism( t, infinity );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^1 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( s );</span>
+ℝ^1 -&gt; ℝ^2 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^1 -&gt; ℝ^2
+
+‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
+‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)
 </pre></div>
 
 <p><a id="X81D232927BEA7917" name="X81D232927BEA7917"></a></p>
 
-<h4>1.2 <span class="Heading">Category of Smooth Maps</span></h4>
+<h4>1.3 <span class="Heading">Category of Smooth Maps</span></h4>
 
 
 <div class="example"><pre>
@@ -213,6 +546,13 @@ SkeletalSmoothMaps
 ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R2 = Smooth.2;</span>
 true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := RandomMorphism( R2, R2, 3 );</span>
+ℝ^2 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( r );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ 0.766 * x1 ^ 1 + 0.234 * x2 ^ 2 + 1.
+‣ 0.388 * x1 ^ 1 + 0.459 * x2 ^ 2 + 0.278
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Smooth,</span>
 <span class="GAPprompt">&gt;</span> <span class="GAPinput">        Smooth.2,</span>
 <span class="GAPprompt">&gt;</span> <span class="GAPinput">        Pair(</span>
@@ -268,17 +608,203 @@ true
 [ 0.2, 0.3 ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( h )( x );</span>
 [ 1.00656, 8.34283, 0.789848 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Eval( h, x );</span>
+[ 1.00656, 8.34283, 0.789848 ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Map( g )( Map( f )( x ) );</span>
 [ 1.00656, 8.34283, 0.789848 ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( h )( x );</span>
 [ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EvalJacobianMatrix( h, x );</span>
+[ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( g )( Map( f )( x ) ) * JacobianMatrix( f )( x );</span>
 [ [ 1.2, 2.86601 ], [ 10.19, 25.0285 ], [ 0.710841, 1.7368 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsCongruentForMorphisms( Smooth, f + f, 2 * f );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsCongruentForMorphisms( Smooth, 2 * f - f, f );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s := SimplifyMorphism( h, infinity );</span>
+ℝ^2 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( s );</span>
+ℝ^2 -&gt; ℝ^3
+
+‣ 3 * x1 ^ 2 + 3 * Sin( x2 )
+‣ Exp( 3 * x2 + Exp( x1 ) )
+‣ (x1 ^ 2 + Sin( x2 )) ^ 3 + Log( (3 * x2 + Exp( x1 )) )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R2 := Smooth.( 2 );</span>
+ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R3 := Smooth.( 3 );</span>
+ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DirectProduct( R2, R3 );</span>
+ℝ^5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">p1 := ProjectionInFactorOfDirectProduct( [ R2, R3 ], 1 );</span>
+ℝ^5 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( p1 );</span>
+ℝ^5 -&gt; ℝ^2
+
+‣ x1
+‣ x2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">p2 := ProjectionInFactorOfDirectProduct( [ R2, R3 ], 2 );</span>
+ℝ^5 -&gt; ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( p2 );</span>
+ℝ^5 -&gt; ℝ^3
+
+‣ x3
+‣ x4
+‣ x5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">u := UniversalMorphismIntoDirectProduct( Smooth, [ f, g ] );</span>
+ℝ^2 -&gt; ℝ^5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( u );</span>
+ℝ^2 -&gt; ℝ^5
+
+‣ x1 ^ 2 + Sin( x2 )
+‣ Exp( x1 ) + 3 * x2
+‣ 3 * x1
+‣ Exp( x2 )
+‣ x1 ^ 3 + Log( x2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PreCompose( Smooth, u, p1 ) = f;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PreCompose( Smooth, u, p2 ) = g;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d := DirectProductFunctorial( Smooth, [ f, g ] );</span>
+ℝ^4 -&gt; ℝ^5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( d );</span>
+ℝ^4 -&gt; ℝ^5
+
+‣ x1 ^ 2 + Sin( x2 )
+‣ Exp( x1 ) + 3 * x2
+‣ 3 * x3
+‣ Exp( x4 )
+‣ x3 ^ 3 + Log( x4 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Rf := ReverseDifferential( f );</span>
+ℝ^4 -&gt; ℝ^2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Rf );</span>
+ℝ^4 -&gt; ℝ^2
+
+‣ x3 * (2 * x1) + x4 * Exp( x1 )
+‣ x3 * Cos( x2 ) + x4 * 3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Sqrt );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ Sqrt( x1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Exp );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ Exp( x1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Log );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ Log( x1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Sin );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ Sin( x1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Cos );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ Cos( x1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Constant( [ 1.2, 3.4 ] ) );</span>
+ℝ^0 -&gt; ℝ^2
+
+‣ 1.2
+‣ 3.4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Zero( 2, 3 ) );</span>
+ℝ^2 -&gt; ℝ^3
+
+‣ 0
+‣ 0
+‣ 0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.IdFunc( 2 ) );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ x1
+‣ x2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Relu( 2 ) );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ Relu( x1 )
+‣ Relu( x2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Mul( 3 ) );</span>
+ℝ^3 -&gt; ℝ^1
+
+‣ x1 * x2 * x3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Sum( 3 ) );</span>
+ℝ^3 -&gt; ℝ^1
+
+‣ x1 + x2 + x3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Mean( 3 ) );</span>
+ℝ^3 -&gt; ℝ^1
+
+‣ (x1 + x2 + x3) / 3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Variance( 3 ) );</span>
+ℝ^3 -&gt; ℝ^1
+
+‣ ((x1 - (x1 + x2 + x3) / 3) ^ 2 + (x2 - (x1 + x2 + x3) / 3) ^ 2
+   + (x3 - (x1 + x2 + x3) / 3) ^ 2) / 3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.StandardDeviation( 3 ) );</span>
+ℝ^3 -&gt; ℝ^1
+
+‣ Sqrt( ((x1 - (x1 + x2 + x3) / 3) ^ 2 + (x2 - (x1 + x2 + x3) / 3) ^ 2
+  + (x3 - (x1 + x2 + x3) / 3) ^ 2) / 3 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Power( 6 ) );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ x1 ^ 6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.PowerBase( 6 ) );</span>
+ℝ^1 -&gt; ℝ^1
+
+‣ 6 ^ x1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Sigmoid( 2 ) );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ 1 / (1 + Exp( (- x1) ))
+‣ 1 / (1 + Exp( (- x2) ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.Softmax( 2 ) );</span>
+ℝ^2 -&gt; ℝ^2
+
+‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ))
+‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.QuadraticLoss( 2 ) );</span>
+ℝ^4 -&gt; ℝ^1
+
+‣ ((x1 - x3) ^ 2 + (x2 - x4) ^ 2) / 2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.BinaryCrossEntropyLoss( 1 ) );</span>
+ℝ^2 -&gt; ℝ^1
+
+‣ - (x2 * Log( x1 ) + (1 - x2) * Log( (1 - x1) ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.SigmoidBinaryCrossEntropyLoss( 1 ) );</span>
+ℝ^2 -&gt; ℝ^1
+
+‣ Log( 1 + Exp( (- x1) ) ) + (1 - x2) * x1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.CrossEntropyLoss( 3 ) );</span>
+ℝ^6 -&gt; ℝ^1
+
+‣ (- (Log( x1 ) * x4 + Log( x2 ) * x5 + Log( x3 ) * x6)) / 3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.SoftmaxCrossEntropyLoss( 3 ) );</span>
+ℝ^6 -&gt; ℝ^1
+
+‣ ((Log( Exp( x1 ) + Exp( x2 ) + Exp( x3 ) ) - x1) * x4
+  + (Log( Exp( x1 ) + Exp( x2 ) + Exp( x3 ) ) - x2) * x5
+  + (Log( Exp( x1 ) + Exp( x2 ) + Exp( x3 ) ) - x3) * x6) / 3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.AffineTransformation( 2, 3 ) );</span>
+ℝ^11 -&gt; ℝ^3
+
+‣ x1 * x10 + x2 * x11 + x3
+‣ x4 * x10 + x5 * x11 + x6
+‣ x7 * x10 + x8 * x11 + x9
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( Smooth.PolynomialTransformation( 2, 3, 2 ) );</span>
+ℝ^20 -&gt; ℝ^3
+
+‣ x1 * x19 ^ 2 + x2 * (x19 ^ 1 * x20 ^ 1) + x3 * x19 ^ 1
+  + x4 * x20 ^ 2 + x5 * x20 ^ 1 + x6 * 1
+‣ x7 * x19 ^ 2 + x8 * (x19 ^ 1 * x20 ^ 1) + x9 * x19 ^ 1
+  + x10 * x20 ^ 2 + x11 * x20 ^ 1 + x12 * 1
+‣ x13 * x19 ^ 2 + x14 * (x19 ^ 1 * x20 ^ 1) + x15 * x19 ^ 1
+  + x16 * x20 ^ 2 + x17 * x20 ^ 1 + x18 * 1
 </pre></div>
 
 <p><a id="X7BAFE9C1817253C6" name="X7BAFE9C1817253C6"></a></p>
 
-<h4>1.3 <span class="Heading">Expressions</span></h4>
+<h4>1.4 <span class="Heading">Expressions</span></h4>
 
 
 <div class="example"><pre>
@@ -335,8 +861,8 @@ x1
 [ [ x1 * x3 + x2 * (- x3) ] ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2;</span>
 Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># SimplifyExpressionUsingPython( [ e ] );</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># [ "Tan(x1) + 1" ]</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SimplifyExpressionUsingPython( [ e ] );</span>
+[ "Tan(x1) + 1" ]
 </pre></div>
 
 
