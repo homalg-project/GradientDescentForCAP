@@ -482,7 +482,7 @@ InstallOtherMethod( \.,
             local learning_rate, momentum;
             
             learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
-            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0.9 );
             
             return
               # both are non-negative
@@ -529,7 +529,7 @@ InstallOtherMethod( \.,
             local learning_rate, momentum;
             
             learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
-            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0.9 );
             
             return
               function ( n )
