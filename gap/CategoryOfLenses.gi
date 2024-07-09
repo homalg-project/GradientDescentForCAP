@@ -236,14 +236,15 @@ InstallMethod( CategoryOfLenses,
         
         C := UnderlyingCategory( Lenses );
         
-        f := UnderlyingPairOfMorphisms( f );
-        g := UnderlyingPairOfMorphisms( g );
-        
         A := UnderlyingPairOfObjects( Source( f ) );
         B := UnderlyingPairOfObjects( Target( f ) );
         
+        f := UnderlyingPairOfMorphisms( f );
+        
         U := UnderlyingPairOfObjects( Source( g ) );
         V := UnderlyingPairOfObjects( Target( g ) );
+        
+        g := UnderlyingPairOfMorphisms( g );
         
         get := DirectProductFunctorial( C, [ f[1], g[1] ] );
         
@@ -481,7 +482,7 @@ InstallOtherMethod( \.,
             local learning_rate, momentum;
             
             learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
-            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0.9 );
             
             return
               # both are non-negative
@@ -528,7 +529,7 @@ InstallOtherMethod( \.,
             local learning_rate, momentum;
             
             learning_rate := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "learning_rate", 0.01 );
-            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0 );
+            momentum := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "momentum", 0.9 );
             
             return
               function ( n )
