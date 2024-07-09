@@ -236,14 +236,15 @@ InstallMethod( CategoryOfLenses,
         
         C := UnderlyingCategory( Lenses );
         
-        f := UnderlyingPairOfMorphisms( f );
-        g := UnderlyingPairOfMorphisms( g );
-        
         A := UnderlyingPairOfObjects( Source( f ) );
         B := UnderlyingPairOfObjects( Target( f ) );
         
+        f := UnderlyingPairOfMorphisms( f );
+        
         U := UnderlyingPairOfObjects( Source( g ) );
         V := UnderlyingPairOfObjects( Target( g ) );
+        
+        g := UnderlyingPairOfMorphisms( g );
         
         get := DirectProductFunctorial( C, [ f[1], g[1] ] );
         
