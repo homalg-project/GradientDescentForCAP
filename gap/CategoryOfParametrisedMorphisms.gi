@@ -446,7 +446,8 @@ InstallOtherMethod( \.,
         end;
         
     elif f in [ "Constant", "Zero", "IdFunc", "Sum", "Mean", "Mul", "Power", "PowerBase", "Relu", "Sigmoid_", "Sigmoid", "Softmax_", "Softmax",
-                "QuadraticLoss_", "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss" ] then
+                "QuadraticLoss_", "QuadraticLoss", "CrossEntropyLoss_", "CrossEntropyLoss", "SoftmaxCrossEntropyLoss_", "SoftmaxCrossEntropyLoss",
+                "SigmoidBinaryCrossEntropyLoss_", "SigmoidBinaryCrossEntropyLoss" ] then
       
       return
         function ( arg... )
@@ -455,7 +456,7 @@ InstallOtherMethod( \.,
           
         end;
         
-    elif f in [ "Sqrt", "Exp", "Log", "Sin", "Cos", "SigmoidBinaryCrossEntropyLoss_", "SigmoidBinaryCrossEntropyLoss" ] then
+    elif f in [ "Sqrt", "Exp", "Log", "Sin", "Cos" ] then
         
         return C.( f ) / Para;
         

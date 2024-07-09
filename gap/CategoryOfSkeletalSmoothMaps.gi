@@ -1408,7 +1408,7 @@ InstallOtherMethod( \.,
             
             return PreCompose( Smooth,
                       DirectProductFunctorial( Smooth, [ Smooth.Sigmoid_( 1 ), Smooth.IdFunc( 1 ) ] ),
-                      Smooth.BinaryCrossEntropyLoss_ );
+                      Smooth.BinaryCrossEntropyLoss_( n ) );
             
           end;
           
