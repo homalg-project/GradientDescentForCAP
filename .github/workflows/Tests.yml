@@ -77,14 +77,14 @@ jobs:
           CUR_SHA=$(git rev-parse --verify HEAD)
           git fetch origin gh-pages
           git worktree add gh-pages/ gh-pages || (echo "There was an error. Make sure there is a branch named 'gh-pages'. See https://github.com/homalg-project/PackageJanitor#error-there-was-an-error-make-sure-there-is-a-branch-named-gh-pages"; exit 1)
-          if [ "${{ matrix.image }}" = "ghcr.io/homalg-project/gap-docker:latest" ] && [ "$CUR_SHA" = "$(git rev-parse origin/master)" ] && [ $(dirname "$GITHUB_REPOSITORY") = "homalg-project" ]; then \
+          if [ "${{ matrix.image }}" = "ghcr.io/kamalsaleh/gap-sympy-docker:latest" ] && [ "$CUR_SHA" = "$(git rev-parse origin/master)" ] && [ $(dirname "$GITHUB_REPOSITORY") = "homalg-project" ]; then \
             git checkout master; \
             TOKEN="${{ secrets.GITHUB_TOKEN }}" SUBSPLIT_PUSH_SECRET="${{ secrets.SUBSPLIT_PUSH_SECRET }}" ./dev/make_dist.sh; \
           else \
             TOKEN="${{ secrets.GITHUB_TOKEN }}" ./dev/simulate_dist.sh; \
           fi
       - name: Upload code coverage
-        if: github.event_name != 'schedule' && matrix.image == 'ghcr.io/kamalsaleh/gap-sympy-docker:latest'
+        if: github.event_name != 'schedule' && github.event_name != 'pull_request' && matrix.image == 'ghcr.io/kamalsaleh/gap-sympy-docker:latest'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
