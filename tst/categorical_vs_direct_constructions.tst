@@ -7,7 +7,6 @@ gap> Assert( 0, Para.QuadraticLoss_( 3 ) = Para.QuadraticLoss( 3 ) );
 gap> Assert( 0, Para.CrossEntropyLoss_( 3 ) = Para.CrossEntropyLoss( 3 ) );
 gap> Assert( 0, Para.SoftmaxCrossEntropyLoss_( 3 ) = Para.SoftmaxCrossEntropyLoss( 3 ) );
 gap> Assert( 0, Para.QuadraticLoss_( 3 ) = Para.QuadraticLoss( 3 ) );
-gap> Assert( 0, Para.QuadraticLoss_( 3 ) = Para.QuadraticLoss( 3 ) );
 gap> Assert( 0, Para.SigmoidBinaryCrossEntropyLoss_( 1 ) = Para.SigmoidBinaryCrossEntropyLoss( 1 ) );
 gap> Assert( 0, Para.AffineTransformation_( 3, 4 ) = Para.AffineTransformation( 3, 4 ) );
 gap> Eval( Smooth.PolynomialTransformation( 2, 3, 4 ), [ 1 .. 47 ] );

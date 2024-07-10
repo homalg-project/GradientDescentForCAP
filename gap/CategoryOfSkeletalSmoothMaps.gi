@@ -12,7 +12,7 @@ InstallValue( MachineLearningForCAP,
 InstallGlobalFunction( CategoryOfSkeletalSmoothMaps,
   
   function ( )
-    local name, Smooth;
+    local name, Smooth, reals;
     
     name := "SkeletalSmoothMaps";
     
@@ -31,8 +31,19 @@ InstallGlobalFunction( CategoryOfSkeletalSmoothMaps,
     SetIsSymmetricMonoidalCategory( Smooth, true );
     SetIsLinearCategoryOverCommutativeRing( Smooth, true );
     
-    ## Usually we need the field of reals or floats
-    SetCommutativeRingOfLinearCategory( Smooth, Rationals );
+    ##
+    
+    reals := DummyField( );
+    
+    reals!.Name := "Reals";
+    
+    # or IsFloat
+    reals!.RingElementFilter := IsRingElement;
+    
+    # or Float
+    reals!.interpret_rationals_func := IdFunc;
+    
+    SetCommutativeRingOfLinearCategory( Smooth, reals );
     
     ##
     AddObjectConstructor( Smooth,
