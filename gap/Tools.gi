@@ -690,8 +690,8 @@ InstallMethod( AsCythonFunction,
       
     fi;
     
-    Print(
-      Concatenation( "cd ", Filename( dir, "" ), "\n\n" ),
+    return
+      Concatenation( "cd ", Filename( dir, "" ), "\n\n",
       "start python!\n\n",
       "from cython_functions import ",
       JoinStringsWithSeparator( function_names, ", " ),
