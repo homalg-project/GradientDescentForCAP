@@ -863,6 +863,39 @@ x1
 Sin( x1 ) / Cos( x1 ) + Sin( x2 ) ^ 2 + Cos( x2 ) ^ 2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SimplifyExpressionUsingPython( [ e ] );</span>
 [ "Tan(x1) + 1" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Diff( e, 1 )( dummy_input );</span>
+Sin( x1 ) ^ 2 / Cos( x1 ) ^ 2 + 1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LazyDiff( e, 1 )( dummy_input );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># Diff( [ "x1", "x2", "x3" ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#  "(((Sin(x1))/(Cos(x1)))+((Sin(x2))^(2)))+((Cos(x2))^(2))", 1 )( [ x1, x2, x3 ] );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrixUsingPython( [ x1*Cos(x2)+Exp(x3), x1*x2*x3 ], [ 1, 2, 3 ] );</span>
+[ [ "Cos(x2)", "-x1*Sin(x2)", "Exp(x3)" ], [ "x2*x3", "x1*x3", "x1*x2" ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LaTeXOutputUsingPython( e );</span>
+"\\frac{\\sin{\\left(x_{1} \\right)}}{\\cos{\\left(x_{1} \\right)}}
++ \\sin^{2}{\\left(x_{2} \\right)} + \\cos^{2}{\\left(x_{2} \\right)}"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sigmoid := Expression( [ "x" ], "Exp(x)/(1+Exp(x))" );</span>
+Exp( x ) / (1 + Exp( x ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sigmoid := AsFunction( sigmoid );</span>
+function( vec ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">sigmoid( [ 0 ] );</span>
+0.5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">points := List( 0.1 * [ -20 .. 20 ], x -&gt; [ x, sigmoid( [ x ] ) ] );</span>
+[ [ -2., 0.119203 ], [ -1.9, 0.130108 ], [ -1.8, 0.141851 ], [ -1.7, 0.154465 ],
+  [ -1.6, 0.167982 ], [ -1.5, 0.182426 ], [ -1.4, 0.197816 ], [ -1.3, 0.214165 ],
+  [ -1.2, 0.231475 ], [ -1.1, 0.24974 ], [ -1., 0.268941 ], [ -0.9, 0.28905 ],
+  [ -0.8, 0.310026 ], [ -0.7, 0.331812 ],  [ -0.6, 0.354344 ], [ -0.5, 0.377541 ],
+  [ -0.4, 0.401312 ], [ -0.3, 0.425557 ], [ -0.2, 0.450166 ], [ -0.1, 0.475021 ],
+  [ 0., 0.5 ], [ 0.1, 0.524979 ], [ 0.2, 0.549834 ], [ 0.3, 0.574443 ],
+  [ 0.4, 0.598688 ], [ 0.5, 0.622459 ], [ 0.6, 0.645656 ], [ 0.7, 0.668188 ],
+  [ 0.8, 0.689974 ], [ 0.9, 0.71095 ], [ 1., 0.731059 ], [ 1.1, 0.75026 ],
+  [ 1.2, 0.768525 ], [ 1.3, 0.785835 ], [ 1.4, 0.802184 ],  [ 1.5, 0.817574 ],
+  [ 1.6, 0.832018 ], [ 1.7, 0.845535 ], [ 1.8, 0.858149 ], [ 1.9, 0.869892 ],
+  [ 2., 0.880797 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">labels := List( points, point -&gt; SelectBasedOnCondition( point[2] &lt; 0.5, 0, 1 ) );</span>
+[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ScatterPlotUsingPython( points, labels : size := "100", action := "save" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># e.g, dir("/tmp/gaptempdirX7Qsal/")</span>
 </pre></div>
 
 
