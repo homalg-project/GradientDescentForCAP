@@ -822,6 +822,9 @@
     [4X[25X>[125X [27X#  "(((Sin(x1))/(Cos(x1)))+((Sin(x2))^(2)))+((Cos(x2))^(2))", 1 )( [ x1, x2, x3 ] );[127X[104X
     [4X[25Xgap>[125X [27XJacobianMatrixUsingPython( [ x1*Cos(x2)+Exp(x3), x1*x2*x3 ], [ 1, 2, 3 ] );[127X[104X
     [4X[28X[ [ "Cos(x2)", "-x1*Sin(x2)", "Exp(x3)" ], [ "x2*x3", "x1*x3", "x1*x2" ] ][128X[104X
+    [4X[25Xgap>[125X [27XJacobianMatrix( [ "x1", "x2", "x3" ], [ "x1*Cos(x2)+Exp(x3)", "x1*x2*x3" ],[127X[104X
+    [4X[25X>[125X [27X                                                        [ 1, 2, 3 ] )(dummy_input);[127X[104X
+    [4X[28X[ [ Cos(x2), (-x1)*Sin(x2), Exp(x3) ], [ x2*x3, x1*x3, x1*x2 ] ][128X[104X
     [4X[25Xgap>[125X [27XLaTeXOutputUsingPython( e );[127X[104X
     [4X[28X"\\frac{\\sin{\\left(x_{1} \\right)}}{\\cos{\\left(x_{1} \\right)}}[128X[104X
     [4X[28X+ \\sin^{2}{\\left(x_{2} \\right)} + \\cos^{2}{\\left(x_{2} \\right)}"[128X[104X
@@ -848,5 +851,16 @@
     [4X[28X  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ][128X[104X
     [4X[25Xgap>[125X [27XScatterPlotUsingPython( points, labels : size := "100", action := "save" );;[127X[104X
     [4X[25Xgap>[125X [27X# e.g, dir("/tmp/gaptempdirX7Qsal/")[127X[104X
+    [4X[25X>[125X [27XAsCythonFunction( [ [ "x", "y" ], [ "z" ] ], [ "f", "g" ], [ "x*y", "Sin(z)" ] );;[127X[104X
+    [4X[25Xgap>[125X [27X# e.g.,[127X[104X
+    [4X[25X>[125X [27X# cd /tmp/gaptempdirI6rq3l/[127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# start python![127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# from cython_functions import f, g;[127X[104X
+    [4X[25Xgap>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# # w = [ 2 entries :) ][127X[104X
+    [4X[25X>[125X [27X#[127X[104X
+    [4X[25X>[125X [27X# # f(w)[127X[104X
   [4X[32X[104X
   

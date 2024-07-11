@@ -867,6 +867,9 @@ Sin( x1 ) ^ 2 / Cos( x1 ) ^ 2 + 1
 <span class="GAPprompt">&gt;</span> <span class="GAPinput">#  "(((Sin(x1))/(Cos(x1)))+((Sin(x2))^(2)))+((Cos(x2))^(2))", 1 )( [ x1, x2, x3 ] );</span>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrixUsingPython( [ x1*Cos(x2)+Exp(x3), x1*x2*x3 ], [ 1, 2, 3 ] );</span>
 [ [ "Cos(x2)", "-x1*Sin(x2)", "Exp(x3)" ], [ "x2*x3", "x1*x3", "x1*x2" ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JacobianMatrix( [ "x1", "x2", "x3" ], [ "x1*Cos(x2)+Exp(x3)", "x1*x2*x3" ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                                                        [ 1, 2, 3 ] )(dummy_input);</span>
+[ [ Cos(x2), (-x1)*Sin(x2), Exp(x3) ], [ x2*x3, x1*x3, x1*x2 ] ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LaTeXOutputUsingPython( e );</span>
 "\\frac{\\sin{\\left(x_{1} \\right)}}{\\cos{\\left(x_{1} \\right)}}
 + \\sin^{2}{\\left(x_{2} \\right)} + \\cos^{2}{\\left(x_{2} \\right)}"
@@ -893,6 +896,17 @@ function( vec ) ... end
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ScatterPlotUsingPython( points, labels : size := "100", action := "save" );;</span>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># e.g, dir("/tmp/gaptempdirX7Qsal/")</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">AsCythonFunction( [ [ "x", "y" ], [ "z" ] ], [ "f", "g" ], [ "x*y", "Sin(z)" ] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># e.g.,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># cd /tmp/gaptempdirI6rq3l/</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># start python!</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># from cython_functions import f, g;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># # w = [ 2 entries :) ]</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">#</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"># # f(w)</span>
 </pre></div>
 
 

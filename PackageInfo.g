@@ -10,7 +10,7 @@ SetPackageInfo( rec(
 
 PackageName := "MachineLearningForCAP",
 Subtitle := "Exploring categorical machine learning in CAP",
-Version := "2024.07-12",
+Version := "2024.07-13",
 Date := "2024-07-11",
 License := "GPL-2.0-or-later",
 
