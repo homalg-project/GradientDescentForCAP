@@ -707,7 +707,7 @@ InstallMethod( ScatterPlotUsingPython,
           [ IsDenseList, IsDenseList ],
   
   function ( points, labels )
-    local dir, path, file, size, stream, err, p;
+    local dir, path, file, size, action, stream, err, p;
     
     dir := DirectoryTemporary( );
     
@@ -718,6 +718,8 @@ InstallMethod( ScatterPlotUsingPython,
     file := IO_File( path, "w" );
     
     size := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "size", "20" );
+    
+    action := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "action", "show" );
     
     IO_Write( file,
       Concatenation(
@@ -779,7 +781,10 @@ InstallMethod( ScatterPlotUsingPython,
         "plt.ylabel('Y-axis')\n",
         "plt.title('Scatter Plot using Matplotlib')\n",
         "plt.legend()\n",
-        "plt.show()\n" ) );
+        SelectBasedOnCondition(
+            action = "save",
+            Concatenation( "plt.savefig('", Filename( dir, "plot.png" ), "', dpi=400)\n" ),
+            "plt.show()\n" ) ) );
     
     IO_Close( file );
     
@@ -801,6 +806,6 @@ InstallMethod( ScatterPlotUsingPython,
       
     fi;
     
-    return true;
+    return dir;
     
 end );
