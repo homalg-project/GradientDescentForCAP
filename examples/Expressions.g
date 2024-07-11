@@ -67,6 +67,9 @@ LazyDiff( e, 1 )( dummy_input );;
 #  "(((Sin(x1))/(Cos(x1)))+((Sin(x2))^(2)))+((Cos(x2))^(2))", 1 )( [ x1, x2, x3 ] );
 JacobianMatrixUsingPython( [ x1*Cos(x2)+Exp(x3), x1*x2*x3 ], [ 1, 2, 3 ] );
 #! [ [ "Cos(x2)", "-x1*Sin(x2)", "Exp(x3)" ], [ "x2*x3", "x1*x3", "x1*x2" ] ]
+JacobianMatrix( [ "x1", "x2", "x3" ], [ "x1*Cos(x2)+Exp(x3)", "x1*x2*x3" ],
+                                                        [ 1, 2, 3 ] )(dummy_input);
+#! [ [ Cos(x2), (-x1)*Sin(x2), Exp(x3) ], [ x2*x3, x1*x3, x1*x2 ] ]
 LaTeXOutputUsingPython( e );
 #! "\\frac{\\sin{\\left(x_{1} \\right)}}{\\cos{\\left(x_{1} \\right)}}
 #! + \\sin^{2}{\\left(x_{2} \\right)} + \\cos^{2}{\\left(x_{2} \\right)}"
@@ -93,4 +96,15 @@ labels := List( points, point -> SelectBasedOnCondition( point[2] < 0.5, 0, 1 ) 
 #!   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
 ScatterPlotUsingPython( points, labels : size := "100", action := "save" );;
 # e.g, dir("/tmp/gaptempdirX7Qsal/")
+AsCythonFunction( [ [ "x", "y" ], [ "z" ] ], [ "f", "g" ], [ "x*y", "Sin(z)" ] );;
+# e.g.,
+# cd /tmp/gaptempdirI6rq3l/
+#
+# start python!
+#
+# from cython_functions import f, g;
+#
+# # w = [ 2 entries :) ]
+#
+# # f(w)
 #! @EndExample
