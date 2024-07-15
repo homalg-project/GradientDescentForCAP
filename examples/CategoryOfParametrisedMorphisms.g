@@ -15,6 +15,12 @@ R2 := Smooth.( 2 );
 #! ℝ^2
 R3 := Smooth.( 3 );
 #! ℝ^3
+R1 / Para;
+#! ℝ^1
+Para.( 1 );
+#! ℝ^1
+IsEqualForObjects( Para.( 1 ), R1 / Para );
+#! true
 f := Smooth.Softmax( 3 );
 #! ℝ^3 -> ℝ^3
 f := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );
@@ -41,6 +47,8 @@ Display( f );
 #! ‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
 #! ‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
 #! ‣ Exp( x3 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
+IsWellDefined( f );
+#! true
 r := DirectProductFunctorial( Smooth, [ Smooth.Sqrt, Smooth.Cos ] );
 #! ℝ^2 -> ℝ^2
 Display( r );
@@ -110,7 +118,7 @@ Display( h );
 #!   + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
 #!   + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8
 constants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;
-r := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );
+r := Smooth.Constant( constants );
 #! ℝ^0 -> ℝ^10
 t := ReparametriseMorphism( h, r );
 #! ℝ^1 -> ℝ^2 defined by:
@@ -147,7 +155,7 @@ s := SimplifyMorphism( t, infinity );
 #! Parametrised Morphism:
 #! ----------------------
 #! ℝ^1 -> ℝ^2
-#! gap> Display( s );
+Display( s );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
 #! Parameter Object:
@@ -160,4 +168,30 @@ s := SimplifyMorphism( t, infinity );
 #!
 #! ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
 #! ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)
+iota := NaturalEmbeddingIntoCategoryOfParametrisedMorphisms( Smooth, Para );
+#! Natural embedding into category of parametrised morphisms
+ApplyFunctor( iota, Smooth.( 1 ) );
+#! ℝ^1
+psi := ApplyFunctor( iota, Smooth.Sum( 2 ) );
+#! ℝ^2 -> ℝ^1 defined by:
+#!
+#! Parameter Object:
+#! -----------------
+#! ℝ^0
+#!
+#! Parametrised Morphism:
+#! ----------------------
+#! ℝ^2 -> ℝ^1
+Print( DisplayString( psi ) );
+#! ℝ^2 -> ℝ^1 defined by:
+#!
+#! Parameter Object:
+#! -----------------
+#! ℝ^0
+#!
+#! Parametrised Morphism:
+#! ----------------------
+#! ℝ^2 -> ℝ^1
+#!
+#! ‣ x1 + x2
 #! @EndExample
