@@ -1,7 +1,7 @@
 name: MachineLearningForCAP
-version: "2024.07-13"
+version: "2024.07-15"
 license: "GPL-2.0-or-later"
-date: 2024-07-11
+date: 2024-07-15
 description: |
     Exploring categorical machine learning in CAP
 
@@ -42,11 +42,11 @@ packageinfo: https://homalg-project.github.io/MachineLearningForCAP/PackageInfo.
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-13/MachineLearningForCAP-2024.07-13.tar.gz
+      url: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-15/MachineLearningForCAP-2024.07-15.tar.gz
     - name: .zip
-      url: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-13/MachineLearningForCAP-2024.07-13.zip
+      url: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-15/MachineLearningForCAP-2024.07-15.zip
 
-pdf: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-13/MachineLearningForCAP-2024.07-13-manual.pdf
+pdf: https://github.com/homalg-project/MachineLearningForCAP/releases/download/v2024.07-15/MachineLearningForCAP-2024.07-15-manual.pdf
 
 abstract: |
 
@@ -57,10 +57,10 @@ keywords: |
     Explore Categorical Machine Learning.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>Sal11</span>]   <b class='BibAuthor'>Saleh, K.</b>,
+    [<span class='BibKey'>Sal15</span>]   <b class='BibAuthor'>Saleh, K.</b>,
      <i class='BibTitle'>MachineLearningForCAP, Exploring categorical machine learning in CAP,
-             Version 2024.07-13</i>
-     (<span class='BibYear'>7-11</span>)<br />
+             Version 2024.07-15</i>
+     (<span class='BibYear'>7-15</span>)<br />
     (<span class='BibNote'>GAP package</span>),
     <span class='BibHowpublished'><a href="https://homalg-project.github.io/pkg/MachineLearningForCAP">https://homalg-project.github.io/pkg/MachineLearningForCAP</a></span>.
     </p>
@@ -71,9 +71,9 @@ bibtex: |
       author =           {Saleh, K.},
       title =            {{MachineLearningForCAP}, Exploring categorical machine
                           learning           in          CAP,          {V}ersion
-                          2024.07\texttt{\symbol{45}}13},
+                          2024.07\texttt{\symbol{45}}15},
       month =            {4\texttt{\symbol{45}}},
-      year =             {7\texttt{\symbol{45}}11},
+      year =             {7\texttt{\symbol{45}}15},
       note =             {GAP package},
       howpublished =     {\href
                           {https://homalg-project.github.io/pkg/MachineLearningForCAP}
@@ -81,6 +81,6 @@ bibtex: |
                           {}{}{}\texttt{pkg/}\discretionary
                           {}{}{}\texttt{MachineLearningForCAP}}},
       keywords =         {Explore Categorical Machine Learning},
-      printedkey =       {Sal11}
+      printedkey =       {Sal15}
     }
 

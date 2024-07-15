@@ -387,6 +387,12 @@ CategoryOfParametrisedMorphisms( SkeletalSmoothMaps )
 ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R3 := Smooth.( 3 );</span>
 ℝ^3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">R1 / Para;</span>
+ℝ^1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Para.( 1 );</span>
+ℝ^1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEqualForObjects( Para.( 1 ), R1 / Para );</span>
+true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := Smooth.Softmax( 3 );</span>
 ℝ^3 -&gt; ℝ^3
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );</span>
@@ -413,6 +419,8 @@ Parametrised Morphism:
 ‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
 ‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
 ‣ Exp( x3 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWellDefined( f );</span>
+true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := DirectProductFunctorial( Smooth, [ Smooth.Sqrt, Smooth.Cos ] );</span>
 ℝ^2 -&gt; ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( r );</span>
@@ -482,7 +490,7 @@ Parametrised Morphism:
   + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
   + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">constants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r := Smooth.Constant( constants );</span>
 ℝ^0 -&gt; ℝ^10
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t := ReparametriseMorphism( h, r );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
@@ -532,6 +540,32 @@ Parametrised Morphism:
 
 ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
 ‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">iota := NaturalEmbeddingIntoCategoryOfParametrisedMorphisms( Smooth, Para );</span>
+Natural embedding into category of parametrised morphisms
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ApplyFunctor( iota, Smooth.( 1 ) );</span>
+ℝ^1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">psi := ApplyFunctor( iota, Smooth.Sum( 2 ) );</span>
+ℝ^2 -&gt; ℝ^1 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^2 -&gt; ℝ^1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print( DisplayString( psi ) );</span>
+ℝ^2 -&gt; ℝ^1 defined by:
+
+Parameter Object:
+-----------------
+ℝ^0
+
+Parametrised Morphism:
+----------------------
+ℝ^2 -&gt; ℝ^1
+
+‣ x1 + x2
 </pre></div>
 
 <p><a id="X81D232927BEA7917" name="X81D232927BEA7917"></a></p>

@@ -343,6 +343,12 @@
     [4X[28Xℝ^2[128X[104X
     [4X[25Xgap>[125X [27XR3 := Smooth.( 3 );[127X[104X
     [4X[28Xℝ^3[128X[104X
+    [4X[25Xgap>[125X [27XR1 / Para;[127X[104X
+    [4X[28Xℝ^1[128X[104X
+    [4X[25Xgap>[125X [27XPara.( 1 );[127X[104X
+    [4X[28Xℝ^1[128X[104X
+    [4X[25Xgap>[125X [27XIsEqualForObjects( Para.( 1 ), R1 / Para );[127X[104X
+    [4X[28Xtrue[128X[104X
     [4X[25Xgap>[125X [27Xf := Smooth.Softmax( 3 );[127X[104X
     [4X[28Xℝ^3 -> ℝ^3[128X[104X
     [4X[25Xgap>[125X [27Xf := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );[127X[104X
@@ -369,6 +375,8 @@
     [4X[28X‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
     [4X[28X‣ Exp( x2 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
     [4X[28X‣ Exp( x3 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))[128X[104X
+    [4X[25Xgap>[125X [27XIsWellDefined( f );[127X[104X
+    [4X[28Xtrue[128X[104X
     [4X[25Xgap>[125X [27Xr := DirectProductFunctorial( Smooth, [ Smooth.Sqrt, Smooth.Cos ] );[127X[104X
     [4X[28Xℝ^2 -> ℝ^2[128X[104X
     [4X[25Xgap>[125X [27XDisplay( r );[127X[104X
@@ -438,7 +446,7 @@
     [4X[28X  + x6 * (Exp( Cos( x10 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))[128X[104X
     [4X[28X  + x7 * (Exp( x11 ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 ))) + x8[128X[104X
     [4X[25Xgap>[125X [27Xconstants := [ 0.91, 0.24, 0.88, 0.59, 0.67, 0.05, 0.85, 0.31, 0.76, 0.04 ];;[127X[104X
-    [4X[25Xgap>[125X [27Xr := SmoothMorphism( Smooth, Smooth.( 0 ), constants, Smooth.( 10 ) );[127X[104X
+    [4X[25Xgap>[125X [27Xr := Smooth.Constant( constants );[127X[104X
     [4X[28Xℝ^0 -> ℝ^10[128X[104X
     [4X[25Xgap>[125X [27Xt := ReparametriseMorphism( h, r );[127X[104X
     [4X[28Xℝ^1 -> ℝ^2 defined by:[128X[104X
@@ -488,6 +496,32 @@
     [4X[28X[128X[104X
     [4X[28X‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)[128X[104X
     [4X[28X‣ (1.16 * Exp( x1 ) + 3.32114) / (Exp( x1 ) + 5.10727)[128X[104X
+    [4X[25Xgap>[125X [27Xiota := NaturalEmbeddingIntoCategoryOfParametrisedMorphisms( Smooth, Para );[127X[104X
+    [4X[28XNatural embedding into category of parametrised morphisms[128X[104X
+    [4X[25Xgap>[125X [27XApplyFunctor( iota, Smooth.( 1 ) );[127X[104X
+    [4X[28Xℝ^1[128X[104X
+    [4X[25Xgap>[125X [27Xpsi := ApplyFunctor( iota, Smooth.Sum( 2 ) );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^1 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^0[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^2 -> ℝ^1[128X[104X
+    [4X[25Xgap>[125X [27XPrint( DisplayString( psi ) );[127X[104X
+    [4X[28Xℝ^2 -> ℝ^1 defined by:[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParameter Object:[128X[104X
+    [4X[28X-----------------[128X[104X
+    [4X[28Xℝ^0[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XParametrised Morphism:[128X[104X
+    [4X[28X----------------------[128X[104X
+    [4X[28Xℝ^2 -> ℝ^1[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X‣ x1 + x2[128X[104X
   [4X[32X[104X
   
   
