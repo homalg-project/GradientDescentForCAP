@@ -26,10 +26,6 @@ InstallMethod( CategoryOfParametrisedMorphisms,
              IsCapCategoryTwoCell
              : overhead := false );
     
-    SetIsLinearCategoryOverCommutativeRing( Para, true );
-    
-    SetCommutativeRingOfLinearCategory( Para, CommutativeRingOfLinearCategory( C ) );
-    
     SetUnderlyingCategory( Para, C );
     
     ## Adding Operations
@@ -181,20 +177,7 @@ InstallMethod( CategoryOfParametrisedMorphisms,
         
     end );
     
-    AddMultiplyWithElementOfCommutativeRingForMorphisms( Para,
-      
-      function ( Para, a, f )
-        local C;
-        
-        C := UnderlyingCategory( Para );
-        
-        return MorphismConstructor( Para,
-                    Source( f ),
-                    Pair( UnderlyingObject( f ), MultiplyWithElementOfCommutativeRingForMorphisms( C, a, UnderlyingMorphism( f ) ) ),
-                    Target( f ) );
-        
-    end );
-    
+    ##
     AddSimplifyMorphism( Para,
       
       function ( Para, f, n )
