@@ -305,6 +305,16 @@ InstallMethod( ReparametriseMorphism,
 end );
 
 ##
+InstallOtherMethod( Eval,
+        [ IsMorphismInCategoryOfParametrisedMorphisms, IsDenseList ],
+  
+  function( f, pair )
+    
+    return Eval( UnderlyingMorphism( f ), Concatenation( pair ) );
+    
+end );
+
+##
 InstallMethod( NaturalEmbeddingIntoCategoryOfParametrisedMorphisms,
         [ IsCapCategory, IsCategoryOfParametrisedMorphisms ],
   
