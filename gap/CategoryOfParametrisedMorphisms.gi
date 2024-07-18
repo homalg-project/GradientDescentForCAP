@@ -546,9 +546,9 @@ InstallMethod( ViewString,
         " -> ",
         ViewString( Target( f ) ),
         " defined by:",
-        "\n\nParameter Object:\n-----------------\n",
+        "\n\nUnderlying Object:\n-----------------\n",
         ViewString( UnderlyingObject( f ) ),
-        "\n\nParametrised Morphism:\n----------------------\n",
+        "\n\nUnderlying Morphism:\n-------------------\n",
         ViewString( UnderlyingMorphism( f ) ) );
     
 end );
@@ -565,9 +565,9 @@ InstallMethod( DisplayString,
         " -> ",
         ViewString( Target( f ) ),
         " defined by:",
-        "\n\nParameter Object:\n-----------------\n",
+        "\n\nUnderlying Object:\n-----------------\n",
         ViewString( UnderlyingObject( f ) ),
-        "\n\nParametrised Morphism:\n----------------------\n",
+        "\n\nUnderlying Morphism:\n-------------------\n",
         DisplayString( UnderlyingMorphism( f ) ) );
     
 end );
@@ -584,9 +584,9 @@ InstallMethod( Display,
         " -> ",
         ViewString( Target( f ) ),
         " defined by:",
-        "\n\nParameter Object:\n-----------------\n",
+        "\n\nUnderlying Object:\n-----------------\n",
         ViewString( UnderlyingObject( f ) ),
-        "\n\nParametrised Morphism:\n----------------------\n" ) );
+        "\n\nUnderlying Morphism:\n-------------------\n" ) );
     
     Display( UnderlyingMorphism( f ) );
     

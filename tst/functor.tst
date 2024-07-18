@@ -10,12 +10,12 @@ gap> dummy_input := ConvertToExpressions( [ "w1", "w2", "b1", "x1", "x2", "y" ] 
 gap> Display( ell : dummy_input := dummy_input );
 ℝ^3 -> ℝ^1 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^3
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^6 -> ℝ^1
 
 ‣ (w1 * x1 + w2 * x2 + b1 - y) ^ 2 / 1
@@ -24,12 +24,12 @@ Embedding into category of parametrised morphisms
 gap> Rf := ApplyFunctor( R, ell );
 (ℝ^3, ℝ^3) -> (ℝ^1, ℝ^1) defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 (ℝ^3, ℝ^3)
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 (ℝ^6, ℝ^6) -> (ℝ^1, ℝ^1) defined by:
 
 Get Morphism:
@@ -42,12 +42,12 @@ Put Morphism:
 gap> Display( Rf );
 (ℝ^3, ℝ^3) -> (ℝ^1, ℝ^1) defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 (ℝ^3, ℝ^3)
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 (ℝ^6, ℝ^6) -> (ℝ^1, ℝ^1) defined by:
 
 Get Morphism:

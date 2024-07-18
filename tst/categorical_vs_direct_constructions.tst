@@ -12,23 +12,23 @@ gap> Assert( 0, Para.AffineTransformation_( 3, 4 ) = Para.AffineTransformation( 
 gap> l := Para.AffineTransformation( 3, 4 );
 ℝ^3 -> ℝ^4 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^16
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^19 -> ℝ^4
 gap> dummy_input := DummyInputForAffineTransformation( 3, 4, "w", "b", "x" );;
 gap> Display( l : dummy_input := dummy_input );
 ℝ^3 -> ℝ^4 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^16
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^19 -> ℝ^4
 
 ‣ w1_1 * x1 + w2_1 * x2 + w3_1 * x3 + b_1

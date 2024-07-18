@@ -26,22 +26,22 @@ f := Smooth.Softmax( 3 );
 f := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );
 #! ℝ^1 -> ℝ^3 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^2
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^3 -> ℝ^3
 Display( f );
 #! ℝ^1 -> ℝ^3 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^2
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^3 -> ℝ^3
 #!
 #! ‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
@@ -59,22 +59,22 @@ Display( r );
 g := ReparametriseMorphism( f, r );
 #! ℝ^1 -> ℝ^3 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^2
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^3 -> ℝ^3
 Display( g );
 #! ℝ^1 -> ℝ^3 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^2
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^3 -> ℝ^3
 #!
 #! ‣ Exp( Sqrt( x1 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
@@ -83,32 +83,32 @@ Display( g );
 l := Para.AffineTransformation( 3, 2 );
 #! ℝ^3 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^8
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^11 -> ℝ^2
 h := PreCompose( g, l );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^10
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^11 -> ℝ^2
 Display( h );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^10
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^11 -> ℝ^2
 #!
 #! ‣ x1 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
@@ -123,22 +123,22 @@ r := Smooth.Constant( constants );
 t := ReparametriseMorphism( h, r );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^1 -> ℝ^2
 Display( t );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^1 -> ℝ^2
 #!
 #! ‣ 0.91 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.24 * (2.71611 / (5.10727 + Exp( x1 )))
@@ -148,22 +148,22 @@ Display( t );
 s := SimplifyMorphism( t, infinity );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^1 -> ℝ^2
 Display( s );
 #! ℝ^1 -> ℝ^2 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^1 -> ℝ^2
 #!
 #! ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
@@ -175,22 +175,22 @@ ApplyFunctor( iota, Smooth.( 1 ) );
 psi := ApplyFunctor( iota, Smooth.Sum( 2 ) );
 #! ℝ^2 -> ℝ^1 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^2 -> ℝ^1
 Print( DisplayString( psi ) );
 #! ℝ^2 -> ℝ^1 defined by:
 #!
-#! Parameter Object:
+#! Underlying Object:
 #! -----------------
 #! ℝ^0
 #!
-#! Parametrised Morphism:
-#! ----------------------
+#! Underlying Morphism:
+#! -------------------
 #! ℝ^2 -> ℝ^1
 #!
 #! ‣ x1 + x2
