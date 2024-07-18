@@ -4,13 +4,10 @@ gap> Smooth := SkeletalSmoothMaps;;
 gap> Lenses := CategoryOfLenses( Smooth );;
 gap> Para := CategoryOfParametrisedMorphisms( Smooth );;
 gap> Para_Lenses := CategoryOfParametrisedMorphisms( Lenses );;
-gap> f := LossMorphismOfNeuralNetwork( Para, 2, [], 1, "IdFunc" );;
-The total number of layers is 2
-
-Creating a morphism from layer 1 to 2 with 3 parameters
+gap> ell := LossMorphismOfNeuralNetwork( Para, 2, [], 1, "IdFunc" );;
 gap> dummy_input := ConvertToExpressions( [ "w1", "w2", "b1", "x1", "x2", "y" ] );
 [ w1, w2, b1, x1, x2, y ]
-gap> Display( f : dummy_input := dummy_input );
+gap> Display( ell : dummy_input := dummy_input );
 ℝ^3 -> ℝ^1 defined by:
 
 Parameter Object:
@@ -24,7 +21,7 @@ Parametrised Morphism:
 ‣ (w1 * x1 + w2 * x2 + b1 - y) ^ 2 / 1
 gap> R := EmbeddingIntoCategoryOfParametrisedMorphisms( Para, Para_Lenses );
 Embedding into category of parametrised morphisms
-gap> Rf := ApplyFunctor( R, f );
+gap> Rf := ApplyFunctor( R, ell );
 (ℝ^3, ℝ^3) -> (ℝ^1, ℝ^1) defined by:
 
 Parameter Object:

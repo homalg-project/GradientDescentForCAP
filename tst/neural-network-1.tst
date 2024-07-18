@@ -2,9 +2,6 @@ gap> Smooth := SkeletalSmoothMaps;;
 gap> Lenses := CategoryOfLenses( Smooth );;
 gap> Para := CategoryOfParametrisedMorphisms( Smooth );;
 gap> f := LossMorphismOfNeuralNetwork( Para, 2, [], 1, "IdFunc" );;
-The total number of layers is 2
-
-Creating a morphism from layer 1 to 2 with 3 parameters
 gap> optimizer := Lenses.AdamOptimizer( );;
 gap> training_examples_path := SelectBasedOnCondition( IsExistingFile( "data-1.txt" ), "data-1.txt", "tst/data-1.txt" );;
 gap> batch_size := 5;;
