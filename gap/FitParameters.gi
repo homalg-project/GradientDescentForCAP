@@ -139,7 +139,9 @@ InstallMethod( Fit,
     
     l_n := Length( String( n ) );
     
-    for i in [ 0 .. n ] do
+    Print( "Epoch ", JoinStringsWithSeparator( ListWithIdenticalEntries( l_n - 1, " " ), "" ), "0/", String( n ), " - loss = ", String( get( w )[1] ), "\n" );
+    
+    for i in [ 1 .. n ] do
         
         str_i := String( i );
         
@@ -147,11 +149,11 @@ InstallMethod( Fit,
         
         spaces := JoinStringsWithSeparator( ListWithIdenticalEntries( l_n - l_i, " " ), "" );
         
+        w := put( w );
+        
         loss := get( w );
         
         Print( "Epoch ", spaces, String( i ), "/", String( n ), " - loss = ", String( loss[1] ), "\n" );
-        
-        w := put( w );
         
         #Display( w );
         
