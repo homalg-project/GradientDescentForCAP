@@ -2,9 +2,6 @@ gap> Smooth := SkeletalSmoothMaps;;
 gap> Lenses := CategoryOfLenses( Smooth );;
 gap> Para := CategoryOfParametrisedMorphisms( Smooth );;
 gap> f := LossMorphismOfNeuralNetwork( Para, 2, [], 1, "IdFunc" );;
-The total number of layers is 2
-
-Creating a morphism from layer 1 to 2 with 3 parameters
 gap> optimizer := Lenses.AdamOptimizer( );;
 gap> training_examples_path := SelectBasedOnCondition( IsExistingFile( "data-1.txt" ), "data-1.txt", "tst/data-1.txt" );;
 gap> batch_size := 5;;
@@ -63,4 +60,4 @@ Epoch 47/50 - loss = 0.00092586526390837627
 Epoch 48/50 - loss = 0.00091733056032563621
 Epoch 49/50 - loss = 0.00091003319324738866
 Epoch 50/50 - loss = 0.00090379645850528724
-[ 1021, -0.00236067, -0.00633157, 0.000258869, 0.0135747, 0.0500079, 0.0310695, 2.00197, -2.99162, 0.997524 ]
+[ 1001, -0.0024867, -0.00684601, 0.000293851, 0.0138455, 0.051012, 0.0316896, 2.00229, -2.99088, 0.997374 ]

@@ -15,8 +15,6 @@ InstallMethod( LogitsMorphismOfNeuralNetwork,
     
     N := Length( dims );
     
-    Print( "The total number of layers is ", String( N ), "\n\n" );
-    
     L := [ ];
     
     for i in [ 1 .. N - 1 ] do
@@ -24,8 +22,6 @@ InstallMethod( LogitsMorphismOfNeuralNetwork,
         l_i := Para.AffineTransformation( dims[i], dims[i + 1] );
         
         P_i := UnderlyingObject( l_i );
-        
-        Print( "Creating a morphism from layer ", String( i ), " to ", String( i + 1 ), " with ", String( RankOfObject( P_i ) ), " parameters\n" );
         
         Add( L, l_i );
         
@@ -36,8 +32,6 @@ InstallMethod( LogitsMorphismOfNeuralNetwork,
         fi;
         
     od;
-    
-    Print( "\n" );
     
     return PreComposeList( Para, L );
     
