@@ -398,22 +398,22 @@ true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f := MorphismConstructor( Para, R1 / Para, [ R2, f ], R3 / Para );</span>
 ℝ^1 -&gt; ℝ^3 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^2
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^3 -&gt; ℝ^3
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( f );</span>
 ℝ^1 -&gt; ℝ^3 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^2
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^3 -&gt; ℝ^3
 
 ‣ Exp( x1 ) / (Exp( x1 ) + Exp( x2 ) + Exp( x3 ))
@@ -431,22 +431,22 @@ true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := ReparametriseMorphism( f, r );</span>
 ℝ^1 -&gt; ℝ^3 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^2
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^3 -&gt; ℝ^3
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( g );</span>
 ℝ^1 -&gt; ℝ^3 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^2
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^3 -&gt; ℝ^3
 
 ‣ Exp( Sqrt( x1 ) ) / (Exp( Sqrt( x1 ) ) + Exp( Cos( x2 ) ) + Exp( x3 ))
@@ -455,32 +455,32 @@ Parametrised Morphism:
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">l := Para.AffineTransformation( 3, 2 );</span>
 ℝ^3 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^8
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^11 -&gt; ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">h := PreCompose( g, l );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^10
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^11 -&gt; ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( h );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^10
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^11 -&gt; ℝ^2
 
 ‣ x1 * (Exp( Sqrt( x9 ) ) / (Exp( Sqrt( x9 ) ) + Exp( Cos( x10 ) ) + Exp( x11 )))
@@ -495,22 +495,22 @@ Parametrised Morphism:
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t := ReparametriseMorphism( h, r );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^1 -&gt; ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( t );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^1 -&gt; ℝ^2
 
 ‣ 0.91 * (2.39116 / (5.10727 + Exp( x1 ))) + 0.24 * (2.71611 / (5.10727 + Exp( x1 )))
@@ -520,22 +520,22 @@ Parametrised Morphism:
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s := SimplifyMorphism( t, infinity );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^1 -&gt; ℝ^2
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display( s );</span>
 ℝ^1 -&gt; ℝ^2 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^1 -&gt; ℝ^2
 
 ‣ (1.47 * Exp( x1 ) + 5.84111) / (Exp( x1 ) + 5.10727)
@@ -547,22 +547,22 @@ Natural embedding into category of parametrised morphisms
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">psi := ApplyFunctor( iota, Smooth.Sum( 2 ) );</span>
 ℝ^2 -&gt; ℝ^1 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^2 -&gt; ℝ^1
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print( DisplayString( psi ) );</span>
 ℝ^2 -&gt; ℝ^1 defined by:
 
-Parameter Object:
+Underlying Object:
 -----------------
 ℝ^0
 
-Parametrised Morphism:
-----------------------
+Underlying Morphism:
+-------------------
 ℝ^2 -&gt; ℝ^1
 
 ‣ x1 + x2
