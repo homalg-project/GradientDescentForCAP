@@ -190,7 +190,7 @@ Put Morphism:
 ----------
 ℝ^2 -> ℝ^2
 ```
-The _Get Morphism_ computes the total loss associated to a parameter-vector $\theta \in \mathbb{R}^2$ and _Put Morphism_ updates the extended parameter-vector.
+The _Get Morphism_ computes the total loss associated to a parameter-vector $\theta \in \mathbb{R}^2$ and _Put Morphism_ updates the parameter-vector.
 
 Let us initialize a parameter-vector:
 
@@ -364,10 +364,9 @@ $$
 
 Note that $(\theta_1,\dots,\theta_9)$ represents the parameters-vector while $(x_{1},x_{2},y_{1},y_{2},y_{3})$ represents an example in the training set. The loss map $\ell$ quantifies the discrepancy between the predicted probabilities vector $f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$ and the true label $(y_{1}, y_{2}, y_{3}) \in$ { $(1,0,0),(0,1,0),(0,0,1)$ } $\in \mathbb{R}^3$.
 
-More explicitely, if $(\hat{y}_1,\hat{y}_2,\hat{y}_3) := f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$, then
-$$
-\text{Cross-Entroy}((\hat{y}_1,\hat{y}_1,\hat{y}_1),(y_{1},y_{2},y_{3})) := -\frac{1}{3}\left(y_1\log(\hat{y}_1)+y_2\log(\hat{y}_2)+y_3\log(\hat{y}_3)\right)
-$$
+More explicitely, if $(z_1,z_2,z_3) := f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$, then
+
+$$\text{Cross-Entroy}((z_1,z_2,z_3),(y_{1},y_{2},y_{3})) := -\frac{1}{3}\left(y_1\log(z_1)+y_2\log(z_2)+y_3\log(z_3)\right)$$
 
 In the following we construct the aforementioned loss-map:
 
