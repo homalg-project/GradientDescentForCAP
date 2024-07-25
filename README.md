@@ -43,6 +43,13 @@ To obtain current versions of all dependencies, `git clone` (or `git pull` to up
 [code-url]: https://github.com/homalg-project/MachineLearningForCAP#top
 <!-- END FOOTER -->
 
+### Running the Package with Docker
+To save time on installation, you can use a pre-built Docker image to run the package:
+```bash
+docker run -it ghcr.io/kamalsaleh/machine-learning-for-cap-docker:latest
+```
+This will install the computer algebra system Gap and all other dependencies in an isolated container environment.
+
 ### Introduction
 Let $A$ and $B$ be two sets and $\Theta$ be a set of parameters. A parametrized map is a map of the form $f:\Theta\times A \to B$ where $A$ is the domain of the input variables, $\Theta$ the domain of parameters and $B$ the codomain. For each fixed $\theta \in \Theta$, we get the map $f_\theta:A \to B,~~a \mapsto f_\theta(a):=f(\theta,a)$.
 
