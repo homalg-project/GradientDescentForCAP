@@ -51,6 +51,8 @@ docker run -it ghcr.io/kamalsaleh/machine-learning-for-cap-docker:latest
 This will install the computer algebra system Gap and all other dependencies in an isolated container environment.
 
 ### Introduction
+This package is an implementation of the ideas presented in the paper [Deep Learning with Parametric Lenses](https://arxiv.org/abs/2404.00408) using the categorical programming language offered by the [CAP](https://github.com/homalg-project/CAP_project) project. The following is a brief overveiw of the operations offered by this repository.
+
 Let $A$ and $B$ be two sets and $\Theta$ be a set of parameters. A parametrized map is a map of the form $f:\Theta\times A \to B$ where $A$ is the domain of the input variables, $\Theta$ the domain of parameters and $B$ the codomain. For each fixed $\theta \in \Theta$, we get the map $f_\theta:A \to B,~~a \mapsto f_\theta(a):=f(\theta,a)$.
 
 In machine learning, both predictions maps and loss maps can be seen as parametrized maps, any they play distinct but complementary roles in the model training process. Let us break down how each of these fits into the concept of parametrized maps.
