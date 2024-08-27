@@ -116,7 +116,7 @@ gap> f := PredictionMorphismOfNeuralNetwork( Para, input_dim, hidden_dims, outpu
 ```
 As a parametrized map this neural network is defined as:
 
-![Matrix](https://latex.codecogs.com/svg.image?%20f:%5Cmathbb%7BR%7D%5E2%5Ctimes%5Cmathbb%7BR%7D%5E1%5Cto%5Cmathbb%7BR%7D%5E1,~~(%5Ctheta_1,%5Ctheta_2,x)%5Cmapsto%5Cbegin%7Bbmatrix%7Dx&1%5Cend%7Bbmatrix%7D%5Ccdot%5Cbegin%7Bbmatrix%7D%5Ctheta_%7B1%7D%5C%5C%5Ctheta_2%5Cend%7Bbmatrix%7D=%5Ctheta_1%20x&plus;%5Ctheta_2%20)
+<img src="pictures/eq-1.png" alt="Image Description" width="1000" height="120">
 
 Note that $(\theta_1,\theta_2)$ represents the parameters-vector while $(x)$ represents the input-vector. Hence, the above output is an affine transformation of $(x)\in \mathbb{R}^1$.
 ```julia
@@ -326,7 +326,7 @@ gap> f := PredictionMorphismOfNeuralNetwork( Para, input_dim, hidden_dims, outpu
 
 As a parametrized map this neural network is defined as:
 
-![Matrix](https://latex.codecogs.com/svg.image?%20f:%5Cmathbb%7BR%7D%5E9%5Ctimes%5Cmathbb%7BR%7D%5E2%5Cto%5Cmathbb%7BR%7D%5E3,~~(%5Ctheta_1,%5Cdots,%5Ctheta_9,x_%7B1%7D,x_%7B2%7D)%5Cmapsto%5Ctext%7BSoftmax%7D%5Cleft(%5Cbegin%7Bbmatrix%7Dx_%7B1%7D&x_%7B2%7D&1%5Cend%7Bbmatrix%7D%5Ccdot%5Cbegin%7Bbmatrix%7D%5Ctheta_%7B1%7D&%5Ctheta_%7B4%7D&%5Ctheta_%7B7%7D%5C%5C%5Ctheta_%7B2%7D&%5Ctheta_%7B5%7D&%5Ctheta_%7B8%7D%5C%5C%5Ctheta_%7B3%7D&%5Ctheta_%7B6%7D&%5Ctheta_%7B9%7D%5Cend%7Bbmatrix%7D%5Cright))
+<img src="pictures/eq-2.png" alt="Image Description" width="1000" height="120">
 
 Note that $(\theta_1,\dots,\theta_9)$ represents the parameters-vector while $(x_{1},x_{2})$ represents the input-vector. Hence, the above output is the _Softmax_ of an affine transformation of $(x_{1},x_{2})$.
 ```julia
