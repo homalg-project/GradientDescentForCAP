@@ -3,8 +3,11 @@
   [1XIndex[101X
   
   [2XAddMultiplicationForMorphisms[102X, for IsCapCategory, IsFunction 3.1-1 
+      for IsCapCategory, IsFunction, IsInt 3.1-1 
   [2XAddReverseDifferential[102X, for IsCapCategory, IsFunction 3.1-2 
+      for IsCapCategory, IsFunction, IsInt 3.1-2 
   [2XAddReverseDifferentialWithGivenObjects[102X, for IsCapCategory, IsFunction 3.1-3 
+      for IsCapCategory, IsFunction, IsInt 3.1-3 
   [2XIsMorphismInCategoryOfLenses[102X, for IsCapCategoryMorphism 2.1-2 
   [2XIsObjectInCategoryOfLenses[102X, for IsCapCategoryObject 2.1-1 
   

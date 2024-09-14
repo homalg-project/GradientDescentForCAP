@@ -43,7 +43,16 @@ To obtain current versions of all dependencies, `git clone` (or `git pull` to up
 [code-url]: https://github.com/homalg-project/MachineLearningForCAP#top
 <!-- END FOOTER -->
 
+### Running the Package with Docker
+To save time on installation, you can use a pre-built Docker image to run the package:
+```bash
+docker run -it ghcr.io/kamalsaleh/machine-learning-for-cap-docker:latest
+```
+This will install the computer algebra system Gap and all other dependencies in an isolated container environment.
+
 ### Introduction
+This package is an implementation of the ideas presented in the paper [Deep Learning with Parametric Lenses](https://arxiv.org/abs/2404.00408) using the categorical programming language offered by the [CAP](https://github.com/homalg-project/CAP_project) project. The following is a brief overveiw of the operations offered by this repository.
+
 Let $A$ and $B$ be two sets and $\Theta$ be a set of parameters. A parametrized map is a map of the form $f:\Theta\times A \to B$ where $A$ is the domain of the input variables, $\Theta$ the domain of parameters and $B$ the codomain. For each fixed $\theta \in \Theta$, we get the map $f_\theta:A \to B,~~a \mapsto f_\theta(a):=f(\theta,a)$.
 
 In machine learning, both predictions maps and loss maps can be seen as parametrized maps, any they play distinct but complementary roles in the model training process. Let us break down how each of these fits into the concept of parametrized maps.
@@ -107,7 +116,7 @@ gap> f := PredictionMorphismOfNeuralNetwork( Para, input_dim, hidden_dims, outpu
 ```
 As a parametrized map this neural network is defined as:
 
-![Matrix](https://latex.codecogs.com/svg.image?%20f:%5Cmathbb%7BR%7D%5E2%5Ctimes%5Cmathbb%7BR%7D%5E1%5Cto%5Cmathbb%7BR%7D%5E1,~~(%5Ctheta_1,%5Ctheta_2,x)%5Cmapsto%5Cbegin%7Bbmatrix%7Dx&1%5Cend%7Bbmatrix%7D%5Ccdot%5Cbegin%7Bbmatrix%7D%5Ctheta_%7B1%7D%5C%5C%5Ctheta_2%5Cend%7Bbmatrix%7D=%5Ctheta_1%20x&plus;%5Ctheta_2%20)
+<img src="pictures/eq-1.png" alt="Image Description" width="1000" height="120">
 
 Note that $(\theta_1,\theta_2)$ represents the parameters-vector while $(x)$ represents the input-vector. Hence, the above output is an affine transformation of $(x)\in \mathbb{R}^1$.
 ```julia
@@ -190,7 +199,7 @@ Put Morphism:
 ----------
 ℝ^2 -> ℝ^2
 ```
-The _Get Morphism_ computes the total loss associated to a parameter-vector $\theta \in \mathbb{R}^2$ and _Put Morphism_ updates the extended parameter-vector.
+The _Get Morphism_ computes the total loss associated to a parameter-vector $\theta \in \mathbb{R}^2$ and _Put Morphism_ updates the parameter-vector.
 
 Let us initialize a parameter-vector:
 
@@ -317,7 +326,7 @@ gap> f := PredictionMorphismOfNeuralNetwork( Para, input_dim, hidden_dims, outpu
 
 As a parametrized map this neural network is defined as:
 
-![Matrix](https://latex.codecogs.com/svg.image?%20f:%5Cmathbb%7BR%7D%5E9%5Ctimes%5Cmathbb%7BR%7D%5E2%5Cto%5Cmathbb%7BR%7D%5E3,~~(%5Ctheta_1,%5Cdots,%5Ctheta_9,x_%7B1%7D,x_%7B2%7D)%5Cmapsto%5Ctext%7BSoftmax%7D%5Cleft(%5Cbegin%7Bbmatrix%7Dx_%7B1%7D&x_%7B2%7D&1%5Cend%7Bbmatrix%7D%5Ccdot%5Cbegin%7Bbmatrix%7D%5Ctheta_%7B1%7D&%5Ctheta_%7B4%7D&%5Ctheta_%7B7%7D%5C%5C%5Ctheta_%7B2%7D&%5Ctheta_%7B5%7D&%5Ctheta_%7B8%7D%5C%5C%5Ctheta_%7B3%7D&%5Ctheta_%7B6%7D&%5Ctheta_%7B9%7D%5Cend%7Bbmatrix%7D%5Cright))
+<img src="pictures/eq-2.png" alt="Image Description" width="1000" height="120">
 
 Note that $(\theta_1,\dots,\theta_9)$ represents the parameters-vector while $(x_{1},x_{2})$ represents the input-vector. Hence, the above output is the _Softmax_ of an affine transformation of $(x_{1},x_{2})$.
 ```julia
@@ -359,15 +368,14 @@ That is, the input-vector $x=[1, 2]$ is predicted to belong to _class-2_ (which 
 To train the neural network, we need to specify a loss map that will be used to learn the weights by minimizing the total loss. Since the activation map applied on the output layer is _Softmax_, we use the _Cross-Entropy_ loss map:
 
 $$
-\ell:\mathbb{R}^9\times \mathbb{R}^2 \times \mathbb{R}^3 \to \mathbb{R},~~ (x_1,\dots,x_{14}) \mapsto \text{Cross-Entroy}\left( f((\theta_1, \dots, \theta_9,x_{1},x_{2})), (y_{1}, y_{2}, y_{3}) \right)
+\ell:\mathbb{R}^9\times \mathbb{R}^2 \times \mathbb{R}^3 \to \mathbb{R},~~ (x_1,\dots,x_{14}) \mapsto \text{Cross-Entropy}\left( f((\theta_1, \dots, \theta_9,x_{1},x_{2})), (y_{1}, y_{2}, y_{3}) \right)
 $$
 
 Note that $(\theta_1,\dots,\theta_9)$ represents the parameters-vector while $(x_{1},x_{2},y_{1},y_{2},y_{3})$ represents an example in the training set. The loss map $\ell$ quantifies the discrepancy between the predicted probabilities vector $f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$ and the true label $(y_{1}, y_{2}, y_{3}) \in$ { $(1,0,0),(0,1,0),(0,0,1)$ } $\in \mathbb{R}^3$.
 
-More explicitely, if $(\hat{y}_1,\hat{y}_2,\hat{y}_3) := f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$, then
-$$
-\text{Cross-Entroy}((\hat{y}_1,\hat{y}_1,\hat{y}_1),(y_{1},y_{2},y_{3})) := -\frac{1}{3}\left(y_1\log(\hat{y}_1)+y_2\log(\hat{y}_2)+y_3\log(\hat{y}_3)\right)
-$$
+More explicitely, if $(z_1,z_2,z_3) := f((\theta_1, \dots, \theta_9,x_{1},x_{2})) \in \mathbb{R}^3$, then
+
+$$\text{Cross-Entropy}((z_1,z_2,z_3),(y_{1},y_{2},y_{3})) := -\frac{1}{3}\left(y_1\log(z_1)+y_2\log(z_2)+y_3\log(z_3)\right)$$
 
 In the following we construct the aforementioned loss-map:
 

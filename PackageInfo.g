@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "MachineLearningForCAP",
 Subtitle := "Exploring categorical machine learning in CAP",
-Version := "2024.07-20",
-Date := "2024-07-23",
+Version := "2024.09-01",
+Date := "2024-09-14",
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -70,7 +70,7 @@ Dependencies := rec(
   GAP := ">= 4.13.0",
   NeededOtherPackages := [
                    [ "GAPDoc", ">= 1.5" ],
-                   [ "CAP", ">= 2023.12-05" ],
+                   [ "CAP", ">= 2024.09-12" ],
                    [ "MonoidalCategories", ">= 2024.04-01" ],
                    [ "CartesianCategories", ">= 2024.04-01" ],
                    [ "ToolsForCategoricalTowers", ">= 2024.06-02" ],
