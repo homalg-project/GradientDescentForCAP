@@ -63,10 +63,10 @@ MultiplicationForMorphisms := rec(
 
 CAP_INTERNAL_ENHANCE_NAME_RECORD( CRDC_INTERNAL_METHOD_NAME_RECORD );
 
-CAP_INTERNAL_GENERATE_DOCUMENTATION_FROM_METHOD_NAME_RECORD(
+CAP_INTERNAL_GENERATE_DECLARATIONS_AND_INSTALLATIONS_FROM_METHOD_NAME_RECORD(
     CRDC_INTERNAL_METHOD_NAME_RECORD,
     "MachineLearningForCAP",
-    "MethodRecord.autogen.gd",
+    "MethodRecord.",
     "operations for machine learning in CAP",
     "Add-methods"
 );
