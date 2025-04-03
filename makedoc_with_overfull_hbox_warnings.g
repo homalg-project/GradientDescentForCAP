@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# MachineLearningForCAP: Exploring categorical machine learning in CAP
+# GradientDescentForCAP: Exploring categorical machine learning in CAP
 #
 # This file is a script which compiles the package manual and prints overfull hbox warnings.
 #

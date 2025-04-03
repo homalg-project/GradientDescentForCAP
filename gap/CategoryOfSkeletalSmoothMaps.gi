@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# MachineLearningForCAP: Exploring categorical machine learning in CAP
+# GradientDescentForCAP: Exploring categorical machine learning in CAP
 #
 # Implementations
 #
 
 ##
-InstallValue( MachineLearningForCAP,
+InstallValue( GradientDescentForCAP,
   rec( MOD := "basic" ) ); # or train
 
 ##
@@ -1264,7 +1264,7 @@ InstallOtherMethod( \.,
                 local max, exp_x, s;
                 
                 # standard trick to avoid numerical overflow
-                if MachineLearningForCAP.MOD = "train" then
+                if GradientDescentForCAP.MOD = "train" then
                   
                   max := Maximum( x );
                   
@@ -1286,7 +1286,7 @@ InstallOtherMethod( \.,
                 local max, exp_x, s, d;
                 
                 # standard trick to avoid numerical overflow
-                if MachineLearningForCAP.MOD = "train" then
+                if GradientDescentForCAP.MOD = "train" then
                   
                   max := Maximum( x );
                   
@@ -1524,7 +1524,7 @@ InstallOtherMethod( \.,
                 local max, l;
                 
                 # standard trick to avoid numerical overflow
-                if MachineLearningForCAP.MOD = "train" then
+                if GradientDescentForCAP.MOD = "train" then
                   
                   max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
                   
@@ -1544,7 +1544,7 @@ InstallOtherMethod( \.,
                 local max, exp_x, s, l, c;
                 
                 # standard trick to avoid numerical overflow
-                if MachineLearningForCAP.MOD = "train" then
+                if GradientDescentForCAP.MOD = "train" then
                   
                   max := Maximum( List( [ 1 .. n ], i -> x[i] ) );
                   
@@ -1637,12 +1637,12 @@ InstallOtherMethod( \.,
               function ( x )
                 local i;
                 
-                if MachineLearningForCAP.MOD = "basic" then
+                if GradientDescentForCAP.MOD = "basic" then
                   
                   # dropout is activated only while training
                   return ListWithIdenticalEntries( n, 1 );
                   
-                elif MachineLearningForCAP.MOD = "train" then
+                elif GradientDescentForCAP.MOD = "train" then
                   
                   i := Int( percentage * n );
                   

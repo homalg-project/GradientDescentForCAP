@@ -1,5 +1,5 @@
 <!-- BEGIN HEADER -->
-# MachineLearningForCAP&ensp;<sup><sup>[![View code][code-img]][code-url]</sup></sup>
+# GradientDescentForCAP&ensp;<sup><sup>[![View code][code-img]][code-url]</sup></sup>
 
 ### Exploring categorical machine learning in CAP
 
@@ -22,31 +22,31 @@ To obtain current versions of all dependencies, `git clone` (or `git pull` to up
 | 3. | [**CategoricalTowers**](https://github.com/homalg-project/CategoricalTowers#readme) | https://github.com/homalg-project/CategoricalTowers.git |
 
 [html-img]: https://img.shields.io/badge/🔗%20HTML-stable-blue.svg
-[html-url]: https://homalg-project.github.io/MachineLearningForCAP/doc/chap0_mj.html
+[html-url]: https://homalg-project.github.io/GradientDescentForCAP/doc/chap0_mj.html
 
 [pdf-img]: https://img.shields.io/badge/🔗%20PDF-stable-blue.svg
-[pdf-url]: https://homalg-project.github.io/MachineLearningForCAP/download_pdf.html
+[pdf-url]: https://homalg-project.github.io/GradientDescentForCAP/download_pdf.html
 
-[version-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/MachineLearningForCAP/badge_version.json&label=🔗%20version&color=yellow
-[version-url]: https://homalg-project.github.io/MachineLearningForCAP/view_release.html
+[version-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/GradientDescentForCAP/badge_version.json&label=🔗%20version&color=yellow
+[version-url]: https://homalg-project.github.io/GradientDescentForCAP/view_release.html
 
-[date-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/MachineLearningForCAP/badge_date.json&label=🔗%20released%20on&color=yellow
-[date-url]: https://homalg-project.github.io/MachineLearningForCAP/view_release.html
+[date-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/GradientDescentForCAP/badge_date.json&label=🔗%20released%20on&color=yellow
+[date-url]: https://homalg-project.github.io/GradientDescentForCAP/view_release.html
 
-[tests-img]: https://github.com/homalg-project/MachineLearningForCAP/actions/workflows/Tests.yml/badge.svg?branch=master
-[tests-url]: https://github.com/homalg-project/MachineLearningForCAP/actions/workflows/Tests.yml?query=branch%3Amaster
+[tests-img]: https://github.com/homalg-project/GradientDescentForCAP/actions/workflows/Tests.yml/badge.svg?branch=master
+[tests-url]: https://github.com/homalg-project/GradientDescentForCAP/actions/workflows/Tests.yml?query=branch%3Amaster
 
-[codecov-img]: https://codecov.io/gh/homalg-project/MachineLearningForCAP/branch/master/graph/badge.svg
-[codecov-url]: https://app.codecov.io/gh/homalg-project/MachineLearningForCAP
+[codecov-img]: https://codecov.io/gh/homalg-project/GradientDescentForCAP/branch/master/graph/badge.svg
+[codecov-url]: https://app.codecov.io/gh/homalg-project/GradientDescentForCAP
 
 [code-img]: https://img.shields.io/badge/-View%20code-blue?logo=github
-[code-url]: https://github.com/homalg-project/MachineLearningForCAP#top
+[code-url]: https://github.com/homalg-project/GradientDescentForCAP#top
 <!-- END FOOTER -->
 
 ### Running the Package with Docker
 To save time on installation, you can use a pre-built Docker image to run the package:
 ```bash
-docker run -it ghcr.io/kamalsaleh/machine-learning-for-cap-docker:latest
+docker run -it ghcr.io/kamalsaleh/gradient-descent-for-cap-docker:latest
 ```
 This will install the computer algebra system Gap and all other dependencies in an isolated container environment.
 
@@ -93,7 +93,7 @@ In this example, we consider a training dataset consisting of the three points  
 
 We aim to compute a line that fits $\mathcal{D}$.
 ```julia
-gap> LoadPackage( "MachineLearningForCAP" );
+gap> LoadPackage( "GradientDescentForCAP" );
 true
 
 gap> Para := CategoryOfParametrisedMorphisms( SkeletalSmoothMaps );
@@ -288,7 +288,7 @@ To facilitate this classification, we use a one-hot encoding scheme for the labe
 That is, the training set (the set of labeled exmaples) is a finite subset of $\mathbb{R}^2 \times \mathbb{R}^3 \simeq \mathbb{R}^5$.
 
 ```julia
-gap> LoadPackage( "MachineLearningForCAP" );
+gap> LoadPackage( "GradientDescentForCAP" );
 true
 
 gap> Para := CategoryOfParametrisedMorphisms( SkeletalSmoothMaps );

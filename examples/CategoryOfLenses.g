@@ -2,7 +2,7 @@
 
 #! @Section Category of Lenses
 
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 #! @Example
 Smooth := CategoryOfSkeletalSmoothMaps( );

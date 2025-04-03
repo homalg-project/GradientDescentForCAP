@@ -1,4 +1,4 @@
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 
 # the function f(x1,x2) = sin(x1)^2 + log(x2)^2 has local miminima at the points (πk, 1) where k ∈ ℤ

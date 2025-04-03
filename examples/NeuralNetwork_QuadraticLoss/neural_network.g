@@ -1,4 +1,4 @@
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 
 Smooth := SkeletalSmoothMaps;

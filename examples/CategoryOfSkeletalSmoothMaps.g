@@ -2,7 +2,7 @@
 
 #! @Section Category of Smooth Maps
 
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 #! @Example
 Smooth := CategoryOfSkeletalSmoothMaps( );

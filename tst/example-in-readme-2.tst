@@ -1,4 +1,4 @@
-gap> LoadPackage( "MachineLearningForCAP" );
+gap> LoadPackage( "GradientDescentForCAP" );
 true
 
 gap> Para := CategoryOfParametrisedMorphisms( SkeletalSmoothMaps );

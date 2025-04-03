@@ -47,7 +47,7 @@ jobs:
           cp -a $GITHUB_WORKSPACE /home/gap/.gap/pkg/
       - name: Prepare environment
         run: |
-          cp ./MachineLearningForCAP/dev/ci_gaprc /home/gap/.gap/gaprc
+          cp ./GradientDescentForCAP/dev/ci_gaprc /home/gap/.gap/gaprc
           git clone --depth 1 -vv https://github.com/gap-packages/AutoDoc.git
           git clone --depth 1 -vv https://github.com/homalg-project/homalg_project.git
           git clone --depth 1 -vv https://github.com/homalg-project/CAP_project.git
@@ -65,12 +65,12 @@ jobs:
           if [ -d "homalg_project/Modules" ]; then make -C "homalg_project/Modules" doc; fi
           if [ -d "CategoricalTowers/ToolsForCategoricalTowers" ]; then make -C "CategoricalTowers/ToolsForCategoricalTowers" doc; fi
           if [ -d "CategoricalTowers/Toposes" ]; then make -C "CategoricalTowers/Toposes" doc; fi
-      - name: Test MachineLearningForCAP
+      - name: Test GradientDescentForCAP
         run: |
-          make -C MachineLearningForCAP --trace -j $(nproc) --output-sync ci-test
+          make -C GradientDescentForCAP --trace -j $(nproc) --output-sync ci-test
       - name: Release package or simulate release
         run: |
-          cd MachineLearningForCAP
+          cd GradientDescentForCAP
           python3 dev/process_coverage.py
           git config --global user.name "Bot"
           git config --global user.email "empty"
@@ -88,5 +88,5 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
-          cd MachineLearningForCAP
+          cd GradientDescentForCAP
           ./dev/upload_codecov.sh

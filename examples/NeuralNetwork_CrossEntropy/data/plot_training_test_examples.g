@@ -1,4 +1,4 @@
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 file := IO_File( "training_examples.txt" );
 #file := IO_File( "test_examples.txt" );

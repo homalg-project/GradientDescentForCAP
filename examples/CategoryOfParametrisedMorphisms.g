@@ -2,7 +2,7 @@
 
 #! @Section Category of Parametrised Morphisms
 
-LoadPackage( "MachineLearningForCAP" );
+LoadPackage( "GradientDescentForCAP" );
 
 #! @Example
 Smooth := CategoryOfSkeletalSmoothMaps( );

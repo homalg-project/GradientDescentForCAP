@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
-# MachineLearningForCAP: Exploring categorical machine learning in CAP
+# GradientDescentForCAP: Exploring categorical machine learning in CAP
 #
 # Implementations
 #
@@ -118,9 +118,9 @@ InstallMethod( Fit,
   function( epoch_lens, n, w )
     local MOD, get, put, get_source, get_target, put_source, put_target, l, l_n, str_i, l_i, spaces, loss, i;
     
-    MOD := MachineLearningForCAP.MOD;
+    MOD := GradientDescentForCAP.MOD;
     
-    MachineLearningForCAP.MOD := "train";
+    GradientDescentForCAP.MOD := "train";
     
     get := GetMorphism( epoch_lens );
     put := PutMorphism( epoch_lens );
@@ -159,7 +159,7 @@ InstallMethod( Fit,
         
     od;
     
-    MachineLearningForCAP.MOD := MOD;
+    GradientDescentForCAP.MOD := MOD;
     
     return w;
     
